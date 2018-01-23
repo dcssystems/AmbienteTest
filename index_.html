@@ -1,0 +1,101 @@
+﻿<!doctype html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>.::DIRCON | Sistema web de gestión de cobranzas::.</title>
+<script src="scripts/jquery.min_lb.js"></script>
+<script type="text/javascript" src="scripts/jquery_lb.js"></script>
+<script type="text/javascript" src="scripts/lb.jquery.min.js"></script>
+<link rel="stylesheet" type=text/css href="scripts/lb.css" media=all>
+<script type="text/javascript">
+    $(document).ready(function(){
+      sexylightbox.initialize({color:'black', dir: 'imagenes'});
+    });
+</script>
+</head>
+<script language="javascript">
+function global_popup_iwtsystem(ventana,ruta,nombre,propiedades)
+{
+	if(ventana==null)
+	{
+	ventana=window.open(ruta,nombre,propiedades);	
+	}
+	else
+	{
+		if(ventana.closed)			
+		{
+		ventana=window.open(ruta,nombre,propiedades);	
+		}
+	}
+	ventana.focus();	
+	return ventana;			
+}
+function ingresar()
+{
+	if(trim(formula.usr.value)==""){alert("debe ingresar un usuario.");return;}
+	if(trim(formula.pwd.value)==""){alert("debe ingresar una contraseña.");return;}
+	document.formula.submit();
+}
+function limpiar()
+{
+	document.formula.reset();
+}
+function trim(string)
+{
+	while(string.substr(0,1)==" ")
+	string = string.substring(1,string.length) ;
+	while(string.substr(string.length-1,1)==" ")
+	string = string.substring(0,string.length-2) ;
+	return string;
+}
+</script>
+<body topmargin=0 leftmargin=0>
+<form name="formula" method="post" action="dcs_uservalida.asp" onsubmit="return false;">
+	<table width="100%" height="100%" style="position: fixed" border=0 cellpadding=0 cellspacing=0>
+	<tr>
+		<td align=center>
+			<table width="780" height="480" border=0 cellpadding=0 cellspacing=0>
+			<tr>
+				<td height="400"><!--<td background="imagenes/bienvenida.jpg" height="400">-->
+						<table width="780" height="400" border=0 cellpadding=0 cellspacing=0>
+							<tr>
+								<td height="170" align=center><img src="imagenes/dcs_logo.jpg" height="140" border=0></td></tr>
+							<tr>
+								<td>
+									<table align=right>
+									<tr>
+										<td><font face=arial size=2 color="#00529b">usuario:</font></td>
+										<td><input name="usr" size=15 maxlength=30 style="width: 100px; height: 14px; font-size: x-small"></td>											
+										<td width=200>&nbsp;</td>
+									<tr>
+									<tr>
+										<td><font face=arial size=2 color="#00529b">contraseña:</font></td>
+										<td><input type="password" name="pwd" size=15 maxlength=30 style="width: 100px; height: 14px; font-size: x-small"></td>
+										<td width=200>&nbsp;</td></tr>									
+									<tr>
+										<td colspan=2 align=right><input type="image" src="imagenes/btingresar.png" alt="ingresar" title="ingresar" border=0 onclick="ingresar();"></a>&nbsp;<a style="text-decoration: none" href="javascript:limpiar();" ><img title=limpiar border=0 alt=limpiar src="imagenes/btlimpiar.png"></a></td>
+										<td width=200>&nbsp;</td></tr>	
+									<tr>
+										<td colspan=2 align=right>
+											<table>
+											<tr>
+												<td align=center><a style="text-decoration: none" href="#tb_inline?height=100&amp;width=400&amp;background=#000&amp;inlineid=olvclave" rel=sexylightbox ><font size=2 face="arial" color="#00529b">olvid駮bsp;mi&nbsp;contrase񡦮bsp;</font></a></td>
+												<td align=center><a style="text-decoration: none" href="#tb_inline?height=100&amp;width=400&amp;background=#000&amp;inlineid=olvclave" rel=sexylightbox ><img title="olvid顭i contrase񡢠border =0 alt  ="olvid顭i contrase񡢠src="imagenes/modclave.png" ></a></td>
+											</tr>
+											</table>
+										<td width=200>&nbsp;</td>
+									</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+				</td>			
+			 </tr>		
+    		</table>
+		</td>
+	</tr>
+	</table>
+<script language=javascript>
+	document.formula.usr.focus();
+</script>	
+</body>
+</html>

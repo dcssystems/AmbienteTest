@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="http://192.168.1.7/ambientetest/imagenes/favicon.ico">
+	<!-- NEW PAGE -->
+    <title>.::DIRCON | Sistema web de gestión de cobranzas::.</title>
+
+    <!-- Bootstrap -->
+    <link href="assets/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="build/css/custom.css" rel="stylesheet">
+	
+	<script language="javascript">
+	function ingresar()
+	{
+		if(trim(formula.usr.value)==""){alert("debe ingresar un usuario.");return;}
+		if(trim(formula.pwd.value)==""){alert("debe ingresar una contraseña.");return;}
+		document.formula.submit();
+	}
+	function limpiar()
+	{
+		document.formula.reset();
+	}
+	function trim(string)
+	{
+		while(string.substr(0,1)==" ")
+		string = string.substring(1,string.length) ;
+		while(string.substr(string.length-1,1)==" ")
+		string = string.substring(0,string.length-2) ;
+		return string;
+	}	
+	</script>
+	
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+			<center height="170"><img src="imagenes/dcs_logo_agua.png" height="140" border="0" /></center>
+            <form name="formula" method="post" action="dcs_uservalida.asp" onsubmit="return false;">			  				
+              <h1>Acceder</h1>
+			  <div>
+                <input type="text" name="usr" class="form-control" placeholder="Usuario" required />
+              </div>
+              <div>
+                <input type="password" name="pwd" class="form-control" placeholder="Contraseña" required />
+              </div>                    
+              <div>
+				<input class="btn btn-default submit" type="submit" value="Ingresar" onclick="ingresar();" />
+                <a class="reset_pass" href="#" data-toggle="modal" data-target=".bs-olvclave-modal">¿Olvido su contraseña?</a>
+				
+						  
+			  </div>
+              <div class="clearfix"></div>			
+
+              <div class="separator">
+                <div class="clearfix"></div>
+                <br />
+                <div>
+                  <p>2017 &copy; DIRCON - Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+		  
+			<div class="modal fade bs-olvclave-modal" tabindex="-1" role="dialog" aria-hidden="false">
+				<div class="modal-dialog modal-md login_content">
+					<div class="modal-content">
+                        <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+							<h4 class="modal-title" id="myModalLabel">Recuperación de contraseña</h4>
+                        </div>
+                        <div class="modal-body">
+							<h4>Ingresar Datos</h4>
+							<div class="row">
+								<form name="recovery" id="recover" method="POST" action="dcs_enviarclave.asp" onsubmit="return false;">
+									<div class="col-sm-12">
+										<div class="col-sm-6">
+											<label style="float:right !important;">Usuario: </label>
+										</div>
+										<div class="col-sm-6">
+											<input name="txtusr" type="text" class="form-control" placeholder="Usuario" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="col-sm-6">
+											<label style="float:right !important;">Correo Electrónico: </label>
+										</div>
+										<div class="col-sm-6">
+											<input name="txtemail" type="email" class="form-control" placeholder="Correo Electrónico" />
+											<input type="hidden" name="agregardato" value="">
+										</div>										
+									</div>
+									<div id="respuesta">
+									</div>
+								</form>
+							</div>
+                        </div>
+                        <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							<button id="btnRecoverPass" type="button" class="btn btn-warning">Recuperar</button>
+                        </div>
+
+					</div>
+				</div>
+			</div>	
+			
+        </div>
+      </div>		
+    </div>
+	<!-- jQuery -->
+    <script src="assets/jquery/dist/jquery.js"></script>
+    <!-- Bootstrap -->
+    <script src="assets/bootstrap/dist/js/bootstrap.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function (){
+			$("#btnRecoverPass").click(function (){
+				if(recover.txtusr.value==""){alert("Debe ingresar el usuario.");return;}
+				if(recover.txtemail.value==""){alert("Debe ingresar el e-mail.");return;}
+				if(!isEmailAddress(recover.txtemail)){alert("Debe ingresar un e-mail válido.");return;}
+				recover.agregardato.value=1;
+				var usr = recover.txtusr.value;
+				var email = recover.txtemail.value;
+				var agreg = recover.agregardato.value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("respuesta").innerHTML = this.responseText;
+					}
+				};
+				xhttp.open("POST", "dcs_enviarclave.asp", true);
+				xhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+				xhttp.send("usuario="+usr+"&email="+email+"&agregardato="+agreg);
+				/*
+				$.ajax({
+					
+				});*/
+			});
+		});
+		
+		function trim(string)
+		{
+			while(string.substr(0,1)==" ")
+			string = string.substring(1,string.length) ;
+			while(string.substr(string.length-1,1)==" ")
+			string = string.substring(0,string.length-2) ;
+			return string;
+		}
+		
+		function isEmailAddress(theElement)
+		{
+		var s = theElement.value;
+		var filter=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ig;
+		if (s.length == 0 ) return true;
+		   if (filter.test(s))
+			  return true;
+		   else
+			theElement.focus();
+			return false;
+		}
+		
+	</script>
+    
+  </body>
+</html>
