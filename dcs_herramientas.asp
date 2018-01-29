@@ -244,7 +244,7 @@ if session("codusuario")<>"" then
 			<table class="table-header-template" cellpadding="2" >
 				<tr>
 					<td><img src="imagenes/dcs_logo_agua.png" alt="Direct Contact Solutions" title="Direct Contact Solutions" height="80"></td>
-					<td style="padding-right: 480px; padding-left: 150px;" class="link-text-dark" valign="middle"><font face="Raleway" size="4"><b> NOMBRE POR DEFINIR - CRM DCS </b></font></td>
+					<td style="padding-right: 590px; padding-left: 150px;" class="link-text-dark" valign="middle"><font face="Raleway" size="4"><b> NOMBRE POR DEFINIR - CRM DCS </b></font></td>
 					<td style="padding-left: 30px;" class="link-text-dark" align="right" valign="bottom">
 						<table border="0" cellpadding="2" cellspacing="0">
 							<tr>								
@@ -252,7 +252,7 @@ if session("codusuario")<>"" then
 									<div class="block">
 										<div class="circle">
 											<div class="dropdown dropdown-user">
-												<a class="text-user dropdown-toggle" href="#" data-toggle="dropdown"><font face="Arial" size="4" color="#d15027">A</b></font></a>												
+												<a class="text-user dropdown-toggle" href="#" data-toggle="dropdown"><font face="Raleway" size="5" color="#fff">A</b></font></a>												
 												<ul class="dropdown-menu">
 													<li><a class="link-text-dark" href="javascript:void(0);"><font face="Raleway" size="2" ><i class="demo-icon icon-up-dir">&#xe811;</i><b><%=session("nombreusuario")%></b></font></a></li>
 													<li><a class="link-text-dark" href="javascript:modificarclave();"><font face="Raleway" size="2" ><i class="demo-icon icon-coffee">&#xf0f4;</i> Modificar&nbsp;contrase&ntildea&nbsp;</font></a></li>

@@ -53,7 +53,7 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp&IDCliente=" + codigo,"NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp&IDCliente=" + codigo,"NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
@@ -223,9 +223,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, case when Activo=1 then 'checked' else ' ' end Activo from dbo.Cliente " & filtrobuscador1 & " IDCliente not in (select top " & topnovisible & " IDCliente from Cliente " & filtrobuscador & " order by IDCliente) order by IDCliente" 
+		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo from dbo.Cliente " & filtrobuscador1 & " IDCliente not in (select top " & topnovisible & " IDCliente from Cliente " & filtrobuscador & " order by IDCliente) order by IDCliente" 
 		else
-		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, case when Activo=1 then 'checked' else ' ' end Activo from dbo.Cliente " & filtrobuscador1 & "  order by IDCliente" 
+		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo from dbo.Cliente " & filtrobuscador1 & "  order by IDCliente" 
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -257,7 +257,7 @@ if session("codusuario")<>"" then
 				datos[tabla][<%=contador%>][3]='<%=rs.Fields("Direccion")%>';
 				datos[tabla][<%=contador%>][4]='<%=rs.Fields("Telefono")%>';
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("Email")%>';
-				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCliente" & RS.Fields("IDCliente"))<>"" then%><%if int(activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
+				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCliente" & RS.Fields("IDCliente"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
 				datos[tabla][<%=contador%>][7]='';
 							
 		<%

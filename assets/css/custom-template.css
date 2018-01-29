@@ -162,17 +162,19 @@ a.text-user:link{
 .block {
     text-align: center;
     vertical-align: middle;
+	cursor: pointer
 }
 .circle {
-    background: #b5b5b5;
+	font-family:"Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif !important;
+    background: #f47a3f;
     border-radius: 50%;
-    color: #d15027;
-    height: 45px;
+    color: #fff;
+    height: 40px;
 	text-align: center;
     font-weight: bold;
-    width: 45px;
+    width: 40px;
     display: table;
-    margin: 12px auto;
+    margin: 20px auto;
 }
 .circle p {
     vertical-align: middle;

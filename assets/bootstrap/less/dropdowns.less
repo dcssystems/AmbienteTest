@@ -32,7 +32,7 @@
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -100px;
   z-index: @zindex-dropdown;
   display: none; // none by default, but block on "open" of the menu
   float: left;
@@ -123,6 +123,7 @@
   // Show the menu
   > .dropdown-menu {
     display: block;
+	left:-146px;
   }
 
   // Remove the outline when :focus is triggered

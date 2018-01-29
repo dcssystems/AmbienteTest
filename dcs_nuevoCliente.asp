@@ -8,29 +8,28 @@ if session("codusuario")<>"" then
 		buscador=obtener("buscador")	
 		idcliente=obtener("IDCliente")
 		if obtener("agregardato")<>"" then
-			descripcion=obtener("descripcion")
-			orden=obtener("orden")
-			if not isNumeric(orden) then
-				orden="0"
-			end if	
-			orden=int(orden)
-										
+			RazonSocial=obtener("RazonSocial")
+			RUC=obtener("RUC")
+			Direccion=obtener("Direccion")
+			Telefono=obtener("Telefono")
+			Email=obtener("Email")
+			if obtener("Activo")<>"" then Activo=1 else Activo=0 end if											
 									
-			existegrupofacultad=0
+			existeCliente=0
 			
 			if idcliente<>"" then
-			sql="select count(*) from grupofacultad where descripcion='" & descripcion & "' and codgrupofacultad<>" & idcliente 
+			sql="select count(*) from Cliente where RazonSocial='" & RazonSocial & "' and IDCliente<>" & idcliente 
 			else
-			sql="select count(*) from grupofacultad where descripcion='" & descripcion & "'"
+			sql="select count(*) from Cliente where RazonSocial='" & RazonSocial & "'"
 			end if
 			consultar sql,RS
-			existegrupofacultad=RS.Fields(0)
+			existeCliente=RS.Fields(0)
 			RS.Close			
-			if existegrupofacultad=0 then			
+			if existeCliente=0 then			
 				if obtener("agregardato")="1" then		
-					sql="insert into grupofacultad (descripcion,orden,usuarioregistra,fecharegistra) values ('" & descripcion & "'," & orden & "," & session("codusuario") & ",getdate())"
+					sql="insert into Cliente (RazonSocial,RUC,Direccion,Telefono,Email,Activo,UsuarioRegistra,FechaRegistra) values ('" & RazonSocial & "','" & RUC & "','" & Direccion & "','" & Telefono & "','" & Email & "', " & Activo & "," & session("codusuario") & ",getdate())"
 				else
-					sql="update grupofacultad set descripcion='" & descripcion & "',orden=" & orden & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where IDCliente = " & idcliente
+					sql="update Cliente set RazonSocial='" & RazonSocial & "',RUC='" & RUC & "',Direccion='" & Direccion & "',Telefono='" & Telefono & "',Email='" & Email & "',Activo=" & Activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where IDCliente = " & idcliente
 				end if
 				''Response.Write sql
 				conn.execute sql
@@ -49,7 +48,7 @@ if session("codusuario")<>"" then
 			else
 			%>
 				<script language="javascript">
-					alert("El grupo ya existe.");
+					alert("El Cliente ya existe.");
 					history.back();
 				</script>			
 			<%				
@@ -146,11 +145,11 @@ if session("codusuario")<>"" then
 							<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
 							<%if fechaMod<>"" then%><BR>Modific&oacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 							</font></td>
-						</tr>	
+						</tr>
 						<%end if%>	
 						<!-- SECCION DEL FORMULARIO PARA CLIENTE -->						
 						<tr class="fondo-gris">
-							<td class="text-orange-form" width="30%"> Raz&oacute;n Social:</td>
+							<td class="text-orange" width="30%"> Raz&oacute;n Social:</td>
 							<td><input name="razonsocial" type="text" maxlength="200" value="<%=razonsocial%>" style="font-size: xx-small; width: 200px;"></td>
 						</tr>
 						<tr>

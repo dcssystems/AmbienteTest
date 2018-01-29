@@ -293,8 +293,7 @@ if session("codusuario")<>"" then
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("provincia")%>';
 				datos[tabla][<%=contador%>][6]='<%=rs.Fields("distrito")%>';
 				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("codoficina" & RS.Fields("codoficina"))<>"" then%><%if int(activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][8]='';
-							
+				datos[tabla][<%=contador%>][8]='';							
 		<%
 			contador=contador + 1
 			RS.MoveNext 
