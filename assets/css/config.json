@@ -161,6 +161,48 @@
       "css": "pencil-squared",
       "code": 61771,
       "src": "fontawesome"
+    },
+    {
+      "uid": "56a21935a5d4d79b2e91ec00f760b369",
+      "css": "sort",
+      "code": 61660,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "50ae91f6ed0e10a5e9eec6c63afedfb5",
+      "css": "updown-circle",
+      "code": 59413,
+      "src": "websymbols"
+    },
+    {
+      "uid": "616b755d0f4c7d2dc7a1dcc2e5427039",
+      "css": "down-open",
+      "code": 59414,
+      "src": "elusive"
+    },
+    {
+      "uid": "b91c0e6aaab5e3146732b69dd418e120",
+      "css": "up-open",
+      "code": 59415,
+      "src": "elusive"
+    },
+    {
+      "uid": "f8b0d36761ba4c7e51d0af49d3386713",
+      "css": "resize-vertical",
+      "code": 59416,
+      "src": "elusive"
+    },
+    {
+      "uid": "3iwbntpxmp0kvbvzaxrh8h30xw1l6zvn",
+      "css": "down",
+      "code": 59417,
+      "src": "modernpics"
+    },
+    {
+      "uid": "giaskl13npzvuuz2ovy3vw8s0bewik08",
+      "css": "up",
+      "code": 59418,
+      "src": "modernpics"
     }
   ]
 }

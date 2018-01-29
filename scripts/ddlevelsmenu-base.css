@@ -36,7 +36,7 @@ background-color: #b72b2c;
 text-decoration: none;
 padding: 3px 5px;
 margin: -1px 0px;
-height: 15px;
+/*height: 15px;*/
 border-bottom: 1px solid #b72b2c;
 }
 
@@ -48,6 +48,7 @@ width: 150px; /*width of menu (include side paddings of LI A*/
 .ddsubmenustyle li a:hover{
 background-color: #FE6D2E;
 color: #fff;
+height:100% !important;
 }
 
 /* ######### Neutral CSS  ######### */

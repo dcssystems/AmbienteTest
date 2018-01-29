@@ -1,0 +1,248 @@
+﻿/* STYLE COMMUN */
+
+/*
+ * Bootstrap v2.2.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+@font-face {
+      font-family: 'fontello';
+      src: url('../CSS/font/fontello.eot?45893396');
+      src: url('../CSS/font/fontello.eot?45893396#iefix') format('embedded-opentype'),
+           url('../CSS/font/fontello.woff?45893396') format('woff'),
+           url('../CSS/font/fontello.ttf?45893396') format('truetype'),
+           url('../CSS/font/fontello.svg?45893396#fontello') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+     
+     .demo-icon
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #5b1516;
+     
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      font-size: 24px;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 0em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+    
+   
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    .demo-icon2
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #cc3031;
+      padding-left: 3px;
+     
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      font-size: 15px;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 0em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+    
+    .demo-icon3
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #fff;
+	  padding-top: 2px;	
+      padding-left: 2px;
+	  padding-right: 2px;
+	  float:right;
+     
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      font-size: 10px;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 0em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+	
+	i>.icon-logout:hover{
+		background-color: #d15027;
+	}
+	
+	.fondo-red{
+		background-color: #b72b2c;
+	}
+
+	.fondo-orange{
+		background-color:#FE6D2E;
+	}
+	.text-orange{	
+		color:#5b1516 !important;
+		font-family: "Raleway", sans-serif;
+	}
+	
+	.text-withe{
+		color: #fff !important;
+		font-family: "Raleway", sans-serif;
+	}
+	
+	.text-orange-form{
+		color:#5b1516 !important;
+		font-family: "Raleway", sans-serif;
+		padding-left: 10px;
+		font-size: 12px;
+	}
+	
+	.label-registra{
+		padding-top:5px;
+	}
+
+/*
+	RED: 	#CC3031
+	ORANGE:	#E9592C
+	GREACE:	#BFBFBF
+*/
+		
+A {
+	FONT-SIZE: 12px; COLOR: #5b1516; FONT-FAMILY:"Raleway"; TEXT-DECORATION: none;
+}
+A:visited {
+	TEXT-DECORATION: none; COLOR: #00529B;
+}
+A:hover {
+	COLOR: #FE6D2E; FONT-FACE:"Raleway";  font-weight:bold; TEXT-DECORATION: none;
+}
+
+
+.skin {
+	position:absolute;
+	top: 0px;
+	font-color:#FFFFFF;
+	font-size:12px;
+	width:78%;
+	height:50%;
+	border:0px none #667ec5;
+	text-align:left;
+	font-family:Raleway;
+	line-height:16px;
+	cursor:hand;
+	visibility:hidden;
+	background:#FFFFFF;
+}
+
+body{
+	background:#FFF;
+}
+
+
+TABLE{
+	border-width: 0px;
+	border-style: none;
+}
+TH {
+	color:#FFFFFF;
+	background: #CC3031;/*#007DC5;*/
+	font-size:12px;
+	font-family:Raleway;
+	cursor:hand;
+}
+TD{
+	color:#5b1516 !important;
+	font-family: "Raleway", sans-serif;
+	padding-left: 2px;
+	font-size: 12px;
+}
+
+TR{
+	background: #FFFFFF;
+	height:21px;
+	width:auto !important;
+}
+
+.fondo-gris{
+	background: #f5f5f5 !important;
+}
+
+a.text-user:link{
+	TEXT-DECORATION: none;
+}
+
+a.text-user:hover{
+	TEXT-DECORATION: none;
+}
+
+
+

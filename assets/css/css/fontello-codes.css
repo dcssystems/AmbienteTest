@@ -20,7 +20,14 @@
 .icon-down-dir:before { content: '\e812'; } /* '' */
 .icon-align-justify:before { content: '\e813'; } /* '' */
 .icon-download:before { content: '\e814'; } /* '' */
+.icon-updown-circle:before { content: '\e815'; } /* '' */
+.icon-down-open:before { content: '\e816'; } /* '' */
+.icon-up-open:before { content: '\e817'; } /* '' */
+.icon-resize-vertical:before { content: '\e818'; } /* '' */
+.icon-down:before { content: '\e819'; } /* '' */
+.icon-up:before { content: '\e81a'; } /* '' */
 .icon-menu:before { content: '\f008'; } /* '' */
+.icon-sort:before { content: '\f0dc'; } /* '' */
 .icon-coffee:before { content: '\f0f4'; } /* '' */
 .icon-pencil-squared:before { content: '\f14b'; } /* '' */
 .icon-file-excel:before { content: '\f1c3'; } /* '' */

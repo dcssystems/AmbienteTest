@@ -100,9 +100,9 @@
 			default: seteo='';
 		    }
 		}
-	        html += '<th onclick="cambiar(' + i + ',' + x + ')" align="' + aligncabecera[x][i] + '" width="' + anchocolumna[x][i] + '"><img src="';
-        	html += ((orden[x] == i)?(ascendente[x]? rutaimgcab + 'header-asc.gif':rutaimgcab + 'header-desc.gif'):rutaimgcab + 'header-no.gif');
-	        html += '"> ' + cabecera[x][i] + seteo + '</th>';
+	        html += '<th onclick="cambiar(' + i + ',' + x + ')" align="' + aligncabecera[x][i] + '" width="' + anchocolumna[x][i] + '">';
+        	html += ((orden[x] == i)?(ascendente[x]?  '<i class="demo-icon3 icon-up-open">&#xe817;</i>': '<i class="demo-icon3 icon-down-open">&#xe816;</i>'): '<i class="demo-icon3 icon-sort">&#xf0dc;</i>');
+	        html += cabecera[x][i] + seteo + '</th>';
 	    }
 	}
         html += '</tr>';

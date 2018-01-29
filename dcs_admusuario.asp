@@ -28,11 +28,15 @@ if session("codusuario")<>"" then
 	
 	%>
 		<html>
-		<!--cargando--><img src=imagenes/loading.gif border=0 id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
+		<!--cargando--><img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
 		<head>
-		<script language=javascript src="scripts/TablaDinamica.js"></script>
+			<link rel="stylesheet" href="assets/css/css/animation.css"/>
+			<link rel="stylesheet" href="assets/css/custom.css" />
+			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
+			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
+		<script language="javascript" src="scripts/TablaDinamica.js"></script>
 		<script type="text/javascript" src="scripts/tristate-0.9.2.js" ></script>
-		<script language=javascript>
+		<script language="javascript">
 		var ventanauser;
 		function inicio()
 		{
@@ -84,58 +88,10 @@ if session("codusuario")<>"" then
 			document.formula.submit();
 		}
 		</script>
-		<style>
-		A {
-			FONT-SIZE: 12px; COLOR: #00529B; FONT-FAMILY:"Arial"; TEXT-DECORATION: none
-		}
-		A:visited {
-			TEXT-DECORATION: none; COLOR: #00529B;
-		}
-		A:hover {
-			COLOR: #00529B; FONT-FACE:"Arial"; TEXT-DECORATION: none
-		}
-		.skin {
-		position:absolute;
-		top: 0px;
-		font-color:#FFFFFF;
-		font-size:12px;
-		width:78%;
-		height:50%;
-		border:0px none #667ec5;
-		text-align:left;
-		font-family:Arial;
-		line-height:16px;
-		cursor:hand;
-		visibility:hidden;
-		background:#FFFFFF;
-		}
-		TABLE
-		{
-			border-width: 0px;
-			border-style: none;
-		}
-		TH 
-		{
-			color:#FFFFFF;
-			background: #007DC5;
-			font-size:12px;
-			font-family:Arial;
-			cursor:hand;
-		}
-		TD
-		{
-			color:#00529B;
-			font-size:12px;
-			font-family:Arial;
-		}
-		TR
-		{
-			background: #FFFFFF;
-		}
-		</style>
+		
 		</head>
 		
-		<script language=javascript>
+		<script language="javascript">
 			rutaimgcab="imagenes/"; 
 		  //Configuración general de datos de tabla 0
 		    tabla=0;
@@ -497,32 +453,37 @@ if session("codusuario")<>"" then
 		%>	
 		
 		<%if contador=0 then%>
-			<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF">
-			<form name=formula method=post>
-			<table width=100% cellpadding=4 cellspacing=0>	
-			<tr>
-				<td bgcolor="#F5F5F5"><font size=2 face=Arial color=#00529B><b>Usuarios (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border=0 alt="Nuevo" title="Nuevo" align=middle></a></td>
-				<td bgcolor="#F5F5F5" align=right><%=objetosdebusqueda%></td>
-				<td bgcolor="#F5F5F5" align=left><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border=0 alt="Buscar" title="Buscar" align=middle></a></td>
-			</tr>
-			</table>
+			<body topmargin="0" leftmargin="0">
+				<form name="formula" method="post">
+					<table width="100%" cellpadding="4" cellspacing="0">	
+						<tr class="fondo-orange">
+							<td class="text-orange"><font size="2" face="Raleway" ><b>Usuarios (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
+							<td class="text-orange" align="middle" width="250"><%=objetosdebusqueda%></td>
+							<td class="text-orange" align="left"><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border="0" alt="Buscar" title="Buscar" align="middle"></a></td>
+						</tr>
+					</table>			
 		<%else		
 		%>
-			<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF"><!--onload="inicio();"-->
-			<form name=formula method=post>
-			<table width=100% cellpadding=4 cellspacing=0 border=0>		
-			<tr>
-				<td bgcolor="#F5F5F5" align=left><font size=2 face=Arial color=#00529B><b>Usuarios (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar" align=middle></a>&nbsp;&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border=0 alt="Nuevo" title="Nuevo" align=middle></a>&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>'><img src="imagenes/descargar.gif" border=0 alt="Descargar Excel" title="Descargar Excel" align=middle></a><%end if%></b></font></td>
-				<td bgcolor="#F5F5F5" align=right><%=objetosdebusqueda%></td>
-				<td bgcolor="#F5F5F5" align=left><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border=0 alt="Buscar" title="Buscar" align=middle></a></td>
-				<td bgcolor="#F5F5F5" align=right width=180><font size=2 face=Arial color=#00529B>Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
-			</tr>	
-			</table>
-			<div id="tabla0"> 
-			</div>
+						
+			<body topmargin="0" leftmargin="0"><!--onload="inicio();"-->
+				<form name="formula" method="post">
+					<table width="100%" cellpadding="4" cellspacing="0" border="0">		
+						<tr class="fondo-orange">
+							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>Usuarios (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
+							<!--<td bgcolor="#F5F5F5" align=left><font size=2 face=Raleway color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
+							<td class="text-orange" align="middle" width="250"><%=objetosdebusqueda%></td>
+							<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
+							<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+						</tr>	
+					</table>
+					<div id="tabla0"> 
+					</div>	
+			
+			
 		<%end if%>
 		<input type="hidden" name="actualizarlista" value="">
-		<%''Codigo exp excel%>
+		<%''Codigo exp excel
+		%>
 		<input type="hidden" name="expimp" value="">		
 		<input type="hidden" name="pag" value="<%=pag%>">	
 		</form>
@@ -539,7 +500,7 @@ if session("codusuario")<>"" then
 			inicio();
 		</script>					
 		</body>
-		<!--cargando--><script language=javascript>document.getElementById("imgloading").style.display="none";</script>
+		<!--cargando--><script language="javascript">document.getElementById("imgloading").style.display="none";</script>
 		</html>	
 		<%
 		''Codigo exp excel

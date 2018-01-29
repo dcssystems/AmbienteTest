@@ -15,113 +15,17 @@ if session("codusuario")<>"" then
 	<html>
 		<title><%=TITLE%></title>
 		<head>
-		<link rel="stylesheet" href="CSS/css/animation.css">
-		<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">		
-	<style>/*
- * Bootstrap v2.2.1
- *
- * Copyright 2012 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
- */
-
-@font-face {
-      font-family: 'fontello';
-      src: url('CSS/font/fontello.eot?47461301');
-      src: url('CSS/font/fontello.eot?47461301#iefix') format('embedded-opentype'),
-           url('CSS/font/fontello.woff?47461301') format('woff'),
-           url('CSS/font/fontello.ttf?47461301') format('truetype'),
-           url('CSS/font/fontello.svg?47461301#fontello') format('svg');
-      font-weight: normal;
-      font-style: normal;
-    }
-     
-     .demo-icon
-    {
-      font-family: "fontello";
-      font-style: normal;
-      font-weight: normal;
-      speak: none;
-      color: #d15027;
-     
-      display: inline-block;
-      text-decoration: inherit;
-      width: 1em;
-      margin-right: .2em;
-      text-align: center;
-      /* opacity: .8; */
-     
-      /* For safety - reset parent styles, that can break glyph codes*/
-      font-variant: normal;
-      text-transform: none;
-     
-      /* fix buttons height, for twitter bootstrap */
-      line-height: 1em;
-     
-      /* Animation center compensation - margins should be symmetric */
-      /* remove if not needed */
-      margin-left: 0em;
-     
-      /* You can be more comfortable with increased icons size */
-      /* font-size: 120%; */
-     
-      /* Font smoothing. That was taken from TWBS */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-     
-      /* Uncomment for 3D effect */
-      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
-    }
-
-     .demo-icon2
-    {
-      font-family: "fontello";
-      font-style: normal;
-      font-weight: normal;
-      speak: none;
-      color: #fff;
-     
-      display: inline-block;
-      text-decoration: none;
-      width: 1em;
-      margin-right: 0em;
-      text-align: right;
-      /* opacity: .8; */
-     
-      /* For safety - reset parent styles, that can break glyph codes*/
-      font-variant: normal;
-      text-transform: none;
-     
-      /* fix buttons height, for twitter bootstrap */
-      line-height: 1em;
-     
-      /* Animation center compensation - margins should be symmetric */
-      /* remove if not needed */
-      margin-left: 3px;
-     
-      /* You can be more comfortable with increased icons size */
-      /* font-size: 120%; */
-     
-      /* Font smoothing. That was taken from TWBS */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-     
-      /* Uncomment for 3D effect */
-      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
-    }
-   
-     
-      /* Uncomment for 3D effect */
-      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
-    
-	
-	i>.icon-logout:hover{
-		background-color: #d15027;
-	}
-     </style>		
-	
+			<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
+			<link rel="stylesheet" href="assets/css/css/animation.css">
+			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">	
+			
+			<link rel="shortcut icon" href="http://192.168.1.7/ambientetest/imagenes/favicon.ico">
+			
+			<link rel="stylesheet" href="assets/css/custom-template.css" />
+			<link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
+			<script src="assets/jquery/dist/jquery.js"></script>
+			<script src="assets/bootstrap/dist/js/bootstrap.js"></script>
+			
     <script>
       function toggleCodes(on) {
         var obj = document.getElementById('icons');
@@ -167,7 +71,7 @@ if session("codusuario")<>"" then
 					//display:table-cell; vertical-align:middle; 
 					//agregamos una columna con el titulo (en thead)
 					$('<th>').html(
-						'<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height=7 width=178><font face="Raleway" size="2" color="#fff">&nbsp;&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#fff">' + ac_descripcion + '</font></a> <div style="float: right;    margin-right: 5px;">'
+						'<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height="7" width="178"><font face="Raleway" size="2" color="#fff">&nbsp;&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#fff">' + ac_descripcion + '</font></a> <div style="float: right; margin-right: 5px;">'
 						+
 						'<a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><i class="demo-icon2 icon-cw">&#xe80e;</i></a>'
 						+
@@ -336,19 +240,30 @@ if session("codusuario")<>"" then
 		    }
 		</script>
 		</head>
-		<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0">
-			<table width="100%" border="0" cellpadding="2" cellspacing="0">
+		<body topmargin="0" leftmargin="0">
+			<table class="table-header-template" cellpadding="2" >
 				<tr>
 					<td><img src="imagenes/dcs_logo_agua.png" alt="Direct Contact Solutions" title="Direct Contact Solutions" height="80"></td>
-					<td valign="middle"><font face="Raleway" size="4" color="#d15027"><b> NOMBRE POR DEFINIR - CRM DCS </b></font></td>
-					<td align="right" valign="bottom">
+					<td style="padding-right: 480px; padding-left: 150px;" class="link-text-dark" valign="middle"><font face="Raleway" size="4"><b> NOMBRE POR DEFINIR - CRM DCS </b></font></td>
+					<td style="padding-left: 30px;" class="link-text-dark" align="right" valign="bottom">
 						<table border="0" cellpadding="2" cellspacing="0">
-							<tr>
-								<td align="right" valign="middle"><a href="javascript:modificarclave();" style="text-decoration:none;"><font face="Raleway" size=2 color="#d15027">Modificar&nbsp;contrase&ntildea&nbsp;</font></a></td>					
-								<td align="right" valign="middle" width="20"><a href="javascript:modificarclave();" style="text-decoration:none;"><i class="demo-icon icon-coffee">&#xf0f4;</i></a></td>
-								<td align="right" valign="middle"><font face="Raleway" size="2" color="#d15027">&nbsp;|&nbsp;</font><a href="dcs_userexpira.asp" style="text-decoration:none;" target="_top"><font size="2" face="Raleway" color="#d15027">&nbsp;Salir</font></a></td>
-								<td align="right" valign="middle"><a href="dcs_userexpira.asp" target="_top"><div class="logout"><i class="logout demo-icon icon-logout">&#xe800;</i></div></a><font size="2" face="Raleway" color="#d15027"></font></td>
-							</tr>
+							<tr>								
+								<td>
+									<div class="block">
+										<div class="circle">
+											<div class="dropdown dropdown-user">
+												<a class="text-user dropdown-toggle" href="#" data-toggle="dropdown"><font face="Arial" size="4" color="#d15027">A</b></font></a>												
+												<ul class="dropdown-menu">
+													<li><a class="link-text-dark" href="javascript:void(0);"><font face="Raleway" size="2" ><i class="demo-icon icon-up-dir">&#xe811;</i><b><%=session("nombreusuario")%></b></font></a></li>
+													<li><a class="link-text-dark" href="javascript:modificarclave();"><font face="Raleway" size="2" ><i class="demo-icon icon-coffee">&#xf0f4;</i> Modificar&nbsp;contrase&ntildea&nbsp;</font></a></li>
+													<li class="divider"></li>
+													<li><a class="link-text-dark" href="dcs_userexpira.asp" target="_top"><i class="logout demo-icon icon-logout">&#xe800;</i> Salir</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>									
+								</td>
+							</tr>							
 						</table>
 					</td>
 				</tr>
@@ -359,9 +274,9 @@ if session("codusuario")<>"" then
 					<td style="background-color:#b72b2c">
 						<!--menu inicio-->
 						<div id="ddsidemenubar" class="markermenu">
-						<ul>
-						<li><a rel="ddsubmenuside1">MENU</a></li>
-						</ul>
+							<ul>
+								<li><a rel="ddsubmenuside1">MENU</a></li>
+							</ul>
 						</div>
 						 
 						<script type="text/javascript"> 
@@ -369,7 +284,7 @@ if session("codusuario")<>"" then
 						</script>
 						<!--fin menu inicio-->
 					</td>
-					<td bgcolor="#b72b2c"><font face="Raleway" size="2" color="#fff">&nbsp;Usuario: <b><%=session("nombreusuario")%></b></font></td>
+					<td bgcolor="#b72b2c"></td>
 					<td bgcolor="#b72b2c" align="right" valign="middle">
 					<td bgcolor="#b72b2c" align="right"><font face="Raleway" size="2" color="#fff"><b>Perfil:</b>&nbsp;<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">
 								

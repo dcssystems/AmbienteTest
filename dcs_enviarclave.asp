@@ -15,7 +15,6 @@ if obtener("agregardato")="1" then
 			clave=RS.fields("clave")
 			activo=RS.fields("activo")
 			flagbloqueo=RS.fields("flagbloqueo")
-			'entidad=RS.fields("entidad")
 		else
 			existeusuario=0
 		end if
@@ -24,23 +23,21 @@ if obtener("agregardato")="1" then
 		%>
 		<div class="row">
 			<div class="col-sm-12">
-				<h5 class="text-center">Olvidé mi contraseña</h5>				
+				<h5 class="text-center">Olvid&eacute; mi contrase&ntilde;a</h5>				
 				<div class="alert alert-danger alert-dismissable fade in">					
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<strong>Cuidado!</strong> El usuario y el e-mail ingresados no se encuentran en nuestros registros. Comuníquese con el Administrador.
+					<strong>El usuario y el e-mail ingresados no se encuentran en nuestros registros. Comun&iacute;quese con el Administrador.</strong>
 				</div>
 			</div>
 		</div>
 		<%
 		else
 			if activo=1 and flagbloqueo<3 then
-			    if entidad<>"" then
-			        cadenaentidad=" de la Entidad: <b>" & entidad & "</b> "
-			    end if
+			    
 			    sql="EXEC SP_ENVIARMAIL " & _ 
-				    "@profile = 'CRM - DIRCON | Notificaciones', " & _ 
+				    "@profile = 'dcs.canal1', " & _ 
 				    "@asunto = 'CRM DIRCON - Recordatorio de Contraseña', " & _ 
-				    "@cuerpo = '<html><body><img border=0 src=" & chr(34) & "https://extranetperu.grupobbva.pe/cobranzacm/imagenes/logo.gif" & chr(34) & "><BR><BR><font face=Arial size=2>Estimado(a) " & nombre & ":<BR><BR>Nos es grato saludarte y hacerte recordar que para acceder a Optimus - Sistema CRM DIRCON, para el usuario: <b>" & usuario & "</b>" & cadenaentidad & " la contraseña es: <b>" & desencriptar(clave) & "</b>.<BR><BR>Web Site: <a href=https://extranetperu.grupobbva.pe/cobranzacm>https://extranetperu.grupobbva.pe/cobranzacm</a><BR><BR>Saludos,<BR><BR><b>Equipo de Desarrollo | DIRCON</b></font></body></html>', " & _
+				    "@cuerpo = '<html><body><img border=0 src=" & chr(34) & "http://192.168.1.7/ambientetest/imagenes/dcs_logo_agua.png" & chr(34) & " height=" & chr(34) & "87" & chr(34) & " width=" & chr(34) & "170" & chr(34) & "><BR><BR><font face=Arial size=2>Estimado(a) " & nombre & ":<BR><BR>Nos es grato saludarte y hacerte recordar que para acceder a NOMBRE POR DEFINIR - Sistema CRM DIRCON, para el usuario: <b>" & usuario & "</b> la contraseña es: <b>" & desencriptar(clave) & "</b>.<BR><BR>Web Site: <a href=http://192.168.1.7/ambientetest>http://192.168.1.7/ambientetest</a><BR><BR>Saludos,<BR><BR><b>Equipo de Desarrollo | DIRCON</b></font></body></html>', " & _
 				    "@destinatarios = '" & email & "', " & _ 
 				    "@copias = '', " & _ 
 				    "@copiasocultas = '', " & _ 
@@ -51,14 +48,14 @@ if obtener("agregardato")="1" then
 		%>
 		<div class="row">
 			<div class="col-sm-12">
-				<h3 class="text-center">Olvidé mi contraseña</h3>				
+				<h5 class="text-center">Olvid&eacute; mi contrase&ntilde;a</h5>				
 				<%if activo=1 and flagbloqueo<3 then%>
-					<p class="alert alert-success">En breve recibirás un e-mail con la información de tu cuenta.</p>
+					<p class="alert alert-success">En breve recibir&aacute;s un e-mail con la informaci&oacute;n de tu cuenta.</p>
 				<%else%>
 					<%if activo=0 and flagbloqueo<3 then%>
-						<p class="alert alert-danger">El usuario se encuentra inactivo. Comuníquese con el administrador.</p>
+						<p class="alert alert-danger">El usuario se encuentra inactivo. Comun&iacute;quese con el administrador.</p>
 					<%else%>
-						<p class="alert alert-danger">El usuario se encuentra bloqueado. Comuníquese con el administrador.</p>
+						<p class="alert alert-danger">El usuario se encuentra bloqueado. Comun&iacute;quese con el administrador.</p>
 					<%end if%>
 				<%end if%>				
 			</div>

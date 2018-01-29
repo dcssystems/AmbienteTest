@@ -1,7 +1,7 @@
 <%@ LANGUAGE = VBScript.Encode %>
 <!--#include file=capa1.asp-->
 <!--#include file=capa2.asp-->  
-<% 
+<%
 if session("codusuario")<>"" then
 	conectar
 	if permisofacultad("dcs_admfacultad.asp") then
@@ -102,12 +102,40 @@ if session("codusuario")<>"" then
 		</head>
 		
 		<script language="javascript">
+			<%
+				idcampana=1 ''obtener("idcampaña")
+				sql="select GlosaCampo,ROW_NUMBER () over (order by NroCampo) as Orden,CampoCalculado,Formula,Condicion,IDCampañaCampo,TipoCampo,FlagNroDocumento,anchocolumna,aligncabecera,aligndetalle,alignpie,decimalesnumero,formatofecha " & chr(10) & _
+                    "from Campaña_Campo " & chr(10) & _
+                    "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña=1) " & chr(10) & _
+                    "and Nivel=1 and Visible=1 " & chr(10) & _
+                    "order by Orden"
+				consultar sql,RS3	
+				nrocampos=RS3.RecordCount
+				glosacampos=""
+				glosavisible=""
+				glosaancho=""
+				glosaalineamiento=""
+				Do while not RS3.EOF 
+					glosacampos=glosacampos & ",'" & RS3.Fields("GlosaCampo") & "'"
+					glosavisible=glosavisible & ",'true'"
+					glosaancho=glosaancho & ",'" & RS3.Fields("anchocolumna") & "'"
+					glosaaligncabecera=glosaaligncabecera & ",'" & RS3.Fields("aligncabecera") & "'"
+					glosaaligndetalle=glosaaligndetalle & ",'" & RS3.Fields("aligndetalle") & "'"
+					glosaalignpie=glosaalignpie & ",'" & RS3.Fields("alignpie") & "'"
+					glosadecimalesnumero=glosadecimalesnumero & ",'" & RS3.Fields("decimalesnumero") & "'"
+					glosaformatofecha=glosaformatofecha & ",'" & RS3.Fields("formatofecha") & "'"
+					glosapie=glosapie & ",'&nbsp;'"
+					glosapiefunciones=glosapiefunciones & ",''"
+				RS3.MoveNext 
+				Loop
+				RS3.MoveFirst
+			%>
 			rutaimgcab="imagenes/"; 
 		  //Configuración general de datos de tabla 0
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
-		    nrocolumnas[tabla]=6;
+		    nrocolumnas[tabla]=<%=nrocampos + 1%>;
 		    fondovariable[tabla]='bgcolor=#f5f5f5';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
@@ -115,51 +143,61 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('Codigo','Grupo','Descripción','Página','Orden','Editar');
+		    cabecera[tabla] = new Array('IDCampanaPersona'<%=glosacampos%>);
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(true, true, true ,true,true, true);
-		    anchocolumna[tabla] =  new Array( '5%',     '15%', '20%' , '5%','4%' ,'');
-		    aligncabecera[tabla] = new Array('left','left','left','left','left','left');
-		    aligndetalle[tabla] = new Array('left','left','left','left','left','left');
-		    alignpie[tabla] =     new Array('left','left','left','left','left','left');
-		    decimalesnumero[tabla] = new Array(-1 ,-1   ,-1      ,-1 ,0 , -1  );
-		    formatofecha[tabla] =   new Array(''  ,''   ,''      ,'' ,'','' );
+		    columnavisible[tabla] = new Array(false<%=glosavisible%>);
+		    anchocolumna[tabla] =  new Array( ''<%=glosaancho%>);
+		    aligncabecera[tabla] = new Array('left'<%=glosaaligncabecera%>);
+		    aligndetalle[tabla] = new Array('left'<%=glosaaligndetalle%>);
+		    alignpie[tabla] =     new Array('left'<%=glosaalignpie%>);
+		    decimalesnumero[tabla] = new Array(-1<%=glosadecimalesnumero%>);
+		    formatofecha[tabla] =   new Array(''<%=glosaformatofecha%>);
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=codfacultad-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
-				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';
-				objetofomulario[tabla][2]='<a href="javascript:modificar(-id-);">-valor-</a>';
-				objetofomulario[tabla][3]=objetodatos("text",tabla,"pagina","left","25","");
-				objetofomulario[tabla][4]=objetodatos("text",tabla,"orden","right","7","");
-				objetofomulario[tabla][5]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
-				
-										
+				objetofomulario[tabla][0]='<input type=hidden name=idcampanapersona-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				<%
+				indicecampo=0
+				Do while not RS3.EOF 
+				    indicecampo=indicecampo + 1
+				    %>objetofomulario[tabla][<%=indicecampo%>]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				    <%
+				RS3.MoveNext 
+				Loop
+				RS3.MoveFirst				
+				%>					
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
 		    filtrofomulario[tabla] = new Array();
 		    tipofiltrofomulario[tabla] = new Array();
 		    	filtrofomulario[tabla][0]='';
-				filtrofomulario[tabla][1]='';
-				filtrofomulario[tabla][2]=''; //objetofiltro("text",tabla,2,'contiene');
-				filtrofomulario[tabla][3]='';
-				filtrofomulario[tabla][4]='';
-				filtrofomulario[tabla][5]='';
+                <%
+				indicecampo=0
+				Do while not RS3.EOF 
+				    indicecampo=indicecampo + 1
+				    %>filtrofomulario[tabla][<%=indicecampo%>]='';
+				    <%
+				RS3.MoveNext 
+				Loop
+				RS3.MoveFirst				
+				%>	
 				
 				
-										
-					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
-				valorfiltrofomulario[tabla][1]='';
-				valorfiltrofomulario[tabla][2]='';
-				valorfiltrofomulario[tabla][3]='';
-				valorfiltrofomulario[tabla][4]='';
-				valorfiltrofomulario[tabla][5]='';
-
+                <%
+				indicecampo=0
+				Do while not RS3.EOF 
+				    indicecampo=indicecampo + 1
+				    %>valorfiltrofomulario[tabla][<%=indicecampo%>]='';
+				    <%
+				RS3.MoveNext 
+				Loop
+				RS3.MoveFirst				
+				%>	
 
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
@@ -215,49 +253,60 @@ if session("codusuario")<>"" then
 		bloquemax=int(pagmax/paginasxbloque) + 1
 		end if
 
-
+        sql="select A.IDCampañaPersona,A.NroDocumento,C.IDCampañaCampo,C.NroCampo,C.TipoCampo,D.ValorTexto,D.ValorEntero,D.ValorFloat,D.ValorFecha " & chr(10) & _
+            "from Campaña_Persona A " & chr(10) & _
+            "inner join Campaña B " & chr(10) & _
+            "on A.IDCampaña=B.IDCampaña " & chr(10) & _
+            "inner join Campaña_Campo C " & chr(10) & _
+            "on B.IDTipoCampaña=C.IDTipoCampaña and C.Nivel=1 and C.Visible=1 " & chr(10) & _
+            "inner join Campaña_Detalle D " & chr(10) & _
+            "on A.IDCampañaPersona=D.IDCampañaPersona and C.IDCampañaCampo=D.IDCampañaCampo " & chr(10) & _
+            "where A.IDCampaña=" & IDCampana
+		consultar sql,RS2            
 		
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad where " & filtrobuscador1 & " f.codfacultad not in (select top " & topnovisible & " f.codfacultad from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad) order by f.codfacultad" 
+		sql="select top 0 *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad where " & filtrobuscador1 & " f.codfacultad not in (select top " & topnovisible & " f.codfacultad from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad) order by f.codfacultad" 
 		else
-		sql="select top " & cantidadxpagina & " *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad" 
+		sql="select A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.IDCampaña=1 order by A.IDCampañaPersona"
 		end if
 		''response.write sql
 		consultar sql,RS
 		contador=0
 		
 			Do while not RS.EOF 
-				if obtener("actualizarlista")<>"" and obtener("codfacultad" & RS.Fields("codfacultad"))<>"" then
-					if obtener("pagina" & RS.Fields("codfacultad"))<>"" then
-						pagina=obtener("pagina" & RS.Fields("codfacultad"))
-					else
-						pagina=""
-					end if	
-					orden=obtener("orden" & RS.Fields("codfacultad"))
-					if not isNumeric(orden) then
-						orden="0"
-					end if						
-									
-					
-						if 	obtener("pagina" & RS.Fields("codfacultad")) <> rs.Fields("pagina") or obtener("orden" & RS.Fields("codfacultad")) <> rs.Fields("orden")then
-							sql="update facultad set pagina='" & pagina & "',usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate(), orden ="& orden &" where codfacultad=" & rs.Fields("codfacultad") 
-							''response.write sql
-							conn.Execute sql
-						end if
-						
-				end if 
-
-										
+							
 		%>
 			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]=<%=RS.Fields("codfacultad")%>;
-				datos[tabla][<%=contador%>][1]='<%=rs.Fields("grupo")%>';
-				datos[tabla][<%=contador%>][2]='<%=rs.Fields("descrip")%>';
-				datos[tabla][<%=contador%>][3]='<%if obtener("actualizarlista")<>"" and obtener("codfacultad" & RS.Fields("codfacultad"))<>"" then%><%=pagina%><%else%><%=rs.Fields("pagina")%><%end if%>';
-				datos[tabla][<%=contador%>][4]=<%if obtener("actualizarlista")<>"" and obtener("codfacultad" & RS.Fields("codfacultad"))<>"" then%><%=orden%><%else%><%=rs.Fields("orden")%><%end if%>;
-				datos[tabla][<%=contador%>][5]='';
-							
-		<%
+				datos[tabla][<%=contador%>][0]=<%=RS.Fields("IDCampañaPersona")%>;
+                <%
+				indicecampo=0
+				Do while not RS3.EOF
+				    indicecampo=indicecampo + 1
+   				    if RS3.Fields("FlagNroDocumento")=0 then
+				        RS2.Filter=" IDCampañaPersona=" & RS.Fields("IDCampañaPersona") & " and IDCampañaCampo=" & RS3.Fields("IDCampañaCampo") & " "
+    				    
+				        Select Case RS3.Fields("TipoCampo")
+				        case 1 
+				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS2.Fields("ValorTexto") & "';" & chr(10)
+				        case 2 
+				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorEntero") & ";" & chr(10)
+				        case 3 
+				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorFloat") & ";" & chr(10)
+				        case 4
+				                if not IsNull(RS2.Fields("ValorFecha")) then
+				                    valorfecha="new Date(" & Year(RS2.Fields("ValorFecha")) & "," & Month(RS2.Fields("ValorFecha"))-1 & "," & Day(RS2.Fields("ValorFecha")) & "," & Hour(RS2.Fields("ValorFecha")) & "," & Minute(RS2.Fields("ValorFecha")) & "," & Second(RS2.Fields("ValorFecha")) & ")"
+				                else
+				                    valorfecha="null"
+				                end if
+				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & valorfecha & ";" & chr(10)
+				        End Select
+				    else
+				        Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS.Fields("NroDocumento") & "';" & chr(10)
+				    end if
+				RS3.MoveNext 
+				Loop
+				RS3.MoveFirst				
+
 			contador=contador + 1
 			RS.MoveNext 
 			Loop 
@@ -265,8 +314,8 @@ if session("codusuario")<>"" then
 		%>
 			    
 		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
-		    piefunciones[tabla] = new Array('','','','','',''); 
+		    pievalores[tabla] = new Array('&nbsp;'<%=glosapie%>);
+		    piefunciones[tabla] = new Array(''<%=glosapiefunciones%>); 
 
 
 		    //Se escriben las opciones para los selects que contenga
@@ -282,9 +331,6 @@ if session("codusuario")<>"" then
 		    funcionagrega[tabla]='agregar();';
 
 		</script> 
-		
-		
-			
 		
 		<%if contador=0 then%>
 		
@@ -382,6 +428,8 @@ if session("codusuario")<>"" then
 	</script>
 	<%	
 	end if
+	RS2.Close
+	RS3.Close
 	desconectar
 else
 %>

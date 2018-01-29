@@ -1,0 +1,180 @@
+﻿/*
+ * Bootstrap v2.2.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+@font-face {
+      font-family: 'fontello';
+      src: url('../CSS/font/fontello.eot?47461301');
+      src: url('../CSS/font/fontello.eot?47461301#iefix') format('embedded-opentype'),
+           url('../CSS/font/fontello.woff?47461301') format('woff'),
+           url('../CSS/font/fontello.ttf?47461301') format('truetype'),
+           url('../CSS/font/fontello.svg?47461301#fontello') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+     
+     .demo-icon
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #d15027;
+     
+      display: inline-block;
+      text-decoration: inherit;
+      width: 1em;
+      margin-right: .2em;
+      text-align: center;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 0em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+
+     .demo-icon2
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #fff;
+     
+      display: inline-block;
+      text-decoration: none;
+      width: 1em;
+      margin-right: 0em;
+      text-align: right;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 3px;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+   
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    
+	
+	i>.icon-logout:hover{
+		background-color: #d15027;
+	}
+	
+	
+	.link-text-dark{
+		color:#d15027;
+		text-align:left !important;
+		
+	}
+	
+			
+A {
+	FONT-SIZE: 12px; COLOR: #d15027; FONT-FAMILY:"Raleway"; TEXT-DECORATION: none;
+}
+A:visited {
+	TEXT-DECORATION: none; COLOR: #d15027;
+}
+A:hover {
+	COLOR: #FE6D2E; FONT-FACE:"Raleway";  font-weight:bold; TEXT-DECORATION: none;
+}
+
+ 
+body{
+	background:#FFF;
+}
+
+
+TABLE{
+	border-width: 0px;
+	border-style: none;
+}
+TH {
+	color:#FFFFFF;
+	background: #CC3031;/*#007DC5;*/
+	font-size:12px;
+	font-family:"Raleway", sans-serif;
+	cursor:hand;
+}
+TD{
+	color:#d15027 !important;
+	font-family: "Raleway", sans-serif;
+	padding-left: 2px;
+}
+
+TR{
+	background: #FFFFFF;
+	height:21px;
+	width:auto !important;
+} 
+
+.text-user{
+	margin-top: 18px;
+}
+
+a.text-user:link{
+	TEXT-DECORATION: none;
+}
+
+
+
+.block {
+    text-align: center;
+    vertical-align: middle;
+}
+.circle {
+    background: #b5b5b5;
+    border-radius: 50%;
+    color: #d15027;
+    height: 45px;
+	text-align: center;
+    font-weight: bold;
+    width: 45px;
+    display: table;
+    margin: 12px auto;
+}
+.circle p {
+    vertical-align: middle;
+    display: table-cell;
+}
