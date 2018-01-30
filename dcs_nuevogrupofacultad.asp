@@ -120,32 +120,32 @@ if session("codusuario")<>"" then
 				}					
 			</script>
 			</head>
-			<body topmargin=0 leftmargin=0>
-				<table border=0 cellspacing=0 cellpadding=0 width=100% height=100%>
-					<form name=formula method=post action="dcs_nuevogrupofacultad.asp">					
+			<body topmargin="0" leftmargin="0">
+				<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+					<form name="formula" method="post" action="dcs_nuevogrupofacultad.asp">					
 						<tr class="fondo-red">	
-							<td class="text-withe" colspan=2>			
-								<font size=2 ><b>&nbsp;<b><%if codgrupofacultad="" then%>Nuevo <%end if%>Grupo Facultad</b></b></font>
+							<td class="text-withe" colspan="2">			
+								<font size="2" ><b>&nbsp;<b><%if codgrupofacultad="" then%>Nuevo <%end if%>Grupo Privilegio</b></b></font>
 							</td>
 						</tr>
 					<%if fechaReg<>"" then%>
-					<tr height=20>
-						<td class="text-orange label-registra" colspan=2 align=right><font size=1>Registró:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+					<tr height="20">
+						<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registró:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
 						<%if fechaMod<>"" then%><BR>Modificó:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
 					<tr>
-						<td class="text-orange" width=20%><font size=2>&nbsp;&nbsp;Descripción:</font></td>
-						<td><input name="descripcion" type=text maxlength=200 value="<%=descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+						<td class="text-orange" width="20%"><font size="2">&nbsp;&nbsp;Descripción:</font></td>
+						<td><input name="descripcion" type="text" maxlength="200" value="<%=descripcion%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td class="text-orange" width=20%><font size=2>&nbsp;&nbsp;Orden:</font></td>
-						<td><input name="orden" type=text maxlength=50 value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
+						<td class="text-orange" width="20%"><font size="2">&nbsp;&nbsp;Orden:</font></td>
+						<td><input name="orden" type="text" maxlength="50" value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
 					</tr>			
 					<tr class="fondo-red">					
-						<td><font size=2 >&nbsp;</font></td>
-						<td align=right height=40>
+						<td><font size="2" >&nbsp;</font></td>
+						<td align="right" height="40">
 							<%if codgrupofacultad="" then%>
 							<a href="javascript:agregar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
 							<%else%>

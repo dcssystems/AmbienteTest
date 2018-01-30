@@ -36,11 +36,11 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanaperfil=global_popup_IWTSystem(ventanaperfil,"nuevoperfil.asp?vistapadre=" + window.name + "&paginapadre=admperfil.asp&codperfil=" + codigo,"NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 650)/2 - 30) + ",height=650,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanaperfil=global_popup_IWTSystem(ventanaperfil,"dcs_nuevoperfil.asp?vistapadre=" + window.name + "&paginapadre=admperfil.asp&codperfil=" + codigo,"NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 650)/2 - 30) + ",height=650,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
-			ventanaperfil=global_popup_IWTSystem(ventanaperfil,"nuevoperfil.asp?vistapadre=" + window.name + "&paginapadre=admperfil.asp","NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 650)/2 - 30) + ",height=650,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanaperfil=global_popup_IWTSystem(ventanaperfil,"dcs_nuevoperfil.asp?vistapadre=" + window.name + "&paginapadre=admperfil.asp","NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 650)/2 - 30) + ",height=650,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}
 		function actualizar()
 		{
@@ -130,7 +130,7 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][0]='<input type=hidden name=codperfil-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][2]=objetodatos("text",tabla,"orden","right","7","");
-				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);">Editar</a>';
+				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
 												
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro

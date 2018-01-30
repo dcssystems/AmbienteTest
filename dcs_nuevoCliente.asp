@@ -18,28 +18,30 @@ if session("codusuario")<>"" then
 			existeCliente=0
 			
 			if idcliente<>"" then
-			sql="select count(*) from Cliente where RazonSocial='" & RazonSocial & "' and IDCliente<>" & idcliente 
+			sql="select count(*) from Cliente where RazonSocial = '" & RazonSocial & "' and IDCliente <>" & idcliente 
 			else
-			sql="select count(*) from Cliente where RazonSocial='" & RazonSocial & "'"
+			sql="select count(*) from Cliente where RazonSocial = '" & RazonSocial & "'"
 			end if
 			consultar sql,RS
 			existeCliente=RS.Fields(0)
 			RS.Close			
 			if existeCliente=0 then			
+
+
 				if obtener("agregardato")="1" then		
-					sql="insert into Cliente (RazonSocial,RUC,Direccion,Telefono,Email,Activo,UsuarioRegistra,FechaRegistra) values ('" & RazonSocial & "','" & RUC & "','" & Direccion & "','" & Telefono & "','" & Email & "', " & Activo & "," & session("codusuario") & ",getdate())"
+					sql="insert into Cliente (RazonSocial,RUC,Direccion,Telefono,Email,Activo,UsuarioRegistra,FechaRegistra)  values ('" & RazonSocial & "','" & RUC & "','" & Direccion & "','" & Telefono & "','" & Email & "', " & Activo & "," & session("codusuario") & ",getdate())"
 				else
-					sql="update Cliente set RazonSocial='" & RazonSocial & "',RUC='" & RUC & "',Direccion='" & Direccion & "',Telefono='" & Telefono & "',Email='" & Email & "',Activo=" & Activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where IDCliente = " & idcliente
+					sql="update Cliente set RazonSocial='" & RazonSocial & "',RUC='" & RUC & "',Direccion='" & Direccion & "',Telefono='" & Telefono & "',Email='" & Email & "',Activo=" & Activo & ",UsuarioModifica=" & session("codusuario") & ",fechamodifica=getdate() where IDCliente = " & idcliente
 				end if
-				''Response.Write sql
+				'Response.Write sql
 				conn.execute sql
 									
 				%>
 				<script language="javascript">
 					<%if obtener("agregardato")="1" then%>
-					//alert("Se agreg&oacute; el usuario correctamente.");
+					//alert("Se agreg&oacute; el Cliente correctamente.");
 					<%else%>
-					//alert("Se modific&oacute; el usuario correctamente.");
+					//alert("Se modific&oacute; el Cliente correctamente.");
 					<%end if%>				
 					<%if obtener("paginapadre")="dcs_admCliente.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
 					window.close();
@@ -67,14 +69,15 @@ if session("codusuario")<>"" then
 						"LEFT OUTER JOIN usuario C ON C.codusuario=A.UsuarioModifica " & _
 						"WHERE A.IDCliente = " & idcliente 
 					consultar sql,RS
-					razonsocial= rs.Fields("RazonSocial")	
-					ruc        = rs.Fields("RUC")
-					direccion  = rs.Fields("Direccion")	
-					telefono   = rs.Fields("Telefono")
-					activo     = rs.Fields("Activo")					
-					fechaReg   = RS.Fields("FechaRegistra")
+					RazonSocial= rs.Fields("RazonSocial")	
+					RUC        = rs.Fields("RUC")
+					Direccion  = rs.Fields("Direccion")	
+					Telefono   = rs.Fields("Telefono")
+					Activo     = rs.Fields("Activo")	
+					Email     = rs.Fields("Email")					
+					FechaRegistra   = RS.Fields("FechaRegistra")
 					usuarioReg = iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
-					fechaMod   = RS.Fields("FechaModifica")
+					FechaModifica   = RS.Fields("FechaModifica")
 					usuarioMod = iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
 					RS.Close
 			end if		
@@ -95,8 +98,9 @@ if session("codusuario")<>"" then
 				<%if idcliente="" then%>
 				function agregar()
 				{
-					if(trim(formula.descripcion.value)==""){alert("Debe ingresar una Descripci&oacute;n.");return;}
-					if(isNaN(trim(formula.orden.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
+					if(trim(formula.RazonSocial.value)==""){alert("Debe ingresar una Raz&oacute;n Social.");return;}
+					if(trim(formula.RUC.value)==""){alert("Debe ingresar un RUC.");return;}
+					if(!isEmailAddress(formula.Email)){alert("Debe ingresar un e-Mail v&aacute;lido.");return;}
 																		
 					document.formula.agregardato.value=1;
 					document.formula.submit();
@@ -104,8 +108,9 @@ if session("codusuario")<>"" then
 				<%else%>
 				function modificar()
 				{
-					if(trim(formula.descripcion.value)==""){alert("Debe ingresar una Descripci&oacute;n.");return;}
-					if(isNaN(trim(formula.orden.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
+				    if(trim(formula.RazonSocial.value)==""){alert("Debe ingresar una Raz&oacute;n Social.");return;}
+					if(trim(formula.RUC.value)==""){alert("Debe ingresar un RUC.");return;}
+					if(!isEmailAddress(formula.Email)){alert("Debe ingresar un e-Mail v&aacute;lido.");return;}
 					
 					document.formula.agregardato.value=2;
 					document.formula.submit();
@@ -140,37 +145,37 @@ if session("codusuario")<>"" then
 								<font size="2" ><b>&nbsp;<b><%if idcliente="" then%>Nuevo <%end if%>Cliente</b></b></font>
 							</td>
 						</tr>
-						<%if fechaReg<>"" then%>
+						<%if fechaRegistra<>"" then%>
 						<tr height="20">
-							<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
-							<%if fechaMod<>"" then%><BR>Modific&oacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
+							<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=FechaRegistra%></b>
+							<%if FechaModifica<>"" then%><BR>Modific&oacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 							</font></td>
 						</tr>
 						<%end if%>	
 						<!-- SECCION DEL FORMULARIO PARA CLIENTE -->						
 						<tr class="fondo-gris">
 							<td class="text-orange" width="30%"> Raz&oacute;n Social:</td>
-							<td><input name="razonsocial" type="text" maxlength="200" value="<%=razonsocial%>" style="font-size: xx-small; width: 200px;"></td>
+							<td><input name="RazonSocial" type="text" maxlength="200" value="<%=RazonSocial%>" style="font-size: xx-small; width: 200px;"></td>
 						</tr>
 						<tr>
 							<td class="text-orange" width="30%"><font size="2"> Documento de Identidad: </font></td>
-							<td><input name="ruc" type="text" maxlength="200" value="<%=ruc%>" style="font-size: xx-small; width: 200px; text-align: left"></td>
+							<td><input name="RUC" type="text" maxlength="200" value="<%=RUC%>" style="font-size: xx-small; width: 200px; text-align: left"></td>
 						</tr>
 						<tr class="fondo-gris">
 							<td class="text-orange" width="30%"><font size="2"> Direcci&oacute;n:</font></td>
-							<td><input name="direccion" type="text" maxlength="200" value="<%=direccion%>" style="font-size: xx-small; width: 200px;"></td>
+							<td><input name="Direccion" type="text" maxlength="200" value="<%=Direccion%>" style="font-size: xx-small; width: 200px;"></td>
 						</tr>
 						<tr>
 							<td class="text-orange" width="30%"><font size="2"> Tel&eacute;fono:</font></td>
-							<td><input name="telefono" type="text" maxlength="200" value="<%=telefono%>" style="font-size: xx-small; width: 200px; text-align: left"></td>
+							<td><input name="Telefono" type="text" maxlength="200" value="<%=Telefono%>" style="font-size: xx-small; width: 200px; text-align: left"></td>
 						</tr>
 						<tr class="fondo-gris">
 							<td class="text-orange" width="30%"><font size="2"> Email:</font></td>
-							<td><input name="email" type="text" maxlength="200" value="<%=email%>" style="font-size: xx-small; width: 200px;"></td>
+							<td><input name="Email" type="text" maxlength="200" value="<%=Email%>" style="font-size: xx-small; width: 200px;"></td>
 						</tr>
 						<tr>
 							<td class="text-orange" width="30%"><font size="2"> Activo:</font></td>
-							<td><input name="activo" type="checkbox" value="<%=activo%>" <%=iif(IsNull(activo), "", "checked")%>  /></td>
+							<td><input type=checkbox name="activo"  <%if activo=1 then%> checked<%end if%>></td>
 						</tr>				
 						
 						<!-- FRIN SECCION DEL FORMULARIO PARA CLIENTE -->

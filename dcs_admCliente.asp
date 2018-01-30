@@ -9,7 +9,7 @@ if session("codusuario")<>"" then
 		''Codigo exp excel - se repite
 		expimp=obtener("expimp")
 		if expimp="1" then
-			sql="select descripcion,valortexto1 from parametro where descripcion='RutaFisicaExportar' or descripcion='RutaWebExportar'"
+			sql="SELECT descripcion,valortexto1 FROM parametro WHERE descripcion='RutaFisicaExportar' OR descripcion='RutaWebExportar'"
 			consultar sql,RS
 			RS.Filter=" descripcion='RutaFisicaExportar'"
 			RutaFisicaExportar=RS.Fields(1)
@@ -120,7 +120,7 @@ if session("codusuario")<>"" then
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true, true);
-		    anchocolumna[tabla] =  new Array( '6%','15%', '20%' , '5%','6%' ,'5%','4%' ,'');
+		    anchocolumna[tabla] =  new Array( '6%','20%', '6%' , '30%','6%' ,'5%','4%' ,'');
 		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left');
@@ -171,15 +171,15 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " where (RazonSocial like '%" & buscador & "%' or RUC like '%" & buscador & "%' or Direccion like '%" & buscador & "%' or Email like '%" & buscador & "%') "
+			filtrobuscador = " WHERE (RazonSocial LIKE '%" & buscador & "%' OR RUC LIKE '%" & buscador & "%' OR Direccion LIKE '%" & buscador & "%' OR Email LIKE '%" & buscador & "%') "
 		end if
 		
 		if filtrobuscador<>"" then
-			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
+			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " AND "
 		end if		
 		
 		contadortotal=0
-		sql="select count(*) from Cliente " & filtrobuscador 
+		sql="SELECT COUNT(*) FROM Cliente " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -223,9 +223,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo from dbo.Cliente " & filtrobuscador1 & " IDCliente not in (select top " & topnovisible & " IDCliente from Cliente " & filtrobuscador & " order by IDCliente) order by IDCliente" 
+		sql="SELECT TOP " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo FROM Cliente " & filtrobuscador1 & " IDCliente NOT  IN (SELECT TOP " & topnovisible & " IDCliente FROM Cliente " & filtrobuscador & " ORDER BY IDCliente) ORDER BY IDCliente" 
 		else
-		sql="select top " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo from dbo.Cliente " & filtrobuscador1 & "  order by IDCliente" 
+		sql="SELECT TOP " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo FROM Cliente " & filtrobuscador1 & "  ORDER BY IDCliente" 
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -242,7 +242,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(activo) <> rs.Fields("activo") then
-							sql="update Cliente set Activo=" & Activo & "  where IDCliente=" & rs.Fields("IDCliente") 
+							sql="UPDATE Cliente SET Activo=" & Activo & " WHERE IDCliente=" & rs.Fields("IDCliente") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -342,31 +342,33 @@ if session("codusuario")<>"" then
 					''RS.Close					
 					''Para Exportar a Excel
 					''Primero Cabecera en temp1_(user).txt
-					consulta_exp="select 'Cod.Facultad','Grupo','Descripcion','Pagina','Orden'"
+					consulta_exp="SELECT  'IDCliente','RazonSocial','RUC','Direccion','Telefono','Email','Activo'"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="select f.IDCliente,g.descripcion,f.descripcion,f.pagina,f.orden " & _
-								 "from CobranzaCM.dbo.facultad f inner join CobranzaCM.dbo.grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.IDCliente" 
+					consulta_exp="SELECT IDCliente,RazonSocial,RUC,Direccion,Telefono,Email, " & _ 
+								"CASE WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS Activo " & _
+								"FROM DataCRMDirconTest.dbo.Cliente " & filtrobuscador & " " & _
+								"ORDER BY IDCliente" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
 
 					''Tercero borrar UserExport*.xls
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & "''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & "''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql					
 										
 					''Cuarto Uno los 2 archivos en temp*.txt
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''copy " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & " + " & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & " /b''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''copy " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & " + " & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & " /b''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql					
 					
 					''Quinto Elimino los 2 archivos en temp*.txt
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & "," & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & "''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & "," & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & "''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql										
 				%>

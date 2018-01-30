@@ -97,7 +97,7 @@ if session("codusuario")<>"" then
 		    tabla=0;
 		    orden[tabla]=2;
 		    ascendente[tabla]=true;
-		    nrocolumnas[tabla]=14;
+		    nrocolumnas[tabla]=11;
 		    fondovariable[tabla]='bgcolor=#f5f5f5';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
@@ -105,27 +105,28 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('codusuario','Usuario','Ap.Paterno','Ap.Materno','Nombres','e-Mail','Territorio','Oficina','Agencia','Tipo','Act','Bloq','Adm','Editar');
+
+		    cabecera[tabla] = new Array('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Flagbloqueo','Administrador','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(false, true, true ,true , true , true , true, true  , true , true , true  , true  , true   , true );
-		    anchocolumna[tabla] =  new Array( '',     '3%', '3%' , '3%' ,    '3%',    '4%' ,   '5%' ,    '5%',    '3%', '3%' , '3%'  , '3%' ,'3%','2%');
-		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left','left','left' ,'center'  , 'center','center','left');
-		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left','left','left' ,'center'  , 'center','center','left');
-		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left','left','left' ,'left'  , 'left','left','left');
-		    decimalesnumero[tabla] = new Array(-1 ,-1   ,-1      ,-1   ,-1 ,-1  ,-1    ,-1    ,-1    ,-1 ,-1    ,-1      ,-1,-1);
-		    formatofecha[tabla] =   new Array(''  ,''   ,''      ,''  ,'' ,'','','',   '', '', '',  '',     '',     '');
+		    columnavisible[tabla] = new Array(true, true, true ,true , true , true , true, true  , true , true  , true);
+		    anchocolumna[tabla] =  new Array( '',     '3%', '3%' , '3%' ,    '3%',    '4%' ,   '5%' ,    '5%',    '3%', '3%', '3%');
+		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left','left','left'  , 'center');
+		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left','left','left'   , 'center');
+		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left','left','left' , 'left');
+		    decimalesnumero[tabla] = new Array(-1 ,-1   ,-1      ,-1   ,-1 ,-1  ,-1    ,-1    ,-1    ,-1     ,-1 );
+		    formatofecha[tabla] =   new Array(''  ,''   ,''      ,''  ,'' ,'', '','',   '', '',  '');
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='';
-				objetofomulario[tabla][1]='<input type=hidden name=codusuario-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';//+ objetodatos("text",tabla,"usuario","left","6","");
-				objetofomulario[tabla][2]=objetodatos("text",tabla,"apepaterno","left","20","");
-				objetofomulario[tabla][3]=objetodatos("text",tabla,"apematerno","left","20","");
-				objetofomulario[tabla][4]=objetodatos("text",tabla,"nombres","left","20","");
-				objetofomulario[tabla][5]='<a href="javascript:modificar(-id-);">-valor-</a>';//objetodatos("text",tabla,"correo","left","22","");
+				objetofomulario[tabla][0]='<input type=hidden name=CodUsuario-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';//+ objetodatos("text",tabla,"usuario","left","6","");
+				objetofomulario[tabla][2]='<a href="javascript:modificar(-id-);">-valor-</a>'s;
+				objetofomulario[tabla][3]=objetodatos("text",tabla,"Nombres","left","20","");
+				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
+				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
 				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//territorio			
 				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';//oficina 
 				//Todo select me devuel: '<select name="' + nombre + '-id-" style="font-size: xx-small;" onchange="datos[-t-][-i-][-j-]=this.options[this.selectedIndex].text;"></select>';
