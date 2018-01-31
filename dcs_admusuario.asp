@@ -106,7 +106,7 @@ if session("codusuario")<>"" then
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
 
-		    cabecera[tabla] = new Array('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Flagbloqueo','Administrador','Editar');
+		    cabecera[tabla] = new Array('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Bloq','Administrador','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true , true , true , true, true  , true , true  , true);
@@ -127,18 +127,11 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][3]=objetodatos("text",tabla,"Nombres","left","20","");
 				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
 				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
-				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//territorio			
-				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';//oficina 
-				//Todo select me devuel: '<select name="' + nombre + '-id-" style="font-size: xx-small;" onchange="datos[-t-][-i-][-j-]=this.options[this.selectedIndex].text;"></select>';
-				//onchange="this.title=this.options[this.selectedIndex].text;this.alt=this.options[this.selectedIndex].text;"
-				//onmouseover="this.title=' + String.fromCharCode(39) + 'Agencia Seleccionada: ' + String.fromCharCode(39) + ' + this.options[this.selectedIndex].text;this.alt=' + String.fromCharCode(39) + 'Agencia Seleccionada: ' + String.fromCharCode(39) + ' + this.options[this.selectedIndex].text;"
-				//--objetofomulario[tabla][8]=objetodatos("select",tabla,"codagencia","","","").replace('style="font-size: xx-small;"','style="font-size: xx-small;width: 150px;"');
-				objetofomulario[tabla][8]='<a href="javascript:modificar(-id-);">-valor-</a>';//agencia
-				objetofomulario[tabla][9]='<a href="javascript:modificar(-id-);">-valor-</a>';//codtipousuario
-				objetofomulario[tabla][10]=objetodatos("checkbox",tabla,"activo","","","");
-				objetofomulario[tabla][11]=objetodatos("checkbox",tabla,"fbloq","","","");
-				objetofomulario[tabla][12]=objetodatos("checkbox",tabla,"administrador","","","");
-				objetofomulario[tabla][13]='<a href="javascript:modificar(-id-);">Editar</a>';
+				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//Correo
+				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"activo","","","");
+				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"fbloq","","","");
+				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"administrador","","","");
+				objetofomulario[tabla][10]='<a href="javascript:modificar(-id-);">Editar</a>';
 										
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
@@ -155,10 +148,7 @@ if session("codusuario")<>"" then
 				filtrofomulario[tabla][8]='';
 				filtrofomulario[tabla][9]='';
 				filtrofomulario[tabla][10]='';
-				filtrofomulario[tabla][11]='';
-				filtrofomulario[tabla][12]='';
-				filtrofomulario[tabla][13]='';
-										
+				
 					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
@@ -172,9 +162,7 @@ if session("codusuario")<>"" then
 				valorfiltrofomulario[tabla][8]='';
 				valorfiltrofomulario[tabla][9]='';
 				valorfiltrofomulario[tabla][10]='';
-				valorfiltrofomulario[tabla][11]='';
-				valorfiltrofomulario[tabla][12]='';
-				valorfiltrofomulario[tabla][13]='';
+				
 				
 
 
