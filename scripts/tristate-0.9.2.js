@@ -17,12 +17,12 @@ var CHECKED_NORM = 'CHECKED_NORM';
 var CHECKED_HILI = 'CHECKED_HILI';
 
 var DEFAULT_CONFIG = {
-	UNCHECKED_NORM : 'imagenes/unchecked.gif',
-	UNCHECKED_HILI : 'imagenes/unchecked_highlighted.gif',
-	INTERMEDIATE_NORM : 'imagenes/intermediate.gif',
-	INTERMEDIATE_HILI : 'imagenes/intermediate_highlighted.gif',
-	CHECKED_NORM : 'imagenes/checked.gif',
-	CHECKED_HILI : 'imagenes/checked_highlighted.gif'
+	UNCHECKED_NORM : '<i class="demo-icon icon-circle-empty">&#xf10c;</i>',
+	UNCHECKED_HILI : '<i class="demo-icon icon-circle-empty">&#xf10c;</i>',
+	INTERMEDIATE_NORM : '<i class="demo-icon icon-circle">&#xf111;</i>',
+	INTERMEDIATE_HILI : '<i class="demo-icon icon-circle">&#xf111;</i>',
+	CHECKED_NORM : '<i class="demo-icon icon-dot-circled">&#xf192;</i>',
+	CHECKED_HILI : '<i class="demo-icon icon-dot-circled">&#xf192;</i>'
 };
 
 function getNextStateFromValue(theValue) {

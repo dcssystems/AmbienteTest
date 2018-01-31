@@ -35,7 +35,7 @@ if session("codusuario")<>"" then
 			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
 			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
 		<script language="javascript" src="scripts/TablaDinamica.js"></script>
-		<script type="text/javascript" src="scripts/tristate-0.9.2.js" ></script>
+		<script type="text/javascript" src="scripts/bootstrap-checkbox.js" ></script>
 		<script language="javascript">
 		var ventanauser;
 		function inicio()
@@ -177,36 +177,36 @@ if session("codusuario")<>"" then
 		''end if		
 		
 		select case buscaractivos
-		case "0" : 
-					checkbuscactivos="value='0'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.activo=0"
-		case "2" : 
-					checkbuscactivos="value='2'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.activo=1"
-		case else: 
-					checkbuscactivos="value='1'"
+			case "0" : 
+						checkbuscactivos="value='0'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.activo=0"
+			case "2" : 
+						checkbuscactivos="value='2'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.activo=1"
+			case else: 
+						checkbuscactivos="value='1'"
 		end select		
 		
 		select case buscarbloqueados
-		case "0" : 
-					checkbuscbloqueados="value='0'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.flagbloqueo=0"
-		case "2" : 
-					checkbuscbloqueados="value='2'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.flagbloqueo=1"
-		case else: 
-					checkbuscbloqueados="value='1'"
+			case "0" : 
+						checkbuscbloqueados="value='0'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.flagbloqueo=0"
+			case "2" : 
+						checkbuscbloqueados="value='2'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.flagbloqueo=1"
+			case else: 
+						checkbuscbloqueados="value='1'"
 		end select		
 		
 		select case buscaradministrador
-		case "0" : 
-					checkbuscadministrador="value='0'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.administrador=0"
-		case "2" : 
-					checkbuscadministrador="value='2'"
-					filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.administrador=1"
-		case else: 
-					checkbuscadministrador="value='1'"
+			case "0" : 
+						checkbuscadministrador="value='0'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.administrador=0"
+			case "2" : 
+						checkbuscadministrador="value='2'"
+						filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.administrador=1"
+			case else: 
+						checkbuscadministrador="value='1'"
 		end select		
 		
 								
