@@ -123,7 +123,7 @@ if session("codusuario")<>"" then
 		    objetofomulario[tabla] = new Array();
 				objetofomulario[tabla][0]='<input type=hidden name=CodUsuario-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';//+ objetodatos("text",tabla,"usuario","left","6","");
-				objetofomulario[tabla][2]='<a href="javascript:modificar(-id-);">-valor-</a>'s;
+				objetofomulario[tabla][2]='<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][3]=objetodatos("text",tabla,"Nombres","left","20","");
 				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
 				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
@@ -434,7 +434,10 @@ if session("codusuario")<>"" then
 		</script> 
 		
 		<%
-        objetosdebusqueda="<font size='2' face='Arial' >Buscar:&nbsp;<input name='buscador' value='" & buscador & "' size=20 onkeypress='if(window.event.keyCode==13) buscar();'></font>&nbsp;<span id='tristateBox1' style='cursor: default;'>&nbsp;Activos<input type='hidden' id='tristateBox1State' name='buscaractivos' " & checkbuscactivos & "></span>&nbsp;<span id='tristateBox2' style='cursor: default;'>&nbsp;Bloqueados<input type='hidden' id='tristateBox2State' name='buscarbloqueados' " & checkbuscbloqueados & "></span>&nbsp;<span id='tristateBox3' style='cursor: default;'>&nbsp;Administrador<input type='hidden' id='tristateBox3State' name='buscaradministrador' " & checkbuscadministrador & "></span>"
+		objetosdebusqueda="<font size='2' face='Arial' >Buscar:&nbsp;<input name='buscador' value='" & buscador & "' size=20 onkeypress='if(window.event.keyCode==13) buscar();'></font>&nbsp; " & _
+				<span id='tristateBox1' style='cursor: default;'>&nbsp;Activos<input type='hidden' id='tristateBox1State' name='buscaractivos' " & checkbuscactivos & "></span>&nbsp; " & _
+				<span id='tristateBox2' style='cursor: default;'>&nbsp;Bloqueados<input type='hidden' id='tristateBox2State' name='buscarbloqueados' " & checkbuscbloqueados & "></span>&nbsp; " & _
+				<span id='tristateBox3' style='cursor: default;'>&nbsp;Administrador<input type='hidden' id='tristateBox3State' name='buscaradministrador' " & checkbuscadministrador & "></span>"
 		%>	
 		
 		<%if contador=0 then%>
@@ -443,7 +446,7 @@ if session("codusuario")<>"" then
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
 							<td class="text-orange"><font size="2" face="Raleway" ><b>Usuarios (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
-							<td class="text-orange" align="middle" width="250"><%=objetosdebusqueda%></td>
+							<td class="text-orange" align="middle" width="530"><%=objetosdebusqueda%></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border="0" alt="Buscar" title="Buscar" align="middle"></a></td>
 						</tr>
 					</table>			
