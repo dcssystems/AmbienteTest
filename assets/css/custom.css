@@ -11,6 +11,14 @@
  */
 
 @font-face {
+  font-family: 'Helvetica Neue';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Helvetica Neue'), local('HelveticaNeue'), url(http://themes.googleusercontent.com/licensed/font?kit=Lx1xfUTR4qFjwg0Z_pb900DGSpWewu0sZH-jqLz8Q00) format('truetype');
+}
+ 
+ 
+@font-face {
       font-family: 'fontello';
       src: url('../CSS/font/fontello.eot?45893396');
       src: url('../CSS/font/fontello.eot?45893396#iefix') format('embedded-opentype'),
@@ -138,6 +146,45 @@
       /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
     }
 	
+	
+	.demo-icon4
+    {
+      font-family: "fontello";
+      font-style: normal;
+      font-weight: normal;
+      speak: none;
+      color: #5b1516;
+	  cursor:pointer;
+	  float:left;
+     
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      font-size: 17px;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: 0em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+	
 	i>.icon-logout:hover{
 		background-color: #d15027;
 	}
@@ -203,10 +250,14 @@ A:hover {
 	background:#FFFFFF;
 }
 
-body{
-	background:#FFF;
+body {
+    color: #73879C;
+    background:#FFF;
+    font-family: "Helvetica Neue", Roboto, Arial, sans-serif !important;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.471
 }
-
 
 TABLE{
 	border-width: 0px;
@@ -244,5 +295,11 @@ a.text-user:hover{
 	TEXT-DECORATION: none;
 }
 
+.btn-search-circle{
+	margin-top:7px;
+	display:block;
+	float:right;
+	margin-right:12px;
+}
 
 

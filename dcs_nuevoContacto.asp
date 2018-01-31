@@ -4,12 +4,12 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("dcs_admfacultad.asp") then
+	if permisoCliente_Contacto("dcs_admContacto.asp") then
 	buscador=obtener("buscador")	
-	codfacultad=obtener("codfacultad")
+	idClienteContacto=obtener("idClienteContacto")
 		if obtener("agregardato")<>"" then
-		codgrupofacultad=obtener("codgrupofacultad")
-		descripcion=obtener("descripcion")
+		IDCliente=obtener("IDCliente")
+		Nombres=obtener("Nombres")
 		pagina=obtener("pagina")
 		orden=obtener("orden")
 		if not isNumeric(orden) then
@@ -17,21 +17,21 @@ if session("codusuario")<>"" then
 		end if						
 										
 									
-			existefacultad=0
+			existeCliente_Contacto=0
 			
-			if codfacultad<>"" then
-			sql="select count(*) from facultad where descripcion='" & descripcion & "' and codfacultad<>" & codfacultad & " and codgrupofacultad=" & codgrupofacultad 
+			if idClienteContacto<>"" then
+			sql="select count(*) from Cliente_Contacto where Nombres='" & Nombres & "' and idClienteContacto<>" & idClienteContacto & " and IDCliente=" & IDCliente 
 			else
-			sql="select count(*) from facultad where descripcion='" & descripcion & "' and codgrupofacultad=" & codgrupofacultad 
+			sql="select count(*) from Cliente_Contacto where Nombres='" & Nombres & "' and IDCliente=" & IDCliente 
 			end if
 			consultar sql,RS
-			existefacultad=RS.Fields(0)
+			existeCliente_Contacto=RS.Fields(0)
 			RS.Close			
-			if existefacultad=0 then			
+			if existeCliente_Contacto=0 then			
 				if obtener("agregardato")="1" then		
-				sql="insert into facultad (codgrupofacultad,descripcion,pagina,orden,usuarioregistra,fecharegistra) values (" & codgrupofacultad & ",'" & descripcion & "','" & pagina & "','" & orden & "'," & session("codusuario") & ",getdate())"
+				sql="insert into Cliente_Contacto (IDCliente,Nombres,Cargo,Telefono,Email,usuarioregistra,fecharegistra) values (" & IDCliente & ",'" & Nombres & "','" & Cargo & "','" & Telefono & "','" & Email & "'," & session("codusuario") & ",getdate())"
 				else
-					sql="update facultad set codgrupofacultad=" & codgrupofacultad & ",descripcion='" & descripcion & "',pagina='" & pagina & "',orden=" & orden & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codfacultad=" & codfacultad
+					sql="update Cliente_Contacto set IDCliente=" & IDCliente & ",Nombres='" & Nombres & "',Cargo='" & Cargo & "',Telefono=" & Telefono & ", Email=" & Email & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where idClienteContacto=" & idClienteContacto
 				end if
 				''Response.Write sql
 				conn.execute sql
@@ -43,7 +43,7 @@ if session("codusuario")<>"" then
 					<%else%>
 					//alert("Se modificó el usuario correctamente.");
 					<%end if%>				
-					<%if obtener("paginapadre")="dcs_admfacultad.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
+					<%if obtener("paginapadre")="dcs_admContacto.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
 					window.close();
 				</script>			
 				<%
@@ -56,13 +56,15 @@ if session("codusuario")<>"" then
 			<%				
 			end if
 		else
-			if codfacultad<>"" then
-					sql="select A.*,B.nombres as Nombreusureg, B.apepaterno as Apepatusureg, B.apematerno as Apematusureg, C.nombres as Nombreusumod,C.apepaterno as Apepatusumod, C.apematerno as Apematusumod from facultad A inner join usuario B on B.codusuario=A.usuarioregistra left outer join usuario C on C.codusuario=A.usuariomodifica where a.codfacultad = " & codfacultad
+			if idClienteContacto<>"" then
+					sql="select cc.IDClienteContacto,c.IDCliente,cc.Nombres,cc.Cargo,cc.Telefono,cc.Email,cc.Activo from Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente where cc.IDClienteContacto " & idClienteContacto
 					consultar sql,RS
-					descripcion=rs.Fields("descripcion")
-					codgrupofacultad=rs.Fields("codgrupofacultad")		
-					pagina=rs.Fields("pagina")		
-					orden=rs.Fields("orden")
+					Nombres=rs.Fields("Nombres")
+					IDCliente=rs.Fields("IDCliente")		
+					Cargo=rs.Fields("Cargo")		
+					Telefono=rs.Fields("Telefono")
+					Email=rs.Fields("Email")
+					Activo=rs.Fields("Activo")
 					fechaReg=RS.Fields("fecharegistra")
 					usuarioReg=iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
 					fechaMod=RS.Fields("fechamodifica")
@@ -73,7 +75,7 @@ if session("codusuario")<>"" then
 		<!--Ojo esta ventana siempre es flotante-->
 		<html>
 		<head>
-			<title><%if codfacultad="" then%>Nuevo <%end if%>Privilegio</title>
+			<title><%if idClienteContacto="" then%>Nuevo <%end if%>Contacto</title>
 			
 			<link rel="stylesheet" href="assets/css/css/animation.css"/>
 			<link rel="stylesheet" href="assets/css/custom.css" />
@@ -83,12 +85,12 @@ if session("codusuario")<>"" then
 			<script language="javascript" src="scripts/popcalendar.js"></script> 
 			<script language="javascript">
 				var limpioclave=0;
-				<%if codfacultad="" then%>
+				<%if idClienteContacto="" then%>
 				function agregar()
 				{
-					if(trim(formula.descripcion.value)==""){alert("Debe ingresar una Descripción.");return;}
-					if(trim(formula.pagina.value)==""){alert("Debe asignar un link.");return;}
-					if(isNaN(trim(formula.orden.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
+					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una Descripción.");return;}
+					if(trim(formula.Cargo.value)==""){alert("Debe asignar un link.");return;}
+					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
 																		
 					document.formula.agregardato.value=1;
 					document.formula.submit();
@@ -96,9 +98,9 @@ if session("codusuario")<>"" then
 				<%else%>
 				function modificar()
 				{
-					if(trim(formula.descripcion.value)==""){alert("Debe ingresar una Descripción.");return;}
-					if(trim(formula.pagina.value)==""){alert("Debe asignar un link.");return;}
-					if(isNaN(trim(formula.orden.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
+					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una Descripción.");return;}
+					if(trim(formula.Cargo.value)==""){alert("Debe asignar un link.");return;}
+					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
 					
 					document.formula.agregardato.value=2;
 					document.formula.submit();
@@ -127,10 +129,10 @@ if session("codusuario")<>"" then
 		</head>
 		<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
-				<form name="formula" method="post" action="dcs_nuevofacultad.asp">					
+				<form name="formula" method="post" action="dcs_nuevoCliente_Contacto.asp">					
 					<tr class="fondo-red">	
 						<td class="text-withe" colspan="2">			
-							<font size="2"><b>&nbsp;<b><%if codfacultad="" then%>Nuevo <%end if%>Privilegio</b></b></font>
+							<font size="2"><b>&nbsp;<b><%if idClienteContacto="" then%>Nuevo <%end if%>Contacto</b></b></font>
 						</td>
 					</tr>
 					<%if fechaReg<>"" then%>
@@ -141,19 +143,19 @@ if session("codusuario")<>"" then
 					</tr>	
 					<%end if%>						
 					<tr>
-						<td class="text-orange" width="20%"><font  size="2">Descripción:</font></td>
-						<td><input name="descripcion" type=text maxlength=200 value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+						<td class="text-orange" width="20%"><font  size="2">Nombres:</font></td>
+						<td><input name="Nombres" type=text maxlength=200 value="<%=Nombres%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
-						<td class="text-orange"><font size="2">Grupo:</font></td>
+						<td class="text-orange"><font size="2">Cliente:</font></td>
 						<td>
-							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
+							<select name="IDCliente" style="font-size: xx-small; width: 200px;">
 							<%
-							sql = "select codgrupofacultad, descripcion from grupofacultad order by orden"
+							sql = "select IDCliente, RazonSocial from Cliente order by IDCliente"
 							consultar sql,RS
 							Do While Not  RS.EOF
 							%>
-								<option value="<%=RS.Fields("codgrupofacultad")%>" <% if codgrupofacultad<>"" then%><% if RS.fields("codgrupofacultad")=int(codgrupofacultad) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
+								<option value="<%=RS.Fields("IDCliente")%>" <% if IDCliente<>"" then%><% if RS.fields("IDCliente")=int(IDCliente) then%> selected<%end if%><%end if%>><%=RS.Fields("RazonSocial")%></option>
 							<%
 							RS.MoveNext
 							loop
@@ -173,7 +175,7 @@ if session("codusuario")<>"" then
 					<tr class="fondo-red">					
 						<td><font size="2" >&nbsp;</font></td>
 						<td align="right" height="40">
-							<%if codfacultad="" then%>
+							<%if idClienteContacto="" then%>
 							<a href="javascript:agregar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
 							<%else%>
 							<a href="javascript:modificar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
@@ -183,7 +185,7 @@ if session("codusuario")<>"" then
 					</tr>
 
 							<input type="hidden" name="agregardato" value="">
-							<input type="hidden" name="codfacultad" value="<%=codfacultad%>">
+							<input type="hidden" name="idClienteContacto" value="<%=idClienteContacto%>">
 							<input type="hidden" name="vistapadre" value="<%=obtener("vistapadre")%>">
 							<input type="hidden" name="paginapadre" value="<%=obtener("paginapadre")%>">
 						</form>	
