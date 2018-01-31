@@ -128,9 +128,9 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
 				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
 				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//Correo
-				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"activo","","","");
-				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"fbloq","","","");
-				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"administrador","","","");
+				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"Activo","","","");
+				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"FlagBloqueo","","","");
+				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"Administrador","","","");
 				objetofomulario[tabla][10]='<a href="javascript:modificar(-id-);">Editar</a>';
 										
 					
