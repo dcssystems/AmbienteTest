@@ -17,7 +17,7 @@ if session("codusuario")<>"" then
 		<head>
 			<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
 			<link rel="stylesheet" href="assets/css/css/animation.css">
-			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">	
+			
 			
 			<link rel="shortcut icon" href="http://192.168.1.7/ambientetest/imagenes/favicon.ico">
 			

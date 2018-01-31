@@ -17,12 +17,18 @@ var CHECKED_NORM = 'CHECKED_NORM';
 var CHECKED_HILI = 'CHECKED_HILI';
 
 var DEFAULT_CONFIG = {
-	UNCHECKED_NORM : 'imagenes/unchecked.gif',
+	UNCHECKED_NORM : '<i class="demo-icon icon-circle-empty">&#xf10c;</i>',
+	UNCHECKED_HILI : '<i class="demo-icon icon-circle-empty">&#xf10c;</i>',
+	INTERMEDIATE_NORM : '<i class="demo-icon icon-circle">&#xf111;</i>',
+	INTERMEDIATE_HILI : '<i class="demo-icon icon-circle">&#xf111;</i>',
+	CHECKED_NORM : '<i class="demo-icon icon-dot-circled">&#xf192;</i>',
+	CHECKED_HILI : '<i class="demo-icon icon-dot-circled">&#xf192;</i>'
+	/*UNCHECKED_NORM : 'imagenes/unchecked.gif',
 	UNCHECKED_HILI : 'imagenes/unchecked_highlighted.gif',
 	INTERMEDIATE_NORM : 'imagenes/intermediate.gif',
 	INTERMEDIATE_HILI : 'imagenes/intermediate_highlighted.gif',
 	CHECKED_NORM : 'imagenes/checked.gif',
-	CHECKED_HILI : 'imagenes/checked_highlighted.gif'
+	CHECKED_HILI : 'imagenes/checked_highlighted.gif'*/
 };
 
 function getNextStateFromValue(theValue) {
@@ -30,6 +36,7 @@ function getNextStateFromValue(theValue) {
 	if (theValue == STATE_ALL) { return STATE_NONE; }
 	return STATE_SOME;
 }
+
 function getStateFromValue(theValue, highlightedState) {
 	if (theValue == STATE_SOME) { return (!highlightedState) ? INTERMEDIATE_NORM : INTERMEDIATE_HILI; }
 	if (theValue == STATE_ALL) { return (!highlightedState) ? CHECKED_NORM : CHECKED_HILI; }
@@ -65,11 +72,13 @@ function getAllCheckboxesInContainer(triStateBoxContainerNodeId) {
 	
 	return checkboxes;
 }
+
 function selectOrUnselectBoxes(checkBoxes, selectBoxes) {
 	for (var x in checkBoxes) {
 		checkBoxes[x].checked = selectBoxes;
 	}
 }
+
 function areAllBoxesInGivenCheckedState(checkBoxes, boxesSelected) {
 	var result = true;
 	for (var x = 0; x < checkBoxes.length; x++) {
@@ -87,6 +96,7 @@ function replaceImage(imageId, imageSrc) {
 		image.src = imageSrc;
 	}
 }
+
 function mouseOverOutOfImage(imageId, mouseOverMode) {
 	
 	var fieldAndContainerIds = getFieldAndContainerIds(imageId);
@@ -95,18 +105,21 @@ function mouseOverOutOfImage(imageId, mouseOverMode) {
 	var currentState = getStateFromValue(triStateBoxField.value, mouseOverMode);
 	return DEFAULT_CONFIG[currentState];
 }
+
 function onMouseOverImage(imageId) {
 	return function() {
 		var imageSrc = mouseOverOutOfImage(imageId, true);
 		replaceImage(imageId, imageSrc)
 	};
 }
+
 function onMouseOutImage(imageId) { 
 	return function() {
 		var imageSrc = mouseOverOutOfImage(imageId, false);
 		replaceImage(imageId, imageSrc)
 	};
 }
+
 function onTristateImageClick(imageId, standAloneMode) {
 	return function() {
 		var fieldAndContainerIds = getFieldAndContainerIds(imageId);
@@ -127,6 +140,7 @@ function onTristateImageClick(imageId, standAloneMode) {
 		replaceImage(imageId, imageSrc)
 	}
 }
+
 function onCheckboxClick(imageId, checkBoxId) {
 	return function() {
 		var fieldAndContainerIds = getFieldAndContainerIds(imageId);
@@ -153,6 +167,7 @@ function updateStateAndImage(allTheCheckboxes, triStateBoxField, imageId) {
 	var imageSrc = mouseOverOutOfImage(imageId, false);
 	replaceImage(imageId, imageSrc);
 }
+
 function createHiddenStateField(triStateBoxNode, triStateBoxFieldId) {
 	var triStateBoxField = document.createElement('input');
 	triStateBoxField.id = triStateBoxFieldId;
@@ -161,6 +176,7 @@ function createHiddenStateField(triStateBoxNode, triStateBoxFieldId) {
 	triStateBoxNode.appendChild(triStateBoxField);
 	return triStateBoxField;
 }
+
 function createTriStateImageNode(triStateBoxNode, imageNodeId, standAloneMode) {
 	var imageNode = new Image();
 	imageNode.id = imageNodeId;
@@ -176,6 +192,7 @@ function createTriStateImageNode(triStateBoxNode, imageNodeId, standAloneMode) {
 		triStateBoxNode.attachEvent('onclick', onTristateImageClick(imageNode.id, standAloneMode));
 	}
 }
+
 function createFieldNameHiddenField(triStateBoxNode, fieldNameNodeId, triStateBoxFieldId) {
 	var fieldNode = document.createElement('input');
 	fieldNode.id = fieldNameNodeId;
@@ -183,6 +200,7 @@ function createFieldNameHiddenField(triStateBoxNode, fieldNameNodeId, triStateBo
 	fieldNode.value = triStateBoxFieldId;
 	triStateBoxNode.appendChild(fieldNode);
 }
+
 function createContainerNameHiddenField(triStateBoxNode, containerNameNodeId, triStateBoxContainerId) {
 	var containerNode = document.createElement('input');
 	containerNode.id = containerNameNodeId;
@@ -190,6 +208,7 @@ function createContainerNameHiddenField(triStateBoxNode, containerNameNodeId, tr
 	containerNode.value = triStateBoxContainerId;
 	triStateBoxNode.appendChild(containerNode);
 }
+
 function attachOnclickEventsToDependentBoxes(triStateBoxContainerId, imageNodeId) {
 	var allTheCheckboxes = getAllCheckboxesInContainer(triStateBoxContainerId);
 	for (var x in allTheCheckboxes) {
@@ -202,6 +221,7 @@ function attachOnclickEventsToDependentBoxes(triStateBoxContainerId, imageNodeId
 	}
 	return allTheCheckboxes;
 }
+
 function initTriStateCheckBox(triStateBoxId, containerOrStateFieldId, standAloneMode) {
 
 	var triStateBoxNode = document.getElementById(triStateBoxId);

@@ -26,9 +26,14 @@
 .icon-resize-vertical:before { content: '\e818'; } /* '' */
 .icon-down:before { content: '\e819'; } /* '' */
 .icon-up:before { content: '\e81a'; } /* '' */
+.icon-stop:before { content: '\e81b'; } /* '' */
 .icon-menu:before { content: '\f008'; } /* '' */
 .icon-sort:before { content: '\f0dc'; } /* '' */
 .icon-coffee:before { content: '\f0f4'; } /* '' */
+.icon-circle-empty:before { content: '\f10c'; } /* '' */
+.icon-circle:before { content: '\f111'; } /* '' */
+.icon-ok-squared:before { content: '\f14a'; } /* '' */
 .icon-pencil-squared:before { content: '\f14b'; } /* '' */
+.icon-dot-circled:before { content: '\f192'; } /* '' */
 .icon-file-excel:before { content: '\f1c3'; } /* '' */
 .icon-user-circle:before { content: '\f2bd'; } /* '' */
