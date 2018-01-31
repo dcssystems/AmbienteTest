@@ -369,25 +369,21 @@ if session("codusuario")<>"" then
 					
 					end if 
 
-										
+		'''('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Bloq','Administrador','Editar');								
 		%>
 			datos[tabla][<%=contador%>] = new Array();
 				datos[tabla][<%=contador%>][0]=<%=RS.Fields("codusuario")%>;
 				//datos[tabla][<%=contador%>][1]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=usuario%><%else%><%=rs.Fields("Usuario")%><%end if%>';
 				datos[tabla][<%=contador%>][1]='<%=rs.Fields("Usuario")%>';
-			    datos[tabla][<%=contador%>][2]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=apepaterno%><%else%><%=rs.Fields("apepaterno")%><%end if%>';
-				datos[tabla][<%=contador%>][3]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=apematerno%><%else%><%=rs.Fields("apematerno")%><%end if%>';
-				datos[tabla][<%=contador%>][4]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=nombres%><%else%><%=rs.Fields("nombres")%><%end if%>';
-				datos[tabla][<%=contador%>][5]='<%=rs.Fields("correo")%>';				
-				datos[tabla][<%=contador%>][6]='<%=replace(iif(IsNull(rs.Fields("Territorio")),"",rs.Fields("Territorio"))," ","&nbsp;")%>'
-				datos[tabla][<%=contador%>][7]='<%=replace(iif(IsNull(rs.Fields("Oficina")),"",rs.Fields("Oficina"))," ","&nbsp;")%>';
-				//datos[tabla][<%=contador%>][8]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=nomagencia%><%else%><%=rs.Fields("agencia")%><%end if%>';
-				datos[tabla][<%=contador%>][8]='<%=replace(iif(IsNull(rs.Fields("Agencia")),"",rs.Fields("Agencia"))," ","&nbsp;")%>';
-				datos[tabla][<%=contador%>][9]='<%=rs.Fields("TipoUsuario")%>';
-				datos[tabla][<%=contador%>][10]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][11]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(fbloq)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("fbloq")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][12]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(administrador)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("administrador")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][13]='';
+			    datos[tabla][<%=contador%>][2]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=Clave%><%else%><%=rs.Fields("Clave")%><%end if%>';
+				datos[tabla][<%=contador%>][3]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=Nombres%><%else%><%=rs.Fields("Nombres")%><%end if%>';
+				datos[tabla][<%=contador%>][4]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApePaterno%><%else%><%=rs.Fields("ApePaterno")%><%end if%>';
+				datos[tabla][<%=contador%>][5]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApeMaterno%><%else%><%=rs.Fields("ApeMaterno")%><%end if%>';		
+				datos[tabla][<%=contador%>][6]='<%=rs.Fields("Correo")%>';	
+				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][8]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(FlagBloqueo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("FlagBloqueo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][9]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Administrador)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Administrador")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][10]='';
 		<%
 			contador=contador + 1
 			RS.MoveNext 
