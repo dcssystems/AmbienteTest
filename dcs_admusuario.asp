@@ -93,7 +93,7 @@ if session("codusuario")<>"" then
 		
 		<script language="javascript">
 			rutaimgcab="imagenes/"; 
-		  //Configuración general de datos de tabla 0
+		  //ConfiguraciÃ³n general de datos de tabla 0
 		    tabla=0;
 		    orden[tabla]=2;
 		    ascendente[tabla]=true;
@@ -106,7 +106,7 @@ if session("codusuario")<>"" then
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
 
-		    cabecera[tabla] = new Array('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Flagbloqueo','Administrador','Editar');
+		    cabecera[tabla] = new Array('CodUsuario','Usuario','Clave','Nombres','ApePaterno','ApeMaterno','Correo','Activo','Bloq','Administrador','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true , true , true , true, true  , true , true  , true);
@@ -127,18 +127,11 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][3]=objetodatos("text",tabla,"Nombres","left","20","");
 				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
 				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
-				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//territorio			
-				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';//oficina 
-				//Todo select me devuel: '<select name="' + nombre + '-id-" style="font-size: xx-small;" onchange="datos[-t-][-i-][-j-]=this.options[this.selectedIndex].text;"></select>';
-				//onchange="this.title=this.options[this.selectedIndex].text;this.alt=this.options[this.selectedIndex].text;"
-				//onmouseover="this.title=' + String.fromCharCode(39) + 'Agencia Seleccionada: ' + String.fromCharCode(39) + ' + this.options[this.selectedIndex].text;this.alt=' + String.fromCharCode(39) + 'Agencia Seleccionada: ' + String.fromCharCode(39) + ' + this.options[this.selectedIndex].text;"
-				//--objetofomulario[tabla][8]=objetodatos("select",tabla,"codagencia","","","").replace('style="font-size: xx-small;"','style="font-size: xx-small;width: 150px;"');
-				objetofomulario[tabla][8]='<a href="javascript:modificar(-id-);">-valor-</a>';//agencia
-				objetofomulario[tabla][9]='<a href="javascript:modificar(-id-);">-valor-</a>';//codtipousuario
-				objetofomulario[tabla][10]=objetodatos("checkbox",tabla,"activo","","","");
-				objetofomulario[tabla][11]=objetodatos("checkbox",tabla,"fbloq","","","");
-				objetofomulario[tabla][12]=objetodatos("checkbox",tabla,"administrador","","","");
-				objetofomulario[tabla][13]='<a href="javascript:modificar(-id-);">Editar</a>';
+				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//Correo
+				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"activo","","","");
+				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"fbloq","","","");
+				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"administrador","","","");
+				objetofomulario[tabla][10]='<a href="javascript:modificar(-id-);">Editar</a>';
 										
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
@@ -155,10 +148,7 @@ if session("codusuario")<>"" then
 				filtrofomulario[tabla][8]='';
 				filtrofomulario[tabla][9]='';
 				filtrofomulario[tabla][10]='';
-				filtrofomulario[tabla][11]='';
-				filtrofomulario[tabla][12]='';
-				filtrofomulario[tabla][13]='';
-										
+				
 					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
@@ -172,9 +162,7 @@ if session("codusuario")<>"" then
 				valorfiltrofomulario[tabla][8]='';
 				valorfiltrofomulario[tabla][9]='';
 				valorfiltrofomulario[tabla][10]='';
-				valorfiltrofomulario[tabla][11]='';
-				valorfiltrofomulario[tabla][12]='';
-				valorfiltrofomulario[tabla][13]='';
+				
 				
 
 
@@ -224,7 +212,7 @@ if session("codusuario")<>"" then
 								
 				
 		contadortotal=0
-		sql="select count(*) from usuario A left outer join agencia B on A.codagencia=B.codagencia left outer join oficina C on A.codoficina=C.codoficina left outer join territorio D on C.codterritorio=D.codterritorio left outer join TipoUsuario E on A.codtipousuario=E.codtipousuario " & filtrobuscador 
+		sql="select count(*) from usuario " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		RS.Close
@@ -268,12 +256,12 @@ if session("codusuario")<>"" then
 			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
 		end if
 		
+
+
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " A.*,B.razonsocial as agencia,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,CASE WHEN FlagBloqueo<3 THEN 0 ELSE 1 END as FBloq,E.Descripcion as TipoUsuario " & _
-			"from usuario A left outer join agencia B on A.codagencia=B.codagencia left outer join oficina C on A.codoficina=C.codoficina left outer join territorio D on C.codterritorio=D.codterritorio left outer join TipoUsuario E on A.codtipousuario=E.codtipousuario where " & filtrobuscador1 & " A.codusuario not in (select top " & topnovisible & " A.codusuario from usuario A left outer join agencia B on A.codagencia=B.codagencia left outer join oficina C on A.codoficina=C.codoficina left outer join territorio D on C.codterritorio=D.codterritorio left outer join TipoUsuario E on A.codtipousuario=E.codtipousuario " & filtrobuscador & " order by A.apepaterno,A.apematerno,A.nombres,A.codusuario) order by A.apepaterno,A.apematerno,A.nombres,A.codusuario" 
+		sql="select top " & cantidadxpagina & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario where " & filtrobuscador1 & " codusuario not in (select top " & topnovisible & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario " & filtrobuscador & " order by ApePaterno,ApeMaterno,Nombres,CodUsuario) order by ApePaterno,ApeMaterno,Nombres,CodUsuario" 
 		else
-		sql="select top " & cantidadxpagina & " A.*,B.razonsocial as agencia,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,CASE WHEN FlagBloqueo<3 THEN 0 ELSE 1 END as FBloq,E.Descripcion as TipoUsuario " & _
-			"from usuario A left outer join agencia B on A.codagencia=B.codagencia left outer join oficina C on A.codoficina=C.codoficina left outer join territorio D on C.codterritorio=D.codterritorio left outer join TipoUsuario E on A.codtipousuario=E.codtipousuario " & filtrobuscador & " order by A.apepaterno,A.apematerno,A.nombres,A.codusuario" 
+		sql="select top " & cantidadxpagina & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario " & filtrobuscador & " order by ApePaterno,ApeMaterno,Nombres,CodUsuario" 
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -408,8 +396,8 @@ if session("codusuario")<>"" then
 		%>
 			    
 		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
-		    piefunciones[tabla] = new Array('','','','','','','','','','','','','',''); 
+		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
+		    piefunciones[tabla] = new Array('','','','','','','','','','',''); 
 
 
 		    //Se escriben las opciones para los selects que contenga
@@ -474,7 +462,7 @@ if session("codusuario")<>"" then
 							<!--<td bgcolor="#F5F5F5" align=left><font size=2 face=Raleway color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
 							<td class="text-orange" align="middle" width="250"><%=objetosdebusqueda%></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
-							<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+							<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
 						</tr>	
 					</table>
 					<div id="tabla0"> 
@@ -525,7 +513,7 @@ if session("codusuario")<>"" then
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="select A.Usuario,A.apepaterno,A.apematerno,A.nombres,A.correo,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,B.razonsocial as agencia,E.Descripcion as TipoUsuario,CASE WHEN A.Activo=1 THEN 'Sí' ELSE 'No' END as FlagActivo,CASE WHEN A.FlagBloqueo<3 THEN 'No' ELSE  'Sí' END as FlagBloqueo,CASE WHEN A.Administrador=1 THEN 'Sí' ELSE  'No' END as FlagAdmin " & _
+					consulta_exp="select A.Usuario,A.apepaterno,A.apematerno,A.nombres,A.correo,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,B.razonsocial as agencia,E.Descripcion as TipoUsuario,CASE WHEN A.Activo=1 THEN 'SÃ­' ELSE 'No' END as FlagActivo,CASE WHEN A.FlagBloqueo<3 THEN 'No' ELSE  'SÃ­' END as FlagBloqueo,CASE WHEN A.Administrador=1 THEN 'SÃ­' ELSE  'No' END as FlagAdmin " & _
 								 "from CobranzaCM.dbo.usuario A left outer join CobranzaCM.dbo.agencia B on A.codagencia=B.codagencia left outer join CobranzaCM.dbo.oficina C on A.codoficina=C.codoficina left outer join CobranzaCM.dbo.territorio D on C.codterritorio=D.codterritorio left outer join CobranzaCM.dbo.TipoUsuario E on A.codtipousuario=E.codtipousuario " & filtrobuscador & " order by A.apepaterno,A.apematerno,A.nombres,A.codusuario" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
@@ -558,7 +546,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorización para este proceso.");
+		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
 		window.open("dcs_userexpira.asp","_top");
 	</script>
 	<%	
