@@ -97,7 +97,7 @@ if session("codusuario")<>"" then
 		    tabla=0;
 		    orden[tabla]=2;
 		    ascendente[tabla]=true;
-		    nrocolumnas[tabla]=11;
+		    nrocolumnas[tabla]=12;
 		    fondovariable[tabla]='bgcolor=#f5f5f5';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
