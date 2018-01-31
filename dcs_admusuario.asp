@@ -34,16 +34,10 @@ if session("codusuario")<>"" then
 			<link rel="stylesheet" href="assets/css/custom.css" />
 			
 			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
-<<<<<<< HEAD
-		<script language="javascript" src="scripts/TablaDinamica.js"></script>
-		<script type="text/javascript" src="scripts/bootstrap-checkbox.js" ></script>
-		<script language="javascript">
-=======
 			<script src="assets/jquery/dist/jquery.js"></script>
 			<script language="javascript" src="scripts/TablaDinamica.js"></script>
 			<script type="text/javascript" src="scripts/bootstrap-checkbox.js" ></script>
 			<script language="javascript">
->>>>>>> 428dad2435e1aa67fb3bcd6246e759ddded56a47
 		var ventanauser;
 		function inicio()
 		{
