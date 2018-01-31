@@ -9,7 +9,7 @@ if session("codusuario")<>"" then
 		''Codigo exp excel - se repite
 		expimp=obtener("expimp")
 		if expimp="1" then
-			sql="select descripcion,valortexto1 from parametro where descripcion='RutaFisicaExportar' or descripcion='RutaWebExportar'"
+			sql="SELECT descripcion,valortexto1 FROM parametro WHERE descripcion='RutaFisicaExportar' OR descripcion='RutaWebExportar'"
 			consultar sql,RS
 			RS.Filter=" descripcion='RutaFisicaExportar'"
 			RutaFisicaExportar=RS.Fields(1)
@@ -165,15 +165,18 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " where (f.codfacultad like '%" & buscador & "%' or f.descripcion like '%" & buscador & "%' or g.descripcion like '%" & buscador & "%' or f.orden like '%" & buscador & "%') "
+			filtrobuscador = " WHERE (p.codfacultad LIKE '%" & buscador & "%' OR p.descripcion LIKE '%" & buscador & "%' OR g.descripcion LIKE '%" & buscador & "%' OR p.orden like '%" & buscador & "%') "
 		end if
 		
 		if filtrobuscador<>"" then
-			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
+			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " AND "
 		end if		
 		
 		contadortotal=0
-		sql="select count(*) from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador 
+		sql="SELECT COUNT(*) " & _
+			"FROM facultad p " & _
+			"INNER JOIN grupofacultad g " & _
+			"ON p.codgrupofacultad = g.codgrupofacultad " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -218,9 +221,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad where " & filtrobuscador1 & " f.codfacultad not in (select top " & topnovisible & " f.codfacultad from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad) order by f.codfacultad" 
+		sql="SELECT TOP " & cantidadxpagina & " *,p.descripcion AS descrip, g.descripcion AS grupo, p.orden FROM facultad p INNER JOIN grupofacultad g ON p.codgrupofacultad = g.codgrupofacultad WHERE " & filtrobuscador1 & " p.codfacultad NOT IN (SELECT TOP " & topnovisible & " p.codfacultad FROM facultad p INNER JOIN grupofacultad g ON p.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " ORDER BY p.codfacultad) ORDER BY p.codfacultad" 
 		else
-		sql="select top " & cantidadxpagina & " *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad" 
+		sql="SELECT TOP " & cantidadxpagina & " *,p.descripcion AS descrip, g.descripcion AS grupo, p.orden FROM facultad p INNER JOIN grupofacultad g ON p.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " ORDER BY p.codfacultad" 
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -240,7 +243,7 @@ if session("codusuario")<>"" then
 									
 					
 						if 	obtener("pagina" & RS.Fields("codfacultad")) <> rs.Fields("pagina") or obtener("orden" & RS.Fields("codfacultad")) <> rs.Fields("orden")then
-							sql="update facultad set pagina='" & pagina & "',usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate(), orden ="& orden &" where codfacultad=" & rs.Fields("codfacultad") 
+							sql="UPDATE facultad SET pagina='" & pagina & "',usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate(), orden ="& orden &" WHERE codfacultad=" & rs.Fields("codfacultad") 
 							''response.write sql
 							conn.Execute sql
 						end if
@@ -292,7 +295,7 @@ if session("codusuario")<>"" then
 			<form name="formula" method="post">
 				<table width="100%" cellpadding="4" cellspacing="0">	
 					<tr class="fondo-orange">
-						<td class="text-orange"><font size="2" face="Raleway"><b>Facultad (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a></td>
+						<td class="text-orange"><font size="2" face="Raleway"><b>Privilegio (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a></td>
 						<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 						<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
 					</tr>
@@ -303,7 +306,7 @@ if session("codusuario")<>"" then
 			<form name="formula" method="post">
 				<table width="100%" cellpadding="4" cellspacing="0" border="0">		
 					<tr class="fondo-orange">
-						<td class="text-orange" align="left"><font size="2" face="Raleway"><b>Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align="middle"></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
+						<td class="text-orange" align="left"><font size="2" face="Raleway"><b>Privilegio (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align="middle"></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
 						<!--<td bgcolor="#F5F5F5" align="left"><font size="2" face="Raleway" color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align="middle"></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align="middle"></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
 						<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 						<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
@@ -339,31 +342,34 @@ if session("codusuario")<>"" then
 					''RS.Close					
 					''Para Exportar a Excel
 					''Primero Cabecera en temp1_(user).txt
-					consulta_exp="select 'Cod.Facultad','Grupo','Descripcion','Pagina','Orden'"
+					consulta_exp="SELECT 'Cod.Privilegio','Grupo','Descripción','Página','Orden'"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="select f.codfacultad,g.descripcion,f.descripcion,f.pagina,f.orden " & _
-								 "from CobranzaCM.dbo.facultad f inner join CobranzaCM.dbo.grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad" 
+					consulta_exp="SELECT p.codfacultad,g.descripcion,p.descripcion,p.pagina,p.orden " & _
+								 "FROM DataCRMDirconTest.dbo.facultad p " & _
+								 "INNER JOIN DataCRMDirconTest.dbo.grupofacultad g " & _
+								 "ON p.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & _
+								 "ORDER BY p.codfacultad"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
 
 					''Tercero borrar UserExport*.xls
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & "''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & "''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql					
 										
 					''Cuarto Uno los 2 archivos en temp*.txt
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''copy " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & " + " & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & " /b''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''copy " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & " + " & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & RutaFisicaExportar & "\UserExport" & session("codusuario") & ".xls" & chr(34) & " /b''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql					
 					
 					''Quinto Elimino los 2 archivos en temp*.txt
 					sql="DECLARE @sql VARCHAR(8000) " & chr(10) & _
-						"set @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & "," & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & "''' " & chr(10) & _
+						"SET @sql='master.dbo.xp_cmdshell ''del " & chr(34) & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt" & chr(34) & "," & chr(34) & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt" & chr(34) & " " & chr(34) & "''' " & chr(10) & _
 						"EXEC (@sql)"	
 					conn.execute sql										
 				%>

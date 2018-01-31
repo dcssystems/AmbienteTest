@@ -125,54 +125,54 @@ if session("codusuario")<>"" then
 				}					
 			</script>
 		</head>
-		<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF">
-			<table border=0 cellspacing=0 cellpadding=0 width=100% height=100%>
-				<form name=formula method=post action="dcs_nuevofacultad.asp">					
-					<tr>	
-						<td bgcolor="#F5F5F5" colspan=2>			
-							<font size=2 color=#483d8b ><b>&nbsp;<b><%if codfacultad="" then%>Nueva <%end if%>Facultad</b></b></font>
+		<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
+			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+				<form name="formula" method="post" action="dcs_nuevofacultad.asp">					
+					<tr class="fondo-red">	
+						<td class="text-withe" colspan="2">			
+							<font size="2"><b>&nbsp;<b><%if codfacultad="" then%>Nuevo <%end if%>Privilegio</b></b></font>
 						</td>
 					</tr>
 					<%if fechaReg<>"" then%>
-					<tr height=20>
-						<td colspan=2 align=right><font size=1 color=#483d8b>Registró:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+					<tr class="fondo-gris" height="25">
+						<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registró:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
 						<%if fechaMod<>"" then%><BR>Modificó:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
 					<tr>
-						<td width=20%><font  size=2 color=#483d8b>&nbsp;&nbsp;Descripción:</font></td>
+						<td class="text-orange" width="20%"><font  size="2">Descripción:</font></td>
 						<td><input name="descripcion" type=text maxlength=200 value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-					<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Grupo:</font></td>
-					<td bgcolor="#f5f5f5">
-						<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
-						<%
-						sql = "select codgrupofacultad, descripcion from grupofacultad order by orden"
-						consultar sql,RS
-						Do While Not  RS.EOF
-						%>
-						<option value="<%=RS.Fields("codgrupofacultad")%>" <% if codgrupofacultad<>"" then%><% if RS.fields("codgrupofacultad")=int(codgrupofacultad) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
-						<%
-						RS.MoveNext
-						loop
-						RS.Close
-						%>
-						</select>
+					<tr class="fondo-gris">
+						<td class="text-orange"><font size="2">Grupo:</font></td>
+						<td>
+							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
+							<%
+							sql = "select codgrupofacultad, descripcion from grupofacultad order by orden"
+							consultar sql,RS
+							Do While Not  RS.EOF
+							%>
+								<option value="<%=RS.Fields("codgrupofacultad")%>" <% if codgrupofacultad<>"" then%><% if RS.fields("codgrupofacultad")=int(codgrupofacultad) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
+							<%
+							RS.MoveNext
+							loop
+							RS.Close
+							%>
+							</select>
 						</td>
 					</tr>
 					<tr>
-						<td width=30%><font  size=2 color=#483d8b>&nbsp;&nbsp;Link:</font></td>
-						<td><input name="pagina" type=text maxlength=200 value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
+						<td class="text-orange" width="30%"><font size="2" >P&aacute;gina:</font></td>
+						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-						<td bgcolor="#f5f5f5" width=30%><font  size=2 color=#483d8b>&nbsp;&nbsp;Orden:</font></td>
-						<td bgcolor="#f5f5f5"><input name="orden" type=text maxlength=50 value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
+					<tr class="fondo-gris">
+						<td class="text-orange" width="30%"><font size="2">Orden:</font></td>
+						<td><input name="orden" type="text" maxlength="50" value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
 					</tr>			
-					<tr class="fondo-orange">					
-						<td><font size=2 >&nbsp;</font></td>
-						<td align=right height=40>
+					<tr class="fondo-red">					
+						<td><font size="2" >&nbsp;</font></td>
+						<td align="right" height="40">
 							<%if codgrupofacultad="" then%>
 							<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
 							<%else%>
