@@ -245,7 +245,7 @@ if session("codusuario")<>"" then
 				<tr>
 					<td><img src="imagenes/dcs_logo_agua.png" alt="Direct Contact Solutions" title="Direct Contact Solutions" height="80"></td>
 					<td style="padding-right: 590px; padding-left: 150px;" class="link-text-dark" valign="middle"><font face="Raleway" size="4"><b> NOMBRE POR DEFINIR - CRM DCS </b></font></td>
-					<td style="padding-left: 30px;" class="link-text-dark" align="right" valign="bottom">
+					<td style="padding-left: 30px; float: right !important;" class="link-text-dark" align="right" valign="bottom">
 						<table border="0" cellpadding="2" cellspacing="0">
 							<tr>								
 								<td>
