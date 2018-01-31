@@ -435,17 +435,12 @@ if session("codusuario")<>"" then
 		</script> 
 		
 		<%
-<<<<<<< HEAD
+
 			objetosdebusqueda="<font size='2' face='Arial' >Buscar:&nbsp;<input name='buscador' value='" & buscador & "' size=20 onkeypress='if(window.event.keyCode==13) buscar();'></font>&nbsp;" & _			
 			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox3State' style='display:block;float:left;' name='buscaradministrador' " & checkbuscadministrador & "><span id='tristateBox3' style='cursor: default; float:right'>&nbsp;Admin.</span>&nbsp;</div>" & _
 			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox2State' style='display:block;float:left;' name='buscarbloqueados' " & checkbuscbloqueados & "><span id='tristateBox2' style='cursor: default; float:right'>&nbsp;Bloq.</span>&nbsp;</div>" & _
 			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox1State' style='display:block;float:left;' name='buscaractivos' " & checkbuscactivos & "><span id='tristateBox1' style='cursor: default; float:right'>&nbsp;Act.</span>&nbsp;</div>"
-=======
-		objetosdebusqueda="<font size='2' face='Arial' >Buscar:&nbsp;<input name='buscador' value='" & buscador & "' size=20 onkeypress='if(window.event.keyCode==13) buscar();'></font>&nbsp; " & _
-				<span id='tristateBox1' style='cursor: default;'>&nbsp;Activos<input type='hidden' id='tristateBox1State' name='buscaractivos' " & checkbuscactivos & "></span>&nbsp; " & _
-				<span id='tristateBox2' style='cursor: default;'>&nbsp;Bloqueados<input type='hidden' id='tristateBox2State' name='buscarbloqueados' " & checkbuscbloqueados & "></span>&nbsp; " & _
-				<span id='tristateBox3' style='cursor: default;'>&nbsp;Administrador<input type='hidden' id='tristateBox3State' name='buscaradministrador' " & checkbuscadministrador & "></span>"
->>>>>>> 96e8932e082465495a9291986545164aef0478a7
+
 		%>	
 		
 		<%if contador=0 then%>
@@ -454,11 +449,8 @@ if session("codusuario")<>"" then
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
 							<td class="text-orange"><font size="2" face="Raleway" ><b>Usuarios (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
-<<<<<<< HEAD
 							<td class="text-orange" align="middle" width="750"><%=objetosdebusqueda%></td>
-=======
-							<td class="text-orange" align="middle" width="530"><%=objetosdebusqueda%></td>
->>>>>>> 96e8932e082465495a9291986545164aef0478a7
+
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border="0" alt="Buscar" title="Buscar" align="middle"></a></td>
 						</tr>
 					</table>			
