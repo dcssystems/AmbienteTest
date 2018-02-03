@@ -4,7 +4,7 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("dcs_admContacto.asp") then
+	if permisofacultad("dcs_admCliente.asp") then
 		buscador=obtener("buscador")
 		''Codigo exp excel - se repite
 		expimp=obtener("expimp")
@@ -53,11 +53,11 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoContacto.asp?vistapadre=" + window.name + "&paginapadre=dcs_admContacto.asp&IDClienteContacto=" + codigo,"NewClienteContacto","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp&IDCliente=" + codigo,"NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoContacto.asp?vistapadre=" + window.name + "&paginapadre=dcs_admContacto.asp","NewClienteContacto","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp","NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}
 		function actualizar()
 		{
@@ -116,11 +116,11 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('ID','Cliente','Nombres','Cargo','Telefono','Email','Activo','Editar');
+		    cabecera[tabla] = new Array('IDCliente','Raz&oacute;n Social','RUC','Direcci&oacute;n','Telefono','Email','Activo','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true, true);
-		    anchocolumna[tabla] =  new Array( '4%','15%', '20%' , '15%','6%' ,'5%','4%' ,'');
+		    anchocolumna[tabla] =  new Array( '6%','20%', '6%' , '30%','6%' ,'5%','4%' ,'');
 		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left');
@@ -131,7 +131,7 @@ if session("codusuario")<>"" then
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=IDClienteContacto-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][0]='<input type=hidden name=IDCliente-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][2]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][3]='<a href=javascript:modificar("-id-");>-valor-</a>';
@@ -171,7 +171,7 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " WHERE (cc.Nombres LIKE '%" & buscador & "%' OR cc.Cargo LIKE '%" & buscador & "%' OR cc.Telefono LIKE '%" & buscador & "%' OR cc.Email LIKE '%" & buscador & "%' OR c.RazonSocial LIKE '%" & buscador & "%') "
+			filtrobuscador = " WHERE (RazonSocial LIKE '%" & buscador & "%' OR RUC LIKE '%" & buscador & "%' OR Direccion LIKE '%" & buscador & "%' OR Email LIKE '%" & buscador & "%') "
 		end if
 		
 		if filtrobuscador<>"" then
@@ -179,7 +179,7 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		sql="SELECT COUNT(*) FROM  Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente " & filtrobuscador 
+		sql="SELECT COUNT(*) FROM Cliente " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -223,18 +223,18 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " cc.IDClienteContacto, c.RazonSocial, cc.Nombres, cc.Cargo, cc.Telefono, cc.Email, cc.Activo FROM  Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente " & filtrobuscador1 & " cc.IDClienteContacto NOT  IN (SELECT TOP " & topnovisible & " cc.IDClienteContacto FROM  Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente  " & filtrobuscador & " ORDER BY cc.IDClienteContacto) ORDER BY cc.IDClienteContacto" 
+		sql="SELECT TOP " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo FROM Cliente " & filtrobuscador1 & " IDCliente NOT  IN (SELECT TOP " & topnovisible & " IDCliente FROM Cliente " & filtrobuscador & " ORDER BY IDCliente) ORDER BY IDCliente" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " cc.IDClienteContacto, c.RazonSocial, cc.Nombres, cc.Cargo, cc.Telefono, cc.Email, cc.Activo FROM  Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente  " & filtrobuscador1 & "  ORDER BY cc.IDClienteContacto" 
+		sql="SELECT TOP " & cantidadxpagina & " IDCliente, RazonSocial, RUC, Direccion, Telefono, Email, Activo FROM Cliente " & filtrobuscador1 & "  ORDER BY IDCliente" 
 		end if
 		''response.write sql
 		consultar sql,RS
 		contador=0
 		
 			Do while not RS.EOF 
-				if obtener("actualizarlista")<>"" and obtener("IDClienteContacto" & RS.Fields("IDClienteContacto"))<>"" then
+				if obtener("actualizarlista")<>"" and obtener("IDCliente" & RS.Fields("IDCliente"))<>"" then
 					
-					if obtener("Activo" & RS.Fields("IDClienteContacto"))<>"" then
+					if obtener("Activo" & RS.Fields("IDCliente"))<>"" then
 						Activo="1"
 					else
 						Activo="0"
@@ -242,7 +242,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(activo) <> rs.Fields("activo") then
-							sql="UPDATE Cliente_Contacto SET Activo=" & Activo & " WHERE IDClienteContacto=" & rs.Fields("IDClienteContacto") 
+							sql="UPDATE Cliente SET Activo=" & Activo & " WHERE IDCliente=" & rs.Fields("IDCliente") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -251,13 +251,13 @@ if session("codusuario")<>"" then
 										
 		%>
 			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDClienteContacto")%>';
+				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDCliente")%>';
 				datos[tabla][<%=contador%>][1]='<%=rs.Fields("RazonSocial")%>';
-				datos[tabla][<%=contador%>][2]='<%=rs.Fields("Nombres")%>';
-				datos[tabla][<%=contador%>][3]='<%=rs.Fields("Cargo")%>';
+				datos[tabla][<%=contador%>][2]='<%=rs.Fields("RUC")%>';
+				datos[tabla][<%=contador%>][3]='<%=rs.Fields("Direccion")%>';
 				datos[tabla][<%=contador%>][4]='<%=rs.Fields("Telefono")%>';
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("Email")%>';
-				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDClienteContacto" & RS.Fields("IDClienteContacto"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
+				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCliente" & RS.Fields("IDCliente"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
 				datos[tabla][<%=contador%>][7]='';
 							
 		<%

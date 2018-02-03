@@ -224,13 +224,13 @@
 */
 		
 A {
-	FONT-SIZE: 12px; COLOR: #5b1516; FONT-FAMILY:"Raleway"; TEXT-DECORATION: none;
+	FONT-SIZE: 12px; COLOR: #5b1516; TEXT-DECORATION: none;
 }
 A:visited {
 	TEXT-DECORATION: none; COLOR: #00529B;
 }
 A:hover {
-	COLOR: #FE6D2E; FONT-FACE:"Raleway";  font-weight:bold; TEXT-DECORATION: none;
+	COLOR: #FE6D2E; font-weight:bold; TEXT-DECORATION: none;
 }
 
 
@@ -253,7 +253,7 @@ A:hover {
 body {
     color: #73879C;
     background:#FFF;
-    font-family: "Helvetica Neue", Roboto, Arial, sans-serif !important;
+    font-family: "Fira Sans Condensed", Roboto, Arial, sans-serif !important;
     font-size: 13px;
     font-weight: 400;
     line-height: 1.471
@@ -272,7 +272,6 @@ TH {
 }
 TD{
 	color:#5b1516 !important;
-	font-family: "Raleway", sans-serif;
 	padding-left: 2px;
 	font-size: 12px;
 }

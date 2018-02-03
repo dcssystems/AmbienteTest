@@ -4,17 +4,16 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisoCliente_Contacto("dcs_admContacto.asp") then
+	if permisofacultad("dcs_admContacto.asp") then
 	buscador=obtener("buscador")	
 	idClienteContacto=obtener("idClienteContacto")
 		if obtener("agregardato")<>"" then
 		IDCliente=obtener("IDCliente")
 		Nombres=obtener("Nombres")
-		pagina=obtener("pagina")
-		orden=obtener("orden")
-		if not isNumeric(orden) then
-			orden="0"
-		end if						
+		Cargo=obtener("Cargo")
+		Telefono=obtener("Telefono")
+		Email=obtener("Email")
+		if obtener("Activo")<>"" then Activo=1 else Activo=0 end if						
 										
 									
 			existeCliente_Contacto=0
@@ -29,9 +28,9 @@ if session("codusuario")<>"" then
 			RS.Close			
 			if existeCliente_Contacto=0 then			
 				if obtener("agregardato")="1" then		
-				sql="insert into Cliente_Contacto (IDCliente,Nombres,Cargo,Telefono,Email,usuarioregistra,fecharegistra) values (" & IDCliente & ",'" & Nombres & "','" & Cargo & "','" & Telefono & "','" & Email & "'," & session("codusuario") & ",getdate())"
+				sql="insert into Cliente_Contacto (IDCliente,Nombres,Cargo,Telefono,Email,Activo,usuarioregistra,fecharegistra) values (" & IDCliente & ",'" & Nombres & "','" & Cargo & "','" & Telefono & "','" & Email & "',"& Activo & ","& session("codusuario") & ",getdate())"
 				else
-					sql="update Cliente_Contacto set IDCliente=" & IDCliente & ",Nombres='" & Nombres & "',Cargo='" & Cargo & "',Telefono=" & Telefono & ", Email=" & Email & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where idClienteContacto=" & idClienteContacto
+					sql="update Cliente_Contacto set IDCliente=" & IDCliente & ",Nombres='" & Nombres & "',Cargo='" & Cargo & "',Telefono='" & Telefono & "', Email='" & Email & "', Activo = "& Activo &",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where idClienteContacto=" & idClienteContacto
 				end if
 				''Response.Write sql
 				conn.execute sql
@@ -39,9 +38,9 @@ if session("codusuario")<>"" then
 				%>
 				<script language="javascript">
 					<%if obtener("agregardato")="1" then%>
-					//alert("Se agregó el usuario correctamente.");
+					//alert("Se agregÃ³ el usuario correctamente.");
 					<%else%>
-					//alert("Se modificó el usuario correctamente.");
+					//alert("Se modificÃ³ el usuario correctamente.");
 					<%end if%>				
 					<%if obtener("paginapadre")="dcs_admContacto.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
 					window.close();
@@ -57,10 +56,10 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if idClienteContacto<>"" then
-					sql="select cc.IDClienteContacto,c.IDCliente,cc.Nombres,cc.Cargo,cc.Telefono,cc.Email,cc.Activo from Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente where cc.IDClienteContacto " & idClienteContacto
+					sql="select cc.* ,u.nombres as Nombreusumod,u.apepaterno as Apepatusumod, u.apematerno as Apematusumod, B.nombres as Nombreusureg, B.apepaterno as Apepatusureg, B.apematerno as Apematusureg from Cliente_Contacto cc inner join Cliente c on cc.IDCliente = c.IDCliente inner join usuario B on b.codusuario = cc.Usuarioregistra left outer join  Usuario u on u.CodUsuario = cc.UsuarioModifica where cc.IDClienteContacto =" & idClienteContacto
 					consultar sql,RS
 					Nombres=rs.Fields("Nombres")
-					IDCliente=rs.Fields("IDCliente")		
+					IDCliente=rs.Fields("IDCliente")
 					Cargo=rs.Fields("Cargo")		
 					Telefono=rs.Fields("Telefono")
 					Email=rs.Fields("Email")
@@ -88,19 +87,21 @@ if session("codusuario")<>"" then
 				<%if idClienteContacto="" then%>
 				function agregar()
 				{
-					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una Descripción.");return;}
+					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una DescripciÃ³n.");return;}
 					if(trim(formula.Cargo.value)==""){alert("Debe asignar un link.");return;}
-					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
-																		
+					if(!isEmailAddress(formula.Email)){alert("Debe ingresar un e-Mail v&aacute;lido.");return;}
+					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El.Telefono debe ser un dato numÃ©rico.");return;}
+					
 					document.formula.agregardato.value=1;
 					document.formula.submit();
 				}
 				<%else%>
 				function modificar()
 				{
-					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una Descripción.");return;}
+					if(trim(formula.Nombres.value)==""){alert("Debe ingresar una DescripciÃ³n.");return;}
 					if(trim(formula.Cargo.value)==""){alert("Debe asignar un link.");return;}
-					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El orden debe ser un dato numérico.");return;}
+					if(!isEmailAddress(formula.Email)){alert("Debe ingresar un e-Mail v&aacute;lido.");return;}
+					if(isNaN(trim(formula.Telefono.value.replace(",","")))){alert("El.Telefono debe ser un dato numÃ©rico.");return;}
 					
 					document.formula.agregardato.value=2;
 					document.formula.submit();
@@ -129,7 +130,7 @@ if session("codusuario")<>"" then
 		</head>
 		<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
-				<form name="formula" method="post" action="dcs_nuevoCliente_Contacto.asp">					
+				<form name="formula" method="post" action="dcs_nuevoContacto.asp">					
 					<tr class="fondo-red">	
 						<td class="text-withe" colspan="2">			
 							<font size="2"><b>&nbsp;<b><%if idClienteContacto="" then%>Nuevo <%end if%>Contacto</b></b></font>
@@ -137,8 +138,8 @@ if session("codusuario")<>"" then
 					</tr>
 					<%if fechaReg<>"" then%>
 					<tr class="fondo-gris" height="25">
-						<td class="text-orange label-registra" colspan="2" align="right"><font size="1">Registró:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
-						<%if fechaMod<>"" then%><BR>Modificó:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
+						<td class="text-orange label-registra" colspan="2" align="right"><font size="1">RegistrÃ³:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+						<%if fechaMod<>"" then%><BR>ModificÃ³:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
@@ -165,22 +166,30 @@ if session("codusuario")<>"" then
 						</td>
 					</tr>
 					<tr>
-						<td class="text-orange" width="30%"><font size="2" >P&aacute;gina:</font></td>
-						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
+						<td class="text-orange" width="30%"><font size="2" >Cargo:</font></td>
+						<td><input name="Cargo" type="text" maxlength="200" value="<%=Cargo%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
-						<td class="text-orange" width="30%"><font size="2">Orden:</font></td>
-						<td><input name="orden" type="text" maxlength="50" value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
+						<td class="text-orange" width="30%"><font size="2">Telefono:</font></td>
+						<td><input name="Telefono" type="text" maxlength="50" value="<%=Telefono%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
 					</tr>			
+					<tr >
+						<td class="text-orange" width="30%"><font size="2">Email:</font></td>
+						<td><input name="Email" type="text" maxlength="200" value="<%=Email%>" style="font-size: xx-small; width: 200px; text-align: left;"></td>
+					</tr>	
+					<tr class="fondo-gris">
+							<td class="text-orange" width="30%"><font size="2"> Activo:</font></td>
+							<td><input type=checkbox name="activo"  <%if activo=1 then%> checked<%end if%>></td>
+					</tr>	
 					<tr class="fondo-red">					
 						<td><font size="2" >&nbsp;</font></td>
 						<td align="right" height="40">
 							<%if idClienteContacto="" then%>
 							<a href="javascript:agregar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
 							<%else%>
-							<a href="javascript:modificar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
+							<a href="javascript:modificar();"><i class="demo-icon icon-floppy">&#xe809;</i></ia>&nbsp;
 							<%end if%>
-							<a href="javascript:window.close();"><i class="logout demo-icon icon-logout">&#xe800;</i></a>&nbsp;
+							<a href="javascript:window.close();"><i class="logout demo-icon icon-logout">&#xe800;</></a>&nbsp;
 						</td>					
 					</tr>
 
@@ -197,7 +206,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorización para este proceso.");
+		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	
