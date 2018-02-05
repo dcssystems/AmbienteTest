@@ -286,7 +286,6 @@ if session("codusuario")<>"" then
 							      "INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
 							      "WHERE activo=1 "&_
 								  "ORDER BY descripcion"
-							"
 						end if
 						consultar sql,RS
 						Do While not RS.EOF
