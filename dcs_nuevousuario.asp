@@ -5,8 +5,8 @@
 if session("codusuario")<>"" then
 	conectar
 	if permisofacultad("dcs_admusuario.asp") then
-	buscador=obtener("buscador")	
-	codusuario=obtener("codusuario")
+		buscador=obtener("buscador")	
+		codusuario=obtener("codusuario")
 		if obtener("agregardato")<>"" then
 			usuario=obtener("usuario")
 			clave=encriptar(obtener("clave"))
@@ -40,9 +40,9 @@ if session("codusuario")<>"" then
 			existeusuario=0
 			
 			if codusuario<>"" then
-			sql="select count(*) from Usuario where usuario='" & usuario & "' and codusuario<>" & codusuario
+			sql="SELECT COUNT(*) FROM Usuario WHERE usuario='" & usuario & "' AND codusuario<>" & codusuario
 			else
-			sql="select count(*) from Usuario where usuario='" & usuario & "'"
+			sql="SELECT COUNT(*) FROM Usuario WHERE usuario='" & usuario & "'"
 			end if
 			consultar sql,RS
 			existeusuario=RS.Fields(0)
@@ -50,26 +50,26 @@ if session("codusuario")<>"" then
 			
 			if existeusuario=0 then			
 				if obtener("agregardato")="1" then		
-				sql="insert into usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,administrador,activo,usuarioregistra,fecharegistra,codtipousuario,codagencia,codoficina) values ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & administrador & "," & activo & "," & session("codusuario") & ",getdate()," & codtipousuario & "," & act_codagencia & "," & act_codoficina & ")"
+				sql="INSERT INTO usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,administrador,activo,usuarioregistra,fecharegistra,codtipousuario,codagencia,codoficina) VALUES ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & administrador & "," & activo & "," & session("codusuario") & ",getdate()," & codtipousuario & "," & act_codagencia & "," & act_codoficina & ")"
 				else
 					if obtener("hclave")=obtener("clave")then
-					sql="update usuario set usuario='" & usuario & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codusuario=" & codusuario
+					sql="UPDATE usuario SET usuario='" & usuario & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
 					else
-					sql="update usuario set usuario='" & usuario & "',clave='" & clave & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codusuario=" & codusuario
+					sql="UPDATE usuario SET usuario='" & usuario & "',clave='" & clave & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
 					end if				
 				end if
 				''Response.Write sql
 				conn.execute sql
 				
 				if codusuario="" then
-					sql="select codusuario from Usuario where usuario='" & usuario & "'"
+					sql="SELECT codusuario FROM Usuario WHERE usuario='" & usuario & "'"
 					consultar sql,RS
 					codusuario=RS.Fields(0)
 					RS.Close	
 				end if
 				
 				''aquí se elimina y se agregan las facultades seleccionadas							
-				sql="select A.codperfil, CASE WHEN B.activo IS NULL THEN 0 ELSE B.ACTIVO END as activo, A.descripcion, codusuario from perfil A left outer join usuarioperfil B on A.codperfil = B.codperfil and B.codusuario = " & codusuario  & " order by A.codperfil"
+				sql="SELECT A.codperfil, CASE WHEN B.activo IS NULL THEN 0 ELSE B.ACTIVO END AS activo, A.descripcion, codusuario FROM perfil A LEFT OUTER JOIN usuarioperfil B ON A.codperfil = B.codperfil AND B.codusuario = " & codusuario  & " ORDER BY A.codperfil"
 				consultar sql,RS
 				Do While not RS.EOF
 					if obtener("codperf" & RS.Fields("codperfil"))<>"" then
@@ -121,7 +121,7 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if codusuario<>"" then
-				sql="SELECT A.*, " &_
+				sql="SELECT A.*,E.CodPerfil AS codtipousuario, " &_
 				"B.nombres as Nombreusureg, " &_
 				"B.apepaterno as Apepatusureg, " &_
 				"B.apematerno as Apematusureg, " &_
@@ -131,24 +131,24 @@ if session("codusuario")<>"" then
 				"FROM usuario A " &_
 				"INNER JOIN usuario B ON B.codusuario=A.usuarioregistra " &_
 				"LEFT OUTER JOIN usuario C ON C.codusuario=A.usuariomodifica " &_
+				"INNER JOIN UsuarioPerfil D ON D.CodUsuario=A.CodUsuario " &_
+				"INNER JOIN Perfil E ON E.CodPerfil=D.CodPerfil " &_
 				"WHERE a.codusuario = " & codusuario
 				consultar sql,RS
 				usuario=rs.Fields("usuario")
 				clave=rs.Fields("clave")		
-				apepat=rs.Fields("apepaterno")		
+				apepat=rs.Fields("apepaterno")
 				apemat=rs.Fields("apematerno")
-				nombres=rs.Fields("nombres")		
-				correo=rs.Fields("correo")		
-				fbloq=rs.Fields("flagbloqueo")	
-				administrador=rs.Fields("administrador")	
+				nombres=rs.Fields("nombres")	
+				correo=rs.Fields("correo")	
+				fbloq=rs.Fields("flagbloqueo")
+				administrador=rs.Fields("administrador")
 				activo=rs.Fields("activo")		
 				fechaReg=RS.Fields("fecharegistra")
 				usuarioReg=iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
 				fechaMod=RS.Fields("fechamodifica")
 				usuarioMod=iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
-				codtipousuario=rs.Fields("codtipousuario")
-				codagencia=rs.Fields("codagencia")
-				codoficina=rs.Fields("codoficina")				
+				codtipousuario=rs.Fields("codtipousuario")			
 				RS.Close
 			else
 				activo="1"					
