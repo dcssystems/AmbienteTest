@@ -233,50 +233,60 @@ if session("codusuario")<>"" then
 						<form name="formula" method="post" action="dcs_nuevousuario.asp" target="ventanagrab">
 					<tr>	
 						<td bgcolor="#F5F5F5" colspan=2>			
-							<font size=2 color=#483d8b face=Arial><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
+							<font size=2 color=#483d8b ><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
 						</td>
 					</tr>
 					<%if fechaReg<>"" then%>
 					<tr height=20>
-						<td colspan=2 align=right><font face=Arial size=1 color=#483d8b>Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+						<td colspan=2 align="right"><font  size=1 color=#483d8b>Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
 						<%if fechaMod<>"" then%><BR>Modific&aacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
 					<tr>
-						<td width=30%><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Usuario:</font></td>
-						<td><input name="usuario" type=text maxlength=200 value="<%=usuario%>" style="font-size: xx-small; width: 200px;"></td>
+						<td width=30%><font  size=2 color=#483d8b>&nbsp;&nbsp;Usuario:</font></td>
+						<td><input name="usuario" type="text" maxlength=200 value="<%=usuario%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Contrase�a:</font></td>
+						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Contrase?a:</font></td>
 						<td bgcolor="#f5f5f5"><input name="clave" type=password maxlength=200 value="<%=clave%>" style="font-size: xx-small; width: 200px;"  onfocus="if(limpioclave==0){this.value='';limpioclave=1;}"></td>
 					</tr>
 					<tr>
-						<td><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Apellidos Paterno:</font></td>
-						<td><input name="apepat" type=text maxlength=200 value="<%=apepat%>" style="font-size: xx-small; width: 200px;"></td>
+						<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Apellidos Paterno:</font></td>
+						<td><input name="apepat" type="text" maxlength=200 value="<%=apepat%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Apellido Materno:</font></td>
-						<td bgcolor="#f5f5f5"><input name="apemat" type=text maxlength=200 value="<%=apemat%>" style="font-size: xx-small; width: 200px;"></td>
+						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Apellido Materno:</font></td>
+						<td bgcolor="#f5f5f5"><input name="apemat" type="text" maxlength=200 value="<%=apemat%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Nombres:</font></td>
-						<td><input name="nombres" type=text maxlength=200 value="<%=nombres%>" style="font-size: xx-small; width: 200px;"></td>
+						<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Nombres:</font></td>
+						<td><input name="nombres" type="text" maxlength=200 value="<%=nombres%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;e-Mail:</font></td>
-						<td bgcolor="#f5f5f5"><input name="correo" type=text maxlength=200 value="<%=correo%>" style="font-size: xx-small; width: 200px;"></td>
+						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;e-Mail:</font></td>
+						<td bgcolor="#f5f5f5"><input name="correo" type="text" maxlength=200 value="<%=correo%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-					<td><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Tipo Usuario:</font></td>
+					<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Tipo Usuario:</font></td>
 					<td>
 						<select name="codtipousuario" style="font-size: xx-small; width: 200px;" onchange="activarseleccion();">
 						<%
 						if codusuario<>"" then
-							''esto es para que si anteriormente hab�a un tipo de usuario inactivo se muestre
-							sql = "select codtipousuario, descripcion from tipousuario where (activo=1 or codtipousuario=" & codtipousuario & ") order by descripcion"
-						else
-							sql = "select codtipousuario, descripcion from tipousuario where activo=1 order by descripcion"
+							''esto es para que si anteriormente hab?a un tipo de usuario inactivo se muestre
+							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion
+								"FROM UsuarioPerfil a "&_
+								"INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
+								"WHERE activo=1 and p.CodPerfil=" & codtipousuario & " "&_ 
+								"order by descripcion "
+							else
+							 
+							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "&_
+								  "FROM UsuarioPerfil a "&_
+							      "INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
+							      "WHERE activo=1 "&_
+								  "ORDER BY descripcion "
+							"
 						end if
 						consultar sql,RS
 						Do While not RS.EOF
@@ -291,7 +301,7 @@ if session("codusuario")<>"" then
 						</td>
 					</tr>					
 					<tr>
-					<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Agencia:</font></td>
+					<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Agencia:</font></td>
 					<td bgcolor="#f5f5f5">
 						<select name = "codagencia" style="font-size: xx-small; width: 200px;">
 						<option value="">Seleccionar</option>
@@ -310,7 +320,7 @@ if session("codusuario")<>"" then
 						</td>
 					</tr>
 					<tr>
-					<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oficina:</font></td>
+					<td bgcolor="#f5f5f5"><font size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oficina:</font></td>
 					<td bgcolor="#f5f5f5">
 						<select name="codoficina" style="font-size: xx-small; width: 200px;">
 						<option value="">Seleccionar</option>
@@ -357,23 +367,23 @@ if session("codusuario")<>"" then
 					activarseleccion();
 					</script>
 					<tr>
-						<td><font face=Arial size=2 color=#483d8b>&nbsp;</font></td>
-						<td><input type=checkbox name="activo" style="font-size: xx-small;" <%if activo=1 then%> checked<%end if%>>&nbsp;&nbsp;<font face=Arial size=2 color=#483d8b>Activo</font></td>
+						<td><font  size=2 color=#483d8b>&nbsp;</font></td>
+						<td><input type=checkbox name="activo" style="font-size: xx-small;" <%if activo=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Activo</font></td>
 					</tr>					
 					<tr>
-						<td bgcolor="#f5f5f5"><font face=Arial size=2 color=#483d8b>&nbsp;</font></td>
-						<td bgcolor="#f5f5f5"><input type=checkbox name="fbloq" style="font-size: xx-small;" <%if fbloq=3 then%> checked<%end if%>>&nbsp;&nbsp;<font face=Arial size=2 color=#483d8b>Bloqueado</font></td>
+						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;</font></td>
+						<td bgcolor="#f5f5f5"><input type=checkbox name="fbloq" style="font-size: xx-small;" <%if fbloq=3 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Bloqueado</font></td>
 					</tr>					
 					<tr> 
-						<td><font face=Arial size=2 color=#483d8b>&nbsp;</font></td>
-						<td><input type=checkbox name="administrador" onclick="document.formula.codperf1.checked=this.checked;" style="font-size: xx-small;" <%if administrador=1 then%> checked<%end if%>>&nbsp;&nbsp;<font face=Arial size=2 color=#483d8b>Administrador</font></td>
+						<td><font  size="2" color="#483d8b">&nbsp;</font></td>
+						<td><input type="checkbox" name="administrador" onclick="document.formula.codperf1.checked=this.checked;" style="font-size: xx-small;" <%if administrador=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Administrador</font></td>
 					</tr>					
 					<tr>	
-						<td bgcolor="#F5F5F5" colspan=2><font face=Arial size=2 color=#483d8b>&nbsp;&nbsp;Perfiles:</font></td>
+						<td bgcolor="#F5F5F5" colspan="2"><font size="2" color="#483d8b">&nbsp;&nbsp;Perfiles:</font></td>
 					</tr>															
 							<tr>	
-						<td colspan=2>
-							<table width=90% align=center cellpadding=0 cellspacing=0 border=0>
+						<td colspan="2">
+							<table width="90%" align="center" cellpadding="0" cellspacing="0" border="0">
 									<%
 									if codusuario<>"" then
 										sql="select A.codperfil, CASE WHEN B.activo IS NULL THEN 0 ELSE B.ACTIVO END as activo, A.descripcion, codusuario from perfil A left outer join usuarioperfil B on A.codperfil = B.codperfil and B.codusuario =" & codusuario & " and B.activo = 1 order by A.codperfil"
@@ -388,9 +398,9 @@ if session("codusuario")<>"" then
 										Do While Not RS.EOF
 												perfil=RS.Fields("descripcion")
 												if RS.Fields("codperfil")=1 then
-												cadenaperfil=cadenaperfil & "<tr " & intercalacolor & "><td valign=top><font face=Arial size=1 color=#483d8b>&nbsp;&nbsp;</font></td><td><input type=checkbox onclick='document.formula.administrador.checked=this.checked;' name='codperf" & RS.Fields("codperfil") & "' style='font-size: xx-small;' " & iif(RS.Fields("activo")=1,"checked","") & "><font face=Arial size=1 color=#483d8b>" & RS.Fields("descripcion") & "</font></td></tr>" & chr(10)
+												cadenaperfil=cadenaperfil & "<tr " & intercalacolor & "><td valign=top><font  size=1 color=#483d8b>&nbsp;&nbsp;</font></td><td><input type=checkbox onclick='document.formula.administrador.checked=this.checked;' name='codperf" & RS.Fields("codperfil") & "' style='font-size: xx-small;' " & iif(RS.Fields("activo")=1,"checked","") & "><font  size=1 color=#483d8b>" & RS.Fields("descripcion") & "</font></td></tr>" & chr(10)
 												else
-												cadenaperfil=cadenaperfil & "<tr " & intercalacolor & "><td valign=top><font face=Arial size=1 color=#483d8b>&nbsp;&nbsp;</font></td><td><input type=checkbox name='codperf" & RS.Fields("codperfil") & "' style='font-size: xx-small;' " & iif(RS.Fields("activo")=1,"checked","") & "><font face=Arial size=1 color=#483d8b>" & RS.Fields("descripcion") & "</font></td></tr>" & chr(10)
+												cadenaperfil=cadenaperfil & "<tr " & intercalacolor & "><td valign=top><font  size=1 color=#483d8b>&nbsp;&nbsp;</font></td><td><input type=checkbox name='codperf" & RS.Fields("codperfil") & "' style='font-size: xx-small;' " & iif(RS.Fields("activo")=1,"checked","") & "><font  size=1 color=#483d8b>" & RS.Fields("descripcion") & "</font></td></tr>" & chr(10)
 												end if
 												contadorperfil=contadorperfil + 1	
 												if intercalacolor="" then
@@ -407,15 +417,15 @@ if session("codusuario")<>"" then
 						</td>
 					</tr>	
 					<tr>					
-						<td bgcolor="#F5F5F5"><font face=Arial size=2 color=#483d8b>&nbsp;</font></td>
-						<td bgcolor="#F5F5F5" align=right height=40><%if codusuario="" then%><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%else%><a href="javascript:modificar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%end if%><a href="javascript:window.close();"><img src="imagenes/salida.gif" border=0 alt="Salir" title="Salir"></a>&nbsp;</td>					
+						<td bgcolor="#F5F5F5"><font size="2" color="#483d8b">&nbsp;</font></td>
+						<td bgcolor="#F5F5F5" align="right" height="40"><%if codusuario="" then%><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%else%><a href="javascript:modificar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%end if%><a href="javascript:window.close();"><img src="imagenes/salida.gif" border=0 alt="Salir" title="Salir"></a>&nbsp;</td>					
 					</tr>
 					
-							<input type=hidden name="agregardato" value="">
-							<input type=hidden name="hclave" value="<%=clave%>">
-							<input type=hidden name="codusuario" value="<%=codusuario%>">
-							<input type=hidden name="vistapadre" value="<%=obtener("vistapadre")%>">
-							<input type=hidden name="paginapadre" value="<%=obtener("paginapadre")%>">
+							<input type="hidden" name="agregardato" value="">
+							<input type="hidden" name="hclave" value="<%=clave%>">
+							<input type="hidden" name="codusuario" value="<%=codusuario%>">
+							<input type="hidden" name="vistapadre" value="<%=obtener("vistapadre")%>">
+							<input type="hidden" name="paginapadre" value="<%=obtener("paginapadre")%>">
 						</form>	
 					</table>
 			</body>
@@ -425,7 +435,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorizaci�n para este proceso.");
+		alert("Ud. No tiene autorización para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	
