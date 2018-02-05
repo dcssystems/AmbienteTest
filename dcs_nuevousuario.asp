@@ -98,7 +98,7 @@ if session("codusuario")<>"" then
 				Loop
 				RS.Close
 				%>
-				<script language=javascript>
+				<script language="javascript">
 					<% if obtener("agregardato")="1" then %>
 					//alert("Se agregó el usuario correctamente.");
 					<% else %>
@@ -112,7 +112,7 @@ if session("codusuario")<>"" then
 				<%
 			else
 			%>
-				<script language=javascript>
+				<script language="javascript">
 					alert("Error, el usuario ingresado ya existe.");
 					//history.back();
 					//window.close();
@@ -121,25 +121,35 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if codusuario<>"" then
-				sql="select A.*,B.nombres as Nombreusureg, B.apepaterno as Apepatusureg, B.apematerno as Apematusureg, C.nombres as Nombreusumod,C.apepaterno as Apepatusumod, C.apematerno as Apematusumod from usuario A inner join usuario B on B.codusuario=A.usuarioregistra left outer join usuario C on C.codusuario=A.usuariomodifica where a.codusuario = " & codusuario
+				sql="SELECT A.*, " &_
+				"B.nombres as Nombreusureg, " &_
+				"B.apepaterno as Apepatusureg, " &_
+				"B.apematerno as Apematusureg, " &_
+				"C.nombres as Nombreusumod, " &_
+				"C.apepaterno as Apepatusumod, " &_
+				"C.apematerno as Apematusumod " &_
+				"FROM usuario A " &_
+				"INNER JOIN usuario B ON B.codusuario=A.usuarioregistra " &_
+				"LEFT OUTER JOIN usuario C ON C.codusuario=A.usuariomodifica " &_
+				"WHERE a.codusuario = " & codusuario
 				consultar sql,RS
-					usuario=rs.Fields("usuario")
-					clave=rs.Fields("clave")		
-					apepat=rs.Fields("apepaterno")		
-					apemat=rs.Fields("apematerno")
-					nombres=rs.Fields("nombres")		
-					correo=rs.Fields("correo")		
-					fbloq=rs.Fields("flagbloqueo")	
-					administrador=rs.Fields("administrador")	
-					activo=rs.Fields("activo")		
-					fechaReg=RS.Fields("fecharegistra")
-					usuarioReg=iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
-					fechaMod=RS.Fields("fechamodifica")
-					usuarioMod=iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
-					codtipousuario=rs.Fields("codtipousuario")
-					codagencia=rs.Fields("codagencia")
-					codoficina=rs.Fields("codoficina")				
-					RS.Close
+				usuario=rs.Fields("usuario")
+				clave=rs.Fields("clave")		
+				apepat=rs.Fields("apepaterno")		
+				apemat=rs.Fields("apematerno")
+				nombres=rs.Fields("nombres")		
+				correo=rs.Fields("correo")		
+				fbloq=rs.Fields("flagbloqueo")	
+				administrador=rs.Fields("administrador")	
+				activo=rs.Fields("activo")		
+				fechaReg=RS.Fields("fecharegistra")
+				usuarioReg=iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
+				fechaMod=RS.Fields("fechamodifica")
+				usuarioMod=iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
+				codtipousuario=rs.Fields("codtipousuario")
+				codagencia=rs.Fields("codagencia")
+				codoficina=rs.Fields("codoficina")				
+				RS.Close
 			else
 				activo="1"					
 			end if		
@@ -148,7 +158,7 @@ if session("codusuario")<>"" then
 		<html>
 			<title><%if codusuario="" then%>Nuevo <%end if%>Usuario</title>
 			<script language='javascript' src="scripts/popcalendar.js"></script> 
-			<script language=javascript>
+			<script language="javascript">
 				var limpioclave=0;
 				<% if codusuario="" then %>
 				function agregar()
@@ -217,10 +227,10 @@ if session("codusuario")<>"" then
 				COLOR: #483d8b; FONT-FACE:"Arial"; TEXT-DECORATION: none
 			}			
 			</style>
-			<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF">
-					<iframe id="ventanagrab" name="ventanagrab" src="" style="visibility:hidden" width=0 height=0 border=0 frameborder=0></iframe>
-					<table border=0 cellspacing=0 cellpadding=0 width=100% height=100%>
-						<form name=formula method=post action="dcs_nuevousuario.asp" target="ventanagrab">
+			<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
+					<iframe id="ventanagrab" name="ventanagrab" src="" style="visibility:hidden" width="0" height="0" border="0" frameborder="0"></iframe>
+					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+						<form name="formula" method="post" action="dcs_nuevousuario.asp" target="ventanagrab">
 					<tr>	
 						<td bgcolor="#F5F5F5" colspan=2>			
 							<font size=2 color=#483d8b face=Arial><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
@@ -228,8 +238,8 @@ if session("codusuario")<>"" then
 					</tr>
 					<%if fechaReg<>"" then%>
 					<tr height=20>
-						<td colspan=2 align=right><font face=Arial size=1 color=#483d8b>Registr�:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
-						<%if fechaMod<>"" then%><BR>Modific�:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
+						<td colspan=2 align=right><font face=Arial size=1 color=#483d8b>Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+						<%if fechaMod<>"" then%><BR>Modific&aacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
