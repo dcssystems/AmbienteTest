@@ -356,7 +356,7 @@ if session("codusuario")<>"" then
 
 						end if
 						
-						'' ESte comentaiose agrego		
+						'' ESte comentaiose agrego
 													
 						''''sql="select Descripcion from agencia where codagencia=" & codagencia
 						''''consultar sql,RS1
