@@ -277,15 +277,15 @@ if session("codusuario")<>"" then
 							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "
 								"FROM UsuarioPerfil a "&_
 								"INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
-								"WHERE activo=1 and p.CodPerfil=" & codtipousuario & " "&_ 
-								"order by descripcion "
+								"WHERE activo=1 and p.CodPerfil=" & codtipousuario &_ 
+								" ORDER BY descripcion"
 							else
 							 
 							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "&_
 								  "FROM UsuarioPerfil a "&_
 							      "INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
 							      "WHERE activo=1 "&_
-								  "ORDER BY descripcion "
+								  "ORDER BY descripcion"
 							"
 						end if
 						consultar sql,RS
