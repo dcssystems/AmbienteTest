@@ -5,19 +5,22 @@
 
 <!--#include file=capa1.asp-->
 <!--#include file=capa2.asp-->  
-<% 
+<%
+	
 if session("codusuario")<>"" then
 	conectar
 	sql="select C.CodPerfil,C.Descripcion,C.Orden from Usuario A inner join UsuarioPerfil B on A.codusuario=B.codusuario inner join Perfil C on B.codperfil=C.codperfil where A.codusuario=" & session("codusuario") & " and B.activo=1 UNION select A.CodPerfil,A.Descripcion,A.Orden from Perfil A where (select administrador from Usuario where codusuario=" & session("codusuario") & ")=1 order by Orden"
 	consultar sql,RS1	
 	if RS1.RecordCount>0 then
 	%>
+	
 	<html>
 		<title><%=TITLE%></title>
 		<head>
 			<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
 			<link rel="stylesheet" href="assets/css/css/animation.css">
 			
+			<link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400|Raleway:500&amp;subset=greek,greek-ext,latin-ext" rel="stylesheet"> 
 			
 			<link rel="shortcut icon" href="http://192.168.1.7/ambientetest/imagenes/favicon.ico">
 			
