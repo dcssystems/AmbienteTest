@@ -274,7 +274,7 @@ if session("codusuario")<>"" then
 						<%
 						if codusuario<>"" then
 							''esto es para que si anteriormente hab?a un tipo de usuario inactivo se muestre
-							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion
+							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "
 								"FROM UsuarioPerfil a "&_
 								"INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
 								"WHERE activo=1 and p.CodPerfil=" & codtipousuario & " "&_ 
