@@ -47,11 +47,11 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanauser=global_popup_IWTSystem(ventanauser,"nuevousuario.asp?vistapadre=" + window.name + "&paginapadre=admusuario.asp&codusuario=" + codigo,"NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 425)/2 - 30) + ",height=445,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanauser=global_popup_IWTSystem(ventanauser,"dcs_nuevousuario.asp?vistapadre=" + window.name + "&paginapadre=dcs_admusuario.asp&codusuario=" + codigo,"NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 425)/2 - 30) + ",height=445,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
-			ventanauser=global_popup_IWTSystem(ventanauser,"nuevousuario.asp?vistapadre=" + window.name + "&paginapadre=admusuario.asp","NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 425)/2 - 30) + ",height=445,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanauser=global_popup_IWTSystem(ventanauser,"dcs_nuevousuario.asp?vistapadre=" + window.name + "&paginapadre=dcs_admusuario.asp","NewUser","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 425)/2 - 30) + ",height=445,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}
 		function actualizar()
 		{

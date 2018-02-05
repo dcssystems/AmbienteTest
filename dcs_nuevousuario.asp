@@ -4,7 +4,7 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("admusuario.asp") then
+	if permisofacultad("dcs_admusuario.asp") then
 	buscador=obtener("buscador")	
 	codusuario=obtener("codusuario")
 		if obtener("agregardato")<>"" then
@@ -99,12 +99,14 @@ if session("codusuario")<>"" then
 				RS.Close
 				%>
 				<script language=javascript>
-					<%if obtener("agregardato")="1" then%>
-					//alert("Se agreg� el usuario correctamente.");
-					<%else%>
-					//alert("Se modific� el usuario correctamente.");
-					<%end if%>				
-					<%if obtener("paginapadre")="admusuario.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
+					<% if obtener("agregardato")="1" then %>
+					//alert("Se agregó el usuario correctamente.");
+					<% else %>
+					//alert("Se modificó el usuario correctamente.");
+					<% end if %>				
+					<% if obtener("paginapadre")="dcs_admusuario.asp" then %> 
+					window.open('<%=obtener("paginapadre")%>','<%=obtener("vistapadre")%>');
+					<% end if %>
 					window.parent.close();
 				</script>			
 				<%
@@ -148,15 +150,15 @@ if session("codusuario")<>"" then
 			<script language='javascript' src="scripts/popcalendar.js"></script> 
 			<script language=javascript>
 				var limpioclave=0;
-				<%if codusuario="" then%>
+				<% if codusuario="" then %>
 				function agregar()
 				{
 					if(trim(formula.usuario.value)==""){alert("Debe ingresar el Usuario.");return;}
-					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contrase�a.");return;}
+					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contraseña.");return;}
 					if(trim(formula.apepat.value)==""){alert("Debe ingresar el Apellido Paterno del Usuario.");return;}
 					if(trim(formula.apemat.value)==""){alert("Debe ingresar el Apellido Materno del Usuario.");return;}
 					if(trim(formula.nombres.value)==""){alert("Debe ingresar los Nombres del Usuario.");return;}
-					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v�lido.");return;}
+					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail válido.");return;}
 					//agencia
 					if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;}
 					//oficina
@@ -164,15 +166,15 @@ if session("codusuario")<>"" then
 					document.formula.agregardato.value=1;
 					document.formula.submit();
 				}
-				<%else%>
+				<% else %>
 				function modificar()
 				{
 					if(trim(formula.usuario.value)==""){alert("Debe ingresar el Usuario.");return;}
-					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contrase�a.");return;}
+					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contraseña.");return;}
 					if(trim(formula.apepat.value)==""){alert("Debe ingresar el Apellido Paterno del Usuario.");return;}
 					if(trim(formula.apemat.value)==""){alert("Debe ingresar el Apellido Materno del Usuario.");return;}
 					if(trim(formula.nombres.value)==""){alert("Debe ingresar los Nombres del Usuario.");return;}
-					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v�lido.");return;}
+					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail válido.");return;}
 					//agencia
 					if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;}
 					//oficina o gestor
@@ -183,7 +185,7 @@ if session("codusuario")<>"" then
 					document.formula.agregardato.value=2;
 					document.formula.submit();
 				}				
-				<%end if%>
+				<% end if %>
 				function trim(string)
 				{
 					while(string.substr(0,1)==" ")
@@ -218,7 +220,7 @@ if session("codusuario")<>"" then
 			<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF">
 					<iframe id="ventanagrab" name="ventanagrab" src="" style="visibility:hidden" width=0 height=0 border=0 frameborder=0></iframe>
 					<table border=0 cellspacing=0 cellpadding=0 width=100% height=100%>
-						<form name=formula method=post action="nuevousuario.asp" target="ventanagrab">
+						<form name=formula method=post action="dcs_nuevousuario.asp" target="ventanagrab">
 					<tr>	
 						<td bgcolor="#F5F5F5" colspan=2>			
 							<font size=2 color=#483d8b face=Arial><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
