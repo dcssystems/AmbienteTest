@@ -239,7 +239,7 @@ if session("codusuario")<>"" then
 					<%if fechaReg<>"" then%>
 					<tr height=20>
 						<td colspan=2 align="right"><font  size=1 color=#483d8b>Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
-						<%if fechaMod<>"" then%><BR>Modific&aacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
+						<%if fechaMod<>"" then%><BR>Modific&oacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
@@ -248,7 +248,7 @@ if session("codusuario")<>"" then
 						<td><input name="usuario" type="text" maxlength=200 value="<%=usuario%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Contrase?a:</font></td>
+						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Contraseña:</font></td>
 						<td bgcolor="#f5f5f5"><input name="clave" type=password maxlength=200 value="<%=clave%>" style="font-size: xx-small; width: 200px;"  onfocus="if(limpioclave==0){this.value='';limpioclave=1;}"></td>
 					</tr>
 					<tr>
