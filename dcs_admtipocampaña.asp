@@ -209,7 +209,11 @@ if session("codusuario")<>"" then
 		if pag>1 then					
 		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
 		else
+<<<<<<< HEAD
 		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña" 
+=======
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
+>>>>>>> 936f15526a6eef94919aedf65340db7dc62b3a68
 		end if
 		'response.write sql
 		consultar sql,RS
