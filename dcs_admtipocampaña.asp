@@ -97,9 +97,6 @@ if session("codusuario")<>"" then
 			document.formula.submit();
 		}
 		</script>
-	
-
-
 		</head>
 		
 		<script language="javascript">
@@ -120,7 +117,7 @@ if session("codusuario")<>"" then
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true);
-		    anchocolumna[tabla] =  new Array( '6%','20%', '6%' , '30%');
+		    anchocolumna[tabla] =  new Array( '6%','20%', '20%' , '30%');
 		    aligncabecera[tabla] = new Array('left','left','left','left');
 		    aligndetalle[tabla] = new Array('left','left','left','left');
 		    alignpie[tabla] =     new Array('left','left','left','left');
@@ -158,18 +155,18 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " WHERE Descripcion LIKE '%" & buscador & "%' "
+			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
 		end if
 		
 		if filtrobuscador<>"" then
-			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " AND "
+			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
 		end if		
 		
 		contadortotal=0
 		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
-		response.write sql
+		''response.write sql
 		RS.Close		
 		
 		cantidadxpagina=18
@@ -210,11 +207,11 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador1 & "  ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña" 
 		end if
-		response.write sql
+		'response.write sql
 		consultar sql,RS
 		contador=0
 		
@@ -239,10 +236,9 @@ if session("codusuario")<>"" then
 		%>
 			datos[tabla][<%=contador%>] = new Array();
 				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDTipoCampaña")%>';
-				datos[tabla][<%=contador%>][1]='<%=rs.Fields("Descripcion")%>';
+				datos[tabla][<%=contador%>][1]='<%=RS.Fields("Descripcion")%>';
 				datos[tabla][<%=contador%>][2]=<%if obtener("actualizarlista")<>"" and obtener("IDTipoCampaña" & RS.Fields("IDTipoCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
-				datos[tabla][<%=contador%>][3]='';
-							
+				datos[tabla][<%=contador%>][3]='';							
 		<%
 			contador=contador + 1
 			RS.MoveNext 

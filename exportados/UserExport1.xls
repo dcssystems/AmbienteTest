@@ -1,6 +1,11 @@
-CÃ³digo	DescripciÃ³n	Orden
-1	Mantenimiento	1
-2	Configuración	2
-3	Campaña	1
-4	PruebaTestTEST	5
-5	PruebaTEST2	7
+Cod.Privilegio	Grupo	Descripción	Página	Orden
+1	Mantenimiento	Grupo Privilegio	dcs_admgrupofacultad.asp	1
+2	Mantenimiento	Privilegio	dcs_admfacultad.asp	2
+3	Mantenimiento	Perfil	dcs_admperfil.asp	3
+4	Mantenimiento	Usuario	dcs_admusuario.asp	4
+5	Mantenimiento	Cliente	dcs_admCliente.asp	5
+6	Campaña	Ver Campaña	dcs_vercampaña.asp	7
+7	Mantenimiento	Contacto	dcs_admContacto.asp	6
+8	Campaña	Crear Campaña	dcs_admcrearcampaña.asp	8
+9	Campaña	Tipo Campaña	dcs_admtipocampaña.asp	9
+10	Campaña	Campaña Campo	dcs_admCampañacampo.asp	10
