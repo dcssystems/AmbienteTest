@@ -166,7 +166,7 @@ if session("codusuario")<>"" then
 		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
-		response.write "PRINT 1 " &_ sql
+		response.write "//PRINT 1 " & sql
 		RS.Close		
 		
 		cantidadxpagina=18
@@ -212,7 +212,7 @@ if session("codusuario")<>"" then
 		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
 
 		end if
-		response.write "PRINT 2 " &_  sql
+		response.write " //PRINT 2 " &  sql
 		consultar sql,RS
 		contador=0
 		
