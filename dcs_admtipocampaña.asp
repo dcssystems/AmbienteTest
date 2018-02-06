@@ -154,7 +154,7 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
-		filtrobuscador = "";
+		filtrobuscador = ""
 		if buscador<>"" then
 			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
 		end if
