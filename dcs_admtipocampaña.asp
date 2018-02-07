@@ -21,27 +21,26 @@ if session("codusuario")<>"" then
 		end if
 	%>
 		<html>
-		<!--cargando-->
-		<img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
+		
 		<head>
-		<link rel="stylesheet" href="assets/css/css/animation.css" />
-		<link rel="stylesheet" href="assets/css/custom.css" />
-		<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">
-		<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->	
+			<link rel="stylesheet" href="assets/css/css/animation.css" />
+			<link rel="stylesheet" href="assets/css/custom.css" />
+			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">
+			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->	
 	
-    <script>
-      function toggleCodes(on) {
-        var obj = document.getElementById('icons');
-      
-        if (on) {
-          obj.className += ' codesOn';
-        } else {
-          obj.className = obj.className.replace(' codesOn', '');
-        }
-      }
-      
-    </script>
-		<script language="javascript" src="scripts/TablaDinamica.js"></script>
+			<script>
+			  function toggleCodes(on) {
+				var obj = document.getElementById('icons');
+			  
+				if (on) {
+				  obj.className += ' codesOn';
+				} else {
+				  obj.className = obj.className.replace(' codesOn', '');
+				}
+			  }
+			  
+			</script>
+			<script language="javascript" src="scripts/TablaDinamica.js"></script>
 		<script language="javascript">
 		var ventanafacultad;
 		function inicio()
@@ -94,8 +93,7 @@ if session("codusuario")<>"" then
 			document.formula.submit();
 		}
 		</script>
-		</head>
-		
+				
 		<script language="javascript">
 			rutaimgcab="imagenes/"; 
 		  //Configuración general de datos de tabla 0
@@ -151,9 +149,6 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
-		dim objErr
-		set objErr=Server.GetLastError()
-		filtrobuscador = ""
 		if buscador<>"" then
 			filtrobuscador = " WHERE Descripcion LIKE '%" & buscador & "%' "
 		end if
@@ -161,13 +156,12 @@ if session("codusuario")<>"" then
 		if filtrobuscador<>"" then
 			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
 		end if		
-		
+		response.write "//PRINT 1 "
 		contadortotal=0
-		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña"	
-		consultar sql,RS	
-		
+		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña "  & filtrobuscador
+		consultar sql,RS
 		contadortotal=rs.fields("countFields")
-		response.write "//PRINT 1 " & sql
+		response.write "//PRINT 2 "
 		RS.Close		
 		
 		cantidadxpagina=18
@@ -267,11 +261,14 @@ if session("codusuario")<>"" then
 
 		</script> 
 		
-		
+		</head>
 			
 		
 		<%if contador=0 then%>
 			<body topmargin="0" leftmargin="0">
+				<!--cargando-->
+				<img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
+				
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
