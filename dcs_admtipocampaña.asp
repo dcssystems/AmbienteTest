@@ -160,7 +160,7 @@ if session("codusuario")<>"" then
 		end if		
 		response.write "//PRINT 1 "
 		contadortotal=0
-		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña "  & filtrobuscador
+		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña AS TIPO "  & filtrobuscador
 		consultar sql,RS
 		contadortotal=rs.fields("countFields")
 		response.write "//PRINT 2 "
