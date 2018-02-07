@@ -154,6 +154,29 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
+		dim objErr
+		set objErr=Server.GetLastError()
+		
+		response.write("ASPCode=" & objErr.ASPCode)
+		response.write("<br>")
+		response.write("ASPDescription=" & objErr.ASPDescription)
+		response.write("<br>")
+		response.write("Category=" & objErr.Category)
+		response.write("<br>")
+		response.write("Column=" & objErr.Column)
+		response.write("<br>")
+		response.write("Description=" & objErr.Description)
+		response.write("<br>")
+		response.write("File=" & objErr.File)
+		response.write("<br>")
+		response.write("Line=" & objErr.Line)
+		response.write("<br>")
+		response.write("Number=" & objErr.Number)
+		response.write("<br>")
+		response.write("Source=" & objErr.Source)
+		
+		
+		
 		filtrobuscador = ""
 		if buscador<>"" then
 			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
@@ -164,10 +187,12 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampaña " '& filtrobuscador
-		response.write sql & "//Step 2//"
-		consultar sql,RS	
+		'response.write "//Step 1//"
+		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador
+		response.write sql & "//Step 1//"
+		'Server.GetLastError(consultar sql,RS)
+		consultar sql,RS
+		response.write sql & "//Step 2//"		
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
 		RS.Close		
