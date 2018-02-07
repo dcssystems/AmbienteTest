@@ -351,17 +351,10 @@ if session("codusuario")<>"" then
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="SELECT a.IDCampaña, " & _
-                                "b.RazonSocial as Cliente, " & _
-                                "c.Descripcion as TipoCampaña, " & _ 
-                                "a.Descripcion, " & _
-                                "a.FechaInicio, " & _
-                                "a.FechaFin, " & _
-                                "a.FlagHistorico, " & _
-                                "a.Estado " & _
-                                "FROM campaña a " & _
-                                "INNER JOIN Cliente b  ON a.IDCliente = b.IDCliente " & _
-                                "INNER JOIN TipoCampaña c ON a.IDTipoCampaña = c.IDTipoCampaña " & filtrobuscador & _
+					consulta_exp="SELECT a.IDCampaña,b.RazonSocial as Cliente,c.Descripcion as TipoCampaña,a.Descripcion,a.FechaInicio,a.FechaFin,a.FlagHistorico,a.Estado " & _
+                                "FROM DataCRMDirconTest.dbo.campaña a " & _
+                                "INNER JOIN DataCRMDirconTest.dbo.Cliente b  ON a.IDCliente = b.IDCliente " & _
+                                "INNER JOIN DataCRMDirconTest.dbo.TipoCampaña c ON a.IDTipoCampaña = c.IDTipoCampaña " & filtrobuscador & _
                                 "ORDER BY a.IDCampaña"
 								
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
