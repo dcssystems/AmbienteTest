@@ -164,7 +164,6 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampaña" & filtrobuscador
 		response.write("Description=" & objErr.Description)
 		response.write("<br>")
 		response.write("File=" & objErr.File)
@@ -174,9 +173,10 @@ if session("codusuario")<>"" then
 		response.write("Number=" & objErr.Number)
 		response.write("<br>")
 		response.write("Source=" & objErr.Source)
+		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña" & filtrobuscador		
 		consultar sql,RS	
 		
-		contadortotal=rs.fields(0)
+		contadortotal=rs.fields("countFields")
 		response.write "//PRINT 1 " & sql
 		RS.Close		
 		
