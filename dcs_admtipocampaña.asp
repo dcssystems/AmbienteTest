@@ -166,7 +166,7 @@ if session("codusuario")<>"" then
 		contadortotal=0
 		response.write "//Step 1//"
 		sql="SELECT COUNT(*) FROM TipoCampaña " '& filtrobuscador
-		response.write "//Step 2//"
+		response.write sql & "//Step 2//"
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
