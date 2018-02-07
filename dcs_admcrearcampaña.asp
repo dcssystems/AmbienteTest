@@ -346,7 +346,7 @@ if session("codusuario")<>"" then
 					''RS.Close					
 					''Para Exportar a Excel
 					''Primero Cabecera en temp1_(user).txt
-					consulta_exp="SELECT 'IDCampaña','Cliente','TipoCampaña','Descripción','FechaInicio','FechaFin','FlagHistorico','Estado'"
+					consulta_exp="SELECT 'Cod.Campaña','Cliente','TipoCampaña','Descripción','FechaInicio','FechaFin','FlagHistorico','Estado'"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 					conn.execute sql
 					
