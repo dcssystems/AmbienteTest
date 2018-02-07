@@ -350,16 +350,24 @@ if session("codusuario")<>"" then
 					''RS.Close					
 					''Para Exportar a Excel
 					''Primero Cabecera en temp1_(user).txt
-					consulta_exp="SELECT 'Cod.Privilegio','Grupo','Descripción','Página','Orden'"
+					consulta_exp="SELECT 'IDCampaña','Cliente','TipoCampaña','Descripción','FechaInicio','FechaFin','FlagHistorico','Estado'"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="SELECT p.codfacultad,g.descripcion,p.descripcion,p.pagina,p.orden " & _
-								 "FROM DataCRMDirconTest.dbo.facultad p " & _
-								 "INNER JOIN DataCRMDirconTest.dbo.grupofacultad g " & _
-								 "ON p.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & _
-								 "ORDER BY p.codfacultad"
+					consulta_exp="SELECT a.IDCampaña, " & _
+                                "b.RazonSocial as Cliente, " & _
+                                "c.Descripcion as TipoCampaña, " & _ 
+                                "a.Descripcion, " & _
+                                "a.FechaInicio, " & _
+                                "a.FechaFin, " & _
+                                "a.FlagHistorico, " & _
+                                "a.Estado " & _
+                                "FROM campaña a " & _
+                                "INNER JOIN Cliente b  ON a.IDCliente = b.IDCliente " & _
+                                "INNER JOIN TipoCampaña c ON a.IDTipoCampaña = c.IDTipoCampaña " & filtrobuscador & _
+                                "ORDER BY a.IDCampaña"
+								
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
 
