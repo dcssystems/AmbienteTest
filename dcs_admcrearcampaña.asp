@@ -265,7 +265,7 @@ if session("codusuario")<>"" then
 				datos[tabla][<%=contador%>][4]='<%=rs.Fields("FechaInicio")%>';
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("FechaFin")%>';
 				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaña" & RS.Fields("IDCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("FlagHistorico")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaña" & RS.Fields("IDCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;				
+				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaña" & RS.Fields("IDCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Estado")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;				
 				datos[tabla][<%=contador%>][8]='';
 							
 		<%
