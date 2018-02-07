@@ -53,7 +53,7 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaña.asp&IDTipoCampaña=" + codigo,"Newtipocampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaña.asp&IDTipoCampana=" + codigo,"Newtipocampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
@@ -128,7 +128,7 @@ if session("codusuario")<>"" then
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampaña-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampana-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][2]=objetodatos("checkbox",tabla,"Activo","","","");
 				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
@@ -154,13 +154,6 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
-		dim objErr
-		set objErr=Server.GetLastError()
-		
-		
-		
-		
-		
 		filtrobuscador = ""
 		if buscador<>"" then
 			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
@@ -171,34 +164,13 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		'response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampana " & filtrobuscador
-		response.write sql & "//Step 1//"
-		'Server.GetLastError(consultar sql,RS)
-		consultar sql,RS
-		response.write sql & "//Step 2//"		
+		response.write "//Step 1//"
+		sql="SELECT COUNT(*) FROM TipoCampaña " '& filtrobuscador
+		response.write sql & "//Step 2//"
+		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
-		RS.Close	
-		
-		response.write("ASPCode=" & objErr.ASPCode)
-		response.write("<br>")
-		response.write("ASPDescription=" & objErr.ASPDescription)
-		response.write("<br>")
-		response.write("Category=" & objErr.Category)
-		response.write("<br>")
-		response.write("Column=" & objErr.Column)
-		response.write("<br>")
-		response.write("Description=" & objErr.Description)
-		response.write("<br>")
-		response.write("File=" & objErr.File)
-		response.write("<br>")
-		response.write("Line=" & objErr.Line)
-		response.write("<br>")
-		response.write("Number=" & objErr.Number)
-		response.write("<br>")
-		response.write("Source=" & objErr.Source)
-		
+		RS.Close		
 		
 		cantidadxpagina=18
 		paginasxbloque=10
@@ -238,9 +210,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampana where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampana " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña AS IDTipoCampana, Descripcion, Activo FROM TipoCampaña where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampana " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña AS IDTipoCampana, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
 
 		end if
 		response.write " //PRINT 2 " &  sql
@@ -248,9 +220,9 @@ if session("codusuario")<>"" then
 		contador=0
 		
 			Do while not RS.EOF 
-				if obtener("actualizarlista")<>"" and obtener("IDTipoCampaña" & RS.Fields("IDTipoCampaña"))<>"" then
+				if obtener("actualizarlista")<>"" and obtener("IDTipoCampana" & RS.Fields("IDTipoCampana"))<>"" then
 					
-					if obtener("Activo" & RS.Fields("IDTipoCampaña"))<>"" then
+					if obtener("Activo" & RS.Fields("IDTipoCampana"))<>"" then
 						Activo="1"
 					else
 						Activo="0"
@@ -258,7 +230,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(activo) <> rs.Fields("Activo") then
-							sql="UPDATE TipoCampana SET Activo=" & Activo & " WHERE IDTipoCampaña=" & rs.Fields("IDTipoCampaña") 
+							sql="UPDATE TipoCampaña SET Activo=" & Activo & " WHERE IDTipoCampana=" & rs.Fields("IDTipoCampana") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -267,9 +239,9 @@ if session("codusuario")<>"" then
 										
 		%>
 			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDTipoCampaña")%>';
+				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDTipoCampana")%>';
 				datos[tabla][<%=contador%>][1]='<%=RS.Fields("Descripcion")%>';
-				datos[tabla][<%=contador%>][2]=<%if obtener("actualizarlista")<>"" and obtener("IDTipoCampaña" & RS.Fields("IDTipoCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
+				datos[tabla][<%=contador%>][2]=<%if obtener("actualizarlista")<>"" and obtener("IDTipoCampana" & RS.Fields("IDTipoCampana"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
 				datos[tabla][<%=contador%>][3]='';							
 		<%
 			contador=contador + 1
@@ -358,9 +330,9 @@ if session("codusuario")<>"" then
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="SELECT IDTipoCampaña, Descripcion, " & _ 
+					consulta_exp="SELECT IDTipoCampaña AS IDTipoCampana, Descripcion, " & _ 
 								"CASE WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS Activo " & _
-								"FROM DataCRMDirconTest.dbo.TipoCampana " & filtrobuscador & " " & _
+								"FROM DataCRMDirconTest.dbo.TipoCampaña " & filtrobuscador & " " & _
 								"ORDER BY IDTipoCampaña" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
