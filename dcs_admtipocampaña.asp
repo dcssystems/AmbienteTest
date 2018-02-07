@@ -157,6 +157,30 @@ if session("codusuario")<>"" then
 		dim objErr
 		set objErr=Server.GetLastError()
 		
+		
+		
+		
+		
+		filtrobuscador = ""
+		if buscador<>"" then
+			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
+		end if
+		
+		if filtrobuscador<>"" then
+			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
+		end if		
+		
+		contadortotal=0
+		'response.write "//Step 1//"
+		sql="SELECT COUNT(*) FROM TipoCampana " & filtrobuscador
+		response.write sql & "//Step 1//"
+		'Server.GetLastError(consultar sql,RS)
+		consultar sql,RS
+		response.write sql & "//Step 2//"		
+		contadortotal=rs.fields(0)
+		response.write "//PRINT 1 " & sql
+		RS.Close	
+		
 		response.write("ASPCode=" & objErr.ASPCode)
 		response.write("<br>")
 		response.write("ASPDescription=" & objErr.ASPDescription)
@@ -175,27 +199,6 @@ if session("codusuario")<>"" then
 		response.write("<br>")
 		response.write("Source=" & objErr.Source)
 		
-		
-		
-		filtrobuscador = ""
-		if buscador<>"" then
-			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
-		end if
-		
-		if filtrobuscador<>"" then
-			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
-		end if		
-		
-		contadortotal=0
-		'response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador
-		response.write sql & "//Step 1//"
-		'Server.GetLastError(consultar sql,RS)
-		consultar sql,RS
-		response.write sql & "//Step 2//"		
-		contadortotal=rs.fields(0)
-		response.write "//PRINT 1 " & sql
-		RS.Close		
 		
 		cantidadxpagina=18
 		paginasxbloque=10
@@ -235,9 +238,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampana where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampana " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña, Descripcion, Activo FROM TipoCampana " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
 
 		end if
 		response.write " //PRINT 2 " &  sql
@@ -255,7 +258,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(activo) <> rs.Fields("Activo") then
-							sql="UPDATE TipoCampaña SET Activo=" & Activo & " WHERE IDTipoCampaña=" & rs.Fields("IDTipoCampaña") 
+							sql="UPDATE TipoCampana SET Activo=" & Activo & " WHERE IDTipoCampaña=" & rs.Fields("IDTipoCampaña") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -357,7 +360,7 @@ if session("codusuario")<>"" then
 					''Segundo Detalle en temp2_(user).txt
 					consulta_exp="SELECT IDTipoCampaña, Descripcion, " & _ 
 								"CASE WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS Activo " & _
-								"FROM DataCRMDirconTest.dbo.TipoCampaña " & filtrobuscador & " " & _
+								"FROM DataCRMDirconTest.dbo.TipoCampana " & filtrobuscador & " " & _
 								"ORDER BY IDTipoCampaña" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
