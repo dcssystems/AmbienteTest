@@ -103,11 +103,10 @@ if session("codusuario")<>"" then
 		
 		<script language="javascript">
 			<%
-				idcampana=obtener("idcampaña")
+				idcampana=1 ''obtener("idcampaña")
 				sql="select GlosaCampo,ROW_NUMBER () over (order by NroCampo) as Orden,CampoCalculado,Formula,Condicion,IDCampañaCampo,TipoCampo,FlagNroDocumento,anchocolumna,aligncabecera,aligndetalle,alignpie,decimalesnumero,formatofecha " & chr(10) & _
                     "from Campaña_Campo " & chr(10) & _
-                    "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña= " & idcampana &  chr(10) & _
-					") " & chr(10) & _
+                    "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña=1) " & chr(10) & _
                     "and Nivel=1 and Visible=1 " & chr(10) & _
                     "order by Orden"
 				consultar sql,RS3	
