@@ -21,6 +21,8 @@ if session("codusuario")<>"" then
 		end if
 	%>
 		<html>
+		<!--cargando-->
+		<img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
 		
 		<head>
 			<link rel="stylesheet" href="assets/css/css/animation.css" />
@@ -266,9 +268,6 @@ if session("codusuario")<>"" then
 		
 		<%if contador=0 then%>
 			<body topmargin="0" leftmargin="0">
-				<!--cargando-->
-				<img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
-				
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
