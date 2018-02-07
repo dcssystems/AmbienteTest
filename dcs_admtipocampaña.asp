@@ -21,7 +21,8 @@ if session("codusuario")<>"" then
 		end if
 	%>
 		<html>
-		<!--cargando--><img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
+		<!--cargando-->
+		<img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
 		<head>
 		<link rel="stylesheet" href="assets/css/css/animation.css" />
 		<link rel="stylesheet" href="assets/css/custom.css" />
@@ -40,10 +41,6 @@ if session("codusuario")<>"" then
       }
       
     </script>
-
-
-
-
 		<script language="javascript" src="scripts/TablaDinamica.js"></script>
 		<script language="javascript">
 		var ventanafacultad;
@@ -113,7 +110,7 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDTipoCampana','Descripcion','Activo','Editar');
+		    cabecera[tabla] = new Array('IDTipoCampaña','Descripcion','Activo','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true);
@@ -128,7 +125,7 @@ if session("codusuario")<>"" then
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampana-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampaña-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][2]=objetodatos("checkbox",tabla,"Activo","","","");
 				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
@@ -153,31 +150,10 @@ if session("codusuario")<>"" then
 
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
-		<%
-		dim objErr
-		set objErr=Server.GetLastError()
-
-		response.write("ASPCode=" & objErr.ASPCode)
-		response.write("<br>")
-		response.write("ASPDescription=" & objErr.ASPDescription)
-		response.write("<br>")
-		response.write("Category=" & objErr.Category)
-		response.write("<br>")
-		response.write("Column=" & objErr.Column)
-		response.write("<br>")
-		response.write("Description=" & objErr.Description)
-		response.write("<br>")
-		response.write("File=" & objErr.File)
-		response.write("<br>")
-		response.write("Line=" & objErr.Line)
-		response.write("<br>")
-		response.write("Number=" & objErr.Number)
-		response.write("<br>")
-		response.write("Source=" & objErr.Source)
-		
+		<%		
 		filtrobuscador = ""
 		if buscador<>"" then
-			filtrobuscador = " where Descripcion LIKE '%" & buscador & "%' "
+			filtrobuscador = " WHERE Descripcion LIKE '%" & buscador & "%' "
 		end if
 		
 		if filtrobuscador<>"" then
@@ -186,7 +162,7 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador
+		sql="SELECT COUNT(*) FROM TipoCampaña" & filtrobuscador
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
