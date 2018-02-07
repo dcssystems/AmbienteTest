@@ -153,10 +153,7 @@ if session("codusuario")<>"" then
 				filtrofomulario[tabla][5]='';
 				filtrofomulario[tabla][6]='';
 				filtrofomulario[tabla][7]='';
-				filtrofomulario[tabla][8]='';
-				
-				
-										
+				filtrofomulario[tabla][8]='';										
 					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
@@ -338,7 +335,6 @@ if session("codusuario")<>"" then
 		''Codigo exp excel
 		''Si se pide exportar a excel
 				if expimp="1" then
-
 					''se coloca arriba para el enlace si no abre directo el archivo
 					''sql="select descripcion,valortexto1 from parametro where descripcion='RutaFisicaExportar' or descripcion='RutaWebExportar'"
 					''consultar sql,RS
