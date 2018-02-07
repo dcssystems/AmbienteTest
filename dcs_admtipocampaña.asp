@@ -113,7 +113,7 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDTipoCampaña','Descripcion','Activo','Editar');
+		    cabecera[tabla] = new Array('IDTipoCampana','Descripcion','Activo','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true);
@@ -186,8 +186,7 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//Step 1//"
-		sql="SELECT COUNT(*) FROM TipoCampaña " '& filtrobuscador
-		'response.write sql & "//Step 2//"
+		sql="SELECT COUNT(*) FROM TipoCampaña " & filtrobuscador
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
