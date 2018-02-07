@@ -160,13 +160,13 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		response.write "//PRINT 1 "
+		response.write "//PRINT 1 " & _ chr(13)
 		sql="SELECT COUNT(*) AS countFields FROM TipoCampaña AS TIPO "  & filtrobuscador
-		response.write "//PRINT 2 "
+		response.write "//PRINT 2 " & _ chr(13)
 		consultar sql,RS
-		response.write "//PRINT 3 "
+		response.write "//PRINT 3 " & _ chr(13)
 		contadortotal=rs.fields("countFields")
-		response.write "//PRINT 4 "
+		response.write "//PRINT 4 " & _ chr(13)
 		RS.Close		
 		
 		cantidadxpagina=18
