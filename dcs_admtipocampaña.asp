@@ -150,7 +150,9 @@ if session("codusuario")<>"" then
 
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
-		<%		
+		<%
+		dim objErr
+		set objErr=Server.GetLastError()
 		filtrobuscador = ""
 		if buscador<>"" then
 			filtrobuscador = " WHERE Descripcion LIKE '%" & buscador & "%' "
@@ -164,6 +166,15 @@ if session("codusuario")<>"" then
 		response.write "//Step 1//"
 		sql="SELECT COUNT(*) FROM TipoCampaña" & filtrobuscador
 		consultar sql,RS	
+		response.write("Description=" & objErr.Description)
+		response.write("<br>")
+		response.write("File=" & objErr.File)
+		response.write("<br>")
+		response.write("Line=" & objErr.Line)
+		response.write("<br>")
+		response.write("Number=" & objErr.Number)
+		response.write("<br>")
+		response.write("Source=" & objErr.Source)
 		contadortotal=rs.fields(0)
 		response.write "//PRINT 1 " & sql
 		RS.Close		
