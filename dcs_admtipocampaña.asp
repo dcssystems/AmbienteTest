@@ -152,7 +152,7 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " WHERE Descripcion LIKE '%" & buscador & "%' "
+			filtrobuscador = " WHERE  Descripcion LIKE '%" & buscador & "%' "
 		end if
 		
 		if filtrobuscador<>"" then
@@ -161,10 +161,10 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//PRINT 1 \n"
-		sql="SELECT COUNT(*) AS countFields FROM DataCRMDirconTest.dbo.TipoCampaña "  & filtrobuscador
-		response.write "//PRINT 2 " & sql
+		sql="SELECT COUNT(*) FROM DataCRMDirconTest.dbo.TipoCampaña "  & filtrobuscador
+		response.write "//PRINT 2 " & sql & " \n "
 		consultar sql,RS
-		contadortotal=rs.fields("countFields")
+		contadortotal=rs.fields(0)
 		response.write "//PRINT 4 "
 		RS.Close		
 		
