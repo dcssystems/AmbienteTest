@@ -289,29 +289,32 @@ if session("codusuario")<>"" then
 					</td>
 					<td bgcolor="#b72b2c"></td>
 					<td bgcolor="#b72b2c" align="right" valign="middle">
-					<td bgcolor="#b72b2c" align="right"><font size="2" color="#fff"><b>Perfil:</b>&nbsp;<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">
-								
-								<%
-									codperfilselected=0
-									Do while not RS1.EOF 
-										if obtener("codperfil")="" and codperfilselected=0 then
-											codperfilselected=RS1.Fields("CodPerfil")
-										else
-											if obtener("codperfil")<>"" then
-												if int(obtener("codperfil"))=RS1.Fields("CodPerfil") then
-													codperfilselected=RS1.Fields("CodPerfil")
-												end if
+					<!--td bgcolor="#b72b2c" align="right">
+						<font size="2" color="#fff"><b>Perfil:</b>&nbsp;
+							<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">								
+							<%
+								codperfilselected=0
+								Do while not RS1.EOF 
+									if obtener("codperfil")="" and codperfilselected=0 then
+										codperfilselected=RS1.Fields("CodPerfil")
+									else
+										if obtener("codperfil")<>"" then
+											if int(obtener("codperfil"))=RS1.Fields("CodPerfil") then
+												codperfilselected=RS1.Fields("CodPerfil")
 											end if
 										end if
-									%>
-										<option value=<%=RS1.Fields("CodPerfil")%> <%if codperfilselected=RS1.Fields("CodPerfil") then%> selected<%end if%>><%=RS1.Fields("Descripcion")%></option>
-									<%
-									RS1.MoveNext
-									Loop
-									RS1.Close
+									end if
 								%>
-								</select>&nbsp;</font></td>
-								<td align="right" bgcolor="#b72b2c"><font face="Raleway" size="2" color="#fff"><%fechalarga=FormatDateTime(Date(),1)%><%=UCase(mid(fechalarga,1,1))%><%=mid(fechalarga,2,len(fechalarga)-1)%>&nbsp;</font></td>
+									<option value=<%=RS1.Fields("CodPerfil")%> <%if codperfilselected=RS1.Fields("CodPerfil") then%> selected<%end if%>><%=RS1.Fields("Descripcion")%></option>
+								<%
+								RS1.MoveNext
+								Loop
+								RS1.Close
+							%>
+							</select>&nbsp;
+						</font>
+					</td-->
+					<td align="right" bgcolor="#b72b2c"><font size="2" color="#fff"><%fechalarga=FormatDateTime(Date(),1)%><%=UCase(mid(fechalarga,1,1))%><%=mid(fechalarga,2,len(fechalarga)-1)%>&nbsp;</font></td>
 				</tr>				
 			</table>
 			</form>
