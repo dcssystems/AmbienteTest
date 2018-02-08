@@ -85,13 +85,17 @@ if session("codusuario")<>"" then
 					<tr>
 						<td class="text-orange">
 							<font size=2>&nbsp;&nbsp;Re-Ingrese Nueva Contraseña:</font>
-						</td>
+						</td>						
+					</tr>
+					<tr>
 						<td class="text-orange"><input name="pwdnew2" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
 						<td align="right" height="40"><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<a href="javascript:window.close();"><img src="imagenes/salida.gif" border="0" alt="Salir" title="Salir"></a>&nbsp;</td>
 					</tr>
 					</table>
 					<input type="hidden" name="agregardato" value="">
-				</form>	
+				</form>
+				
+				
 			</body>
 		</html>	
 		<%		
