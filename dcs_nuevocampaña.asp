@@ -224,7 +224,7 @@ if session("codusuario")<>"" then
 					<tr class="fondo-gris">
 						<td class="text-orange" width="20%"><font  size="2">Fecha Inicio:</font></td>
 						<td>
-							<input name="fechInicio" type="text" readonly maxlength="10" id="selfp"  value="<%if IsDate(obtener(fechInicio)) then%><%=obtener(fechInicio)%><%end if%>" style="font-size: xx-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('selfp', '%d/%m/%Y');">
+							<input name="fechInicio" type="text" readonly maxlength="10" id="selfp"  value="<%if IsDate(obtener(fechInicio)) then%><%=obtener(fechInicio)%><%end if%>" style="font-size: xx-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border="0" onclick="return showCalendar('selfp', '%d/%m/%Y');">
 						</td>	
 					</tr>
 					<tr>
