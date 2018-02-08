@@ -154,12 +154,8 @@ if session("codusuario")<>"" then
 						<%if fechaMod<>"" then%><BR>Modificó:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
-					<%end if%>						
+					<%end if%>
 					<tr>
-						<td class="text-orange" width="20%"><font  size="2">Descripción:</font></td>
-						<td><input name="descripcion" type="text" maxlength="200" value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
-					</tr>
-					<tr class="fondo-gris">
 						<td class="text-orange"><font size="2">Cliente:</font></td>
 						<td>
 							<select name="cliente" style="font-size: xx-small; width: 200px;">
@@ -177,7 +173,7 @@ if session("codusuario")<>"" then
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr class="fondo-gris">
 						<td class="text-orange"><font size="2">Tipo de Campaña:</font></td>
 						<td>
 							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
@@ -194,9 +190,18 @@ if session("codusuario")<>"" then
 							%>
 							</select>
 						</td>
-					</tr class="fondo-gris">
+					</tr>
+					<!--  class="fondo-gris" -->					
 					<tr>
-						<td class="text-orange" width="30%"><font size="2" >P&aacute;gina:</font></td>
+						<td class="text-orange" width="20%"><font  size="2">Descripción:</font></td>
+						<td><input name="descripcion" type="text" maxlength="200" value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+					</tr>
+					<tr class="fondo-gris">
+						<td class="text-orange" width="20%"><font  size="2">Fecha Inicio:</font></td>
+						<td><input name="descripcion" type="text" maxlength="200" value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+					</tr>
+					<tr>
+						<td class="text-orange" width="30%"><font size="2" >Fecha Fin:</font></td>
 						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
