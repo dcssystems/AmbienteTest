@@ -4,7 +4,7 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("dcs_admtipocampaÃ±a.asp") then
+	if permisofacultad("dcs_admtipocampaña.asp") then
 		buscador=obtener("buscador")
 		''Codigo exp excel - se repite
 		expimp=obtener("expimp")
@@ -51,11 +51,11 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaÃ±a.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaÃ±a.asp&IDTipoCampana=" + codigo,"NewtipocampaÃ±a","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaña.asp&IDTipoCampaña=" + codigo,"Newtipocampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaÃ±a.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaÃ±a.asp","NewtipocampaÃ±a","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevotipocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admtipocampaña.asp","Newtipocampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}
 		function actualizar()
 		{
@@ -98,7 +98,7 @@ if session("codusuario")<>"" then
 				
 		<script language="javascript">
 			rutaimgcab="imagenes/"; 
-		  //ConfiguraciÃ³n general de datos de tabla 0
+		  //Configuración general de datos de tabla 0
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
@@ -110,7 +110,7 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDTipoCampaÃ±a','Descripcion','Activo','Editar');
+		    cabecera[tabla] = new Array('IDTipoCampaña','Descripcion','Activo','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true);
@@ -125,7 +125,7 @@ if session("codusuario")<>"" then
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampaÃ±a-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][0]='<input type=hidden name=IDTipoCampaña-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][2]=objetodatos("checkbox",tabla,"Activo","","","");
 				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
@@ -161,7 +161,7 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//PRINT 1 \n"
-		sql="SELECT COUNT(*) FROM DataCRMDirconTest.dbo.TipoCampa&ntilde;a " & filtrobuscador
+		sql="SELECT COUNT(*) FROM DataCRMDirconTest.dbo.TipoCampaña " & filtrobuscador
 		response.write "//PRINT 2 " & sql & " \n "
 		consultar sql,RS
 		contadortotal=rs.fields(0)
@@ -206,9 +206,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaÃ±a AS IDTipoCampana, Descripcion, Activo FROM TipoCampaÃ±a where " & filtrobuscador1 & " IDTipoCampaÃ±a NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaÃ±a FROM TipoCampaÃ±a " & filtrobuscador & " ORDER BY IDTipoCampaÃ±a) ORDER BY IDTipoCampaÃ±a" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña AS IDTipoCampaña, Descripcion, Activo FROM TipoCampaña where " & filtrobuscador1 & " IDTipoCampaña NOT  IN (SELECT TOP " & topnovisible & " IDTipoCampaña FROM TipoCampaña " & filtrobuscador & " ORDER BY IDTipoCampaña) ORDER BY IDTipoCampaña" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaÃ±a AS IDTipoCampana, Descripcion, Activo FROM TipoCampaÃ±a " & filtrobuscador & "  ORDER BY IDTipoCampaÃ±a" 
+		sql="SELECT TOP " & cantidadxpagina & " IDTipoCampaña AS IDTipoCampaña, Descripcion, Activo FROM TipoCampaña " & filtrobuscador & "  ORDER BY IDTipoCampaña" 
 
 		end if
 		response.write " //PRINT 2 " &  sql
@@ -216,9 +216,9 @@ if session("codusuario")<>"" then
 		contador=0
 		
 			Do while not RS.EOF 
-				if obtener("actualizarlista")<>"" and obtener("IDTipoCampana" & RS.Fields("IDTipoCampana"))<>"" then
+				if obtener("actualizarlista")<>"" and obtener("IDTipoCampaña" & RS.Fields("IDTipoCampaña"))<>"" then
 					
-					if obtener("Activo" & RS.Fields("IDTipoCampana"))<>"" then
+					if obtener("Activo" & RS.Fields("IDTipoCampaña"))<>"" then
 						Activo="1"
 					else
 						Activo="0"
@@ -226,7 +226,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(activo) <> rs.Fields("Activo") then
-							sql="UPDATE TipoCampaÃ±a SET Activo=" & Activo & " WHERE IDTipoCampana=" & rs.Fields("IDTipoCampana") 
+							sql="UPDATE TipoCampaña SET Activo=" & Activo & " WHERE IDTipoCampaña=" & rs.Fields("IDTipoCampaña") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -235,9 +235,9 @@ if session("codusuario")<>"" then
 										
 		%>
 			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDTipoCampana")%>';
+				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDTipoCampaña")%>';
 				datos[tabla][<%=contador%>][1]='<%=RS.Fields("Descripcion")%>';
-				datos[tabla][<%=contador%>][2]=<%if obtener("actualizarlista")<>"" and obtener("IDTipoCampana" & RS.Fields("IDTipoCampana"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
+				datos[tabla][<%=contador%>][2]=<%if obtener("actualizarlista")<>"" and obtener("IDTipoCampaña" & RS.Fields("IDTipoCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
 				datos[tabla][<%=contador%>][3]='';							
 		<%
 			contador=contador + 1
@@ -273,7 +273,7 @@ if session("codusuario")<>"" then
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
-							<td class="text-orange"><font size="2" face="Raleway" ><b>TipoCampaÃ±a (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
+							<td class="text-orange"><font size="2" face="Raleway" ><b>TipoCampaña (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
 							<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border="0" alt="Buscar" title="Buscar" align="middle"></a></td>
 						</tr>
@@ -285,7 +285,7 @@ if session("codusuario")<>"" then
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0" border="0">		
 						<tr class="fondo-orange">
-							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>TipoCampaÃ±a (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
+							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>TipoCampaña (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
 							<!--<td bgcolor="#F5F5F5" align=left><font size=2 face=Raleway color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
 							<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
@@ -321,15 +321,15 @@ if session("codusuario")<>"" then
 					''RS.Close					
 					''Para Exportar a Excel
 					''Primero Cabecera en temp1_(user).txt
-					consulta_exp="SELECT  'IDTipoCampaÃ±a','Descripcion','Activo'"
+					consulta_exp="SELECT  'IDTipoCampaña','Descripcion','Activo'"
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="SELECT IDTipoCampaÃ±a AS IDTipoCampana, Descripcion, " & _ 
+					consulta_exp="SELECT IDTipoCampaña AS IDTipoCampaña, Descripcion, " & _ 
 								"CASE WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS Activo " & _
-								"FROM DataCRMDirconTest.dbo.TipoCampaÃ±a " & filtrobuscador & " " & _
-								"ORDER BY IDTipoCampaÃ±a" 
+								"FROM DataCRMDirconTest.dbo.TipoCampaña " & filtrobuscador & " " & _
+								"ORDER BY IDTipoCampaña" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
 
@@ -361,7 +361,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
+		alert("Ud. No tiene autorización para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	
