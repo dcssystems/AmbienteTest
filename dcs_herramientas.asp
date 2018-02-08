@@ -289,7 +289,7 @@ if session("codusuario")<>"" then
 					</td>
 					<td bgcolor="#b72b2c"></td>
 					<td bgcolor="#b72b2c" align="right" valign="middle">
-					<td bgcolor="#b72b2c" align="right"><font face="Raleway" size="2" color="#fff"><b>Perfil:</b>&nbsp;<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">
+					<td bgcolor="#b72b2c" align="right"><font size="2" color="#fff"><b>Perfil:</b>&nbsp;<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">
 								
 								<%
 									codperfilselected=0
