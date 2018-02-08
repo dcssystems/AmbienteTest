@@ -56,11 +56,11 @@ if session("codusuario")<>"" then
 				}				
 			</script>
 		</head>
-			<body topmargin="0" leftmargin="0" style="margin-top: 5px;">
+			<body topmargin="0" leftmargin="0" style="margin-top: 0px;">
 				<form name="formula" method="post" action="dcs_modificarclave.asp">
 					<table border="0" cellspacing="0" cellpadding="0" width="100%">
 						<tr class="fondo-red">	
-							<td class="text-withe" colspan="2">			
+							<td style="height:25px;" class="text-withe" colspan="2">			
 								<font size="2"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
 							</td>
 						</tr>
