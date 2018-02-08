@@ -61,12 +61,12 @@ if session("codusuario")<>"" then
 					<table border="0" cellspacing="0" cellpadding="0" width="100%">
 					<tr>	
 						<td class="text-orange" colspan="3">			
-							<font size="2" face="Arial"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
+							<font size="2"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
 						</td>
 					</tr>
 					<tr>
 						<td class="text-orange">
-							<font face="Arial" size="2">&nbsp;&nbsp;Ingrese Contraseña Actual:</font>
+							<font size="2">&nbsp;&nbsp;Ingrese Contraseña Actual:</font>
 						</td>
 						<td class="text-orange" colspan="2">
 							<input name="pwdact" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
@@ -76,18 +76,18 @@ if session("codusuario")<>"" then
 					</tr>					
 					<tr>
 						<td class="text-orange">
-							<font face=Arial size=2>&nbsp;&nbsp;Ingrese Nueva Contraseña:</font>
+							<font size=2>&nbsp;&nbsp;Ingrese Nueva Contraseña:</font>
 						</td>
 						<td colspan=2>
-							<input name="pwdnew" type="password" size=18 maxlength=255 value="" style="font-size: xx-small; width: 100px;">
+							<input name="pwdnew" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;">
 						</td>
 					</tr>					
 					<tr>
 						<td class="text-orange">
-							<font face="Arial" size=2>&nbsp;&nbsp;Re-Ingrese Nueva Contraseña:</font>
+							<font size=2>&nbsp;&nbsp;Re-Ingrese Nueva Contraseña:</font>
 						</td>
-						<td class="text-orange"><input name="pwdnew2" type="password" size=18 maxlength=255 value="" style="font-size: xx-small; width: 100px;"></td>
-						<td align=right height=40><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<a href="javascript:window.close();"><img src="imagenes/salida.gif" border=0 alt="Salir" title="Salir"></a>&nbsp;</td>
+						<td class="text-orange"><input name="pwdnew2" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
+						<td align="right" height="40"><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<a href="javascript:window.close();"><img src="imagenes/salida.gif" border="0" alt="Salir" title="Salir"></a>&nbsp;</td>
 					</tr>
 					</table>
 					<input type="hidden" name="agregardato" value="">

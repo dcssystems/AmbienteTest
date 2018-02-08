@@ -291,7 +291,7 @@ if session("codusuario")<>"" then
 					<td bgcolor="#b72b2c" align="right" valign="middle">
 					<!--td bgcolor="#b72b2c" align="right">
 						<font size="2" color="#fff"><b>Perfil:</b>&nbsp;
-							<select name="codperfil" style="font-size: small; width: 200px;" onchange="document.formula.submit();">								
+							<select name="codperfil" style="font-size: small; width: 170px;" onchange="document.formula.submit();">								
 							<%
 								codperfilselected=0
 								Do while not RS1.EOF 
