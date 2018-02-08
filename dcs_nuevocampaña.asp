@@ -137,7 +137,32 @@ if session("codusuario")<>"" then
 				   else
 					theElement.focus();
 					return false;
-				}					
+				}
+
+				function showCalendar(id, format, showsTime, showsOtherMonths) {
+				  var el = document.getElementById(id);
+				  if (_dynarch_popupCalendar != null) {
+					_dynarch_popupCalendar.hide();                 
+				  } else {
+					var cal = new Calendar(1, null, selected, closeHandler);
+					if (typeof showsTime == "string") {
+					  cal.showsTime = true;
+					  cal.time24 = (showsTime == "24");
+					}
+					if (showsOtherMonths) {
+					  cal.showsOtherMonths = true;
+					}
+					_dynarch_popupCalendar = cal;                  
+					cal.setRange(1900, 2070);      
+					cal.create();
+				  }
+				  _dynarch_popupCalendar.setDateFormat(format);    
+				  _dynarch_popupCalendar.parseDate(el.value);      
+				  _dynarch_popupCalendar.sel = el;                
+
+				   _dynarch_popupCalendar.showAtElement(el.nextSibling, "Br");        
+				  return false;
+				}				
 			</script>
 		</head>
 		<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
@@ -176,7 +201,7 @@ if session("codusuario")<>"" then
 					<tr class="fondo-gris">
 						<td class="text-orange"><font size="2">Tipo de Campaña:</font></td>
 						<td>
-							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
+							<select name="tipocampana" style="font-size: xx-small; width: 200px;">
 							<%
 							sql = "SELECT IDTipoCampaña, Descripcion FROM TipoCampaña ORDER BY IDTipoCampaña ASC"
 							consultar sql,RS
@@ -198,15 +223,17 @@ if session("codusuario")<>"" then
 					</tr>
 					<tr class="fondo-gris">
 						<td class="text-orange" width="20%"><font  size="2">Fecha Inicio:</font></td>
-						<td><input name="descripcion" type="text" maxlength="200" value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+						<td>
+							<input name="fechInicio" type="text" readonly maxlength="10" id="selfp"  value="<%if IsDate(obtener("fechInicio")) then%><%=obtener("fechInicio")%><%end if%>" style="font-size: xx-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('selfp', '%d/%m/%Y');">
+						</td>	
 					</tr>
 					<tr>
 						<td class="text-orange" width="30%"><font size="2" >Fecha Fin:</font></td>
-						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
+						<td><input name="fechafin" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
 						<td class="text-orange" width="30%"><font size="2">Flag Historico:</font></td>
-						<td><input type="checkbox" name="flaghistorico" style="font-size: xx-small;" <%if flaghistorico=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Activo</font></td>
+						<td><input type="checkbox" name="flaghistorico" style="font-size: xx-small;" <%if flaghistorico=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Flag Historico</font></td>
 					</tr>	
 					<tr>
 						<td class="text-orange" width="30%"><font size="2">Estado:</font></td>
@@ -224,14 +251,14 @@ if session("codusuario")<>"" then
 						</td>					
 					</tr>
 
-							<input type="hidden" name="agregardato" value="">
-							<input type="hidden" name="codfacultad" value="<%=codfacultad%>">
-							<input type="hidden" name="vistapadre" value="<%=obtener("vistapadre")%>">
-							<input type="hidden" name="paginapadre" value="<%=obtener("paginapadre")%>">
-						</form>	
-					</table>
-			</body>
-		</html>	
+					<input type="hidden" name="agregardato" value="">
+					<input type="hidden" name="codfacultad" value="<%=codfacultad%>">
+					<input type="hidden" name="vistapadre" value="<%=obtener("vistapadre")%>">
+					<input type="hidden" name="paginapadre" value="<%=obtener("paginapadre")%>">
+				</form>	
+			</table>
+		</body>
+	</html>	
 		<%		
 		end if
 	else
