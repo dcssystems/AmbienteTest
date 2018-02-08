@@ -67,9 +67,9 @@ if session("codusuario")<>"" then
 						"FROM campaña A " & _
 						"INNER JOIN usuario B ON B.codusuario=A.usuarioregistra " & _
 						"LEFT OUTER JOIN usuario C ON C.codusuario=A.usuariomodifica " & _
-						"INNER JOIN Cliente D ON a.IDCliente = D.IDCliente " & _
-						"INNER JOIN TipoCampaña E ON a.IDTipoCampaña = E.IDTipoCampaña" & _
-						"WHERE a.idcampaña = " & codfacultad
+						"INNER JOIN Cliente D ON A.IDCliente = D.IDCliente " & _
+						"INNER JOIN TipoCampaña E ON A.IDTipoCampaña = E.IDTipoCampaña" & _
+						"WHERE A.idcampaña = " & codfacultad
 					consultar sql,RS
 					descripcion=rs.Fields("descripcion")
 					codcliente=rs.Fields("IDCliente")		
