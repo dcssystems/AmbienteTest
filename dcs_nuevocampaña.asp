@@ -57,7 +57,7 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if codfacultad<>"" then
-					sql="SELECT A.*, A.Descripcion AS tipocampaña,E.Descripcion AS descripcion, " & _
+					sql="SELECT A.*, A.Descripcion AS tipocampaña, E.Descripcion AS descripcion, " & _
 						"B.nombres as Nombreusureg, " & _
 						"B.apepaterno as Apepatusureg, " & _
 						"B.apematerno as Apematusureg, " & _
@@ -68,7 +68,7 @@ if session("codusuario")<>"" then
 						"INNER JOIN usuario B ON B.codusuario=A.usuarioregistra " & _
 						"LEFT OUTER JOIN usuario C ON C.codusuario=A.usuariomodifica " & _
 						"INNER JOIN Cliente D ON A.IDCliente = D.IDCliente " & _
-						"INNER JOIN TipoCampaña E ON A.IDTipoCampaña = E.IDTipoCampaña" & _
+						"INNER JOIN TipoCampaña E ON A.IDTipoCampaña = E.IDTipoCampaña " & _
 						"WHERE A.idcampaña = " & codfacultad
 					consultar sql,RS
 					descripcion=rs.Fields("descripcion")
