@@ -205,9 +205,13 @@ if session("codusuario")<>"" then
 						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
-						<td class="text-orange" width="30%"><font size="2">Orden:</font></td>
-						<td><input name="orden" type="text" maxlength="50" value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
-					</tr>			
+						<td class="text-orange" width="30%"><font size="2">Flag Historico:</font></td>
+						<td><input type="checkbox" name="flaghistorico" style="font-size: xx-small;" <%if flaghistorico=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Activo</font></td>
+					</tr>	
+					<tr>
+						<td class="text-orange" width="30%"><font size="2">Estado:</font></td>
+						<td><input type="checkbox" name="estado" style="font-size: xx-small;" <%if estado=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Estado</font></td>
+					</tr>	
 					<tr class="fondo-red">					
 						<td><font size="2" >&nbsp;</font></td>
 						<td align="right" height="40">
