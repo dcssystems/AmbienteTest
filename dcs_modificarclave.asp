@@ -88,7 +88,8 @@ if session("codusuario")<>"" then
 						</td>
 						<td class="text-orange"><input name="pwdnew2" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
 					</tr>
-					<tr>						
+					<tr>
+						<td></td>					
 						<td align="right" height="40">
 							<a href="javascript:agregar();">
 								<img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar">
