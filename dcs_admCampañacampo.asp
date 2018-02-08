@@ -124,7 +124,7 @@ if session("codusuario")<>"" then
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true, true);
-		    anchocolumna[tabla] =  new Array( '6%','20%', '6%' , '30%','6%' ,'5%','4%' ,'');
+		    anchocolumna[tabla] =  new Array( '6%','20%', '30%' , '6%','6%' ,'5%','4%' ,'');
 		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left');
