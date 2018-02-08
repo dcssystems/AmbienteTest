@@ -56,21 +56,21 @@ if session("codusuario")<>"" then
 				}				
 			</script>
 		</head>
-			<body topmargin="0" leftmargin="0" style="margin-top: 10px;">
+			<body topmargin="0" leftmargin="0" style="margin-top: 5px;">
 				<form name="formula" method="post" action="dcs_modificarclave.asp">
 					<table border="0" cellspacing="0" cellpadding="0" width="100%">
-					<tr class="fondo-red">	
-						<td class="text-withe" colspan="2">			
-							<font size="2"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-orange">
-							<font size="2">&nbsp;&nbsp;Ingrese Contraseña Actual:</font>
-						</td>
-						<td class="text-orange" colspan="2">
-							<input name="pwdact" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
-					</tr>
+						<tr class="fondo-red">	
+							<td class="text-withe" colspan="2">			
+								<font size="2"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-orange">
+								<font size="2">&nbsp;&nbsp;Ingrese Contraseña Actual:</font>
+							</td>
+							<td class="text-orange" colspan="2">
+								<input name="pwdact" type="password" size="18" maxlength="255" value="" style="font-size: xx-small; width: 100px;"></td>
+						</tr>
 					<tr>	
 						<td colspan=3><hr></td>
 					</tr>					
@@ -102,8 +102,6 @@ if session("codusuario")<>"" then
 					</table>
 					<input type="hidden" name="agregardato" value="">
 				</form>
-				
-				
 			</body>
 		</html>	
 		<%		
