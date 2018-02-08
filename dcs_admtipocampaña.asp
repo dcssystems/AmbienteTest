@@ -161,7 +161,7 @@ if session("codusuario")<>"" then
 		
 		contadortotal=0
 		response.write "//PRINT 1 \n"
-		sql="SELECT COUNT(*) FROM DataCRMDirconTest.dbo.TipoCampaña "  & filtrobuscador
+		sql="SELECT COUNT(*) FROM DataCRMDirconTest.dbo.TipoCampa&ntilde;a " & filtrobuscador
 		response.write "//PRINT 2 " & sql & " \n "
 		consultar sql,RS
 		contadortotal=rs.fields(0)
