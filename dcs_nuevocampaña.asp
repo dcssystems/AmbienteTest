@@ -95,7 +95,7 @@ if session("codusuario")<>"" then
 			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
 			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
 			
-			<script language="javascript" src="scripts/popcalendar.js"></script> 
+			<script language="javascript" src="scripts/popcalendar_cobcm.js"></script> 
 			<script language="javascript">
 				var limpioclave=0;
 				<%if codfacultad="" then%>
