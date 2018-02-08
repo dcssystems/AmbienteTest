@@ -35,7 +35,7 @@ if session("codusuario")<>"" then
 			<title>Modificar Contraseña</title>
 			<link rel="stylesheet" href="assets/css/css/animation.css"/>
 			<link rel="stylesheet" href="assets/css/custom.css" />
-			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
+			<link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:400|Raleway:500&amp;subset=greek,greek-ext,latin-ext" rel="stylesheet">
 			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
 			<script language="javascript">
 				function agregar()
