@@ -1,11 +1,3 @@
-Cod.Privilegio	Grupo	Descripción	Página	Orden
-1	Mantenimiento	Grupo Privilegio	dcs_admgrupofacultad.asp	1
-2	Mantenimiento	Privilegio	dcs_admfacultad.asp	2
-3	Mantenimiento	Perfil	dcs_admperfil.asp	3
-4	Mantenimiento	Usuario	dcs_admusuario.asp	4
-5	Mantenimiento	Cliente	dcs_admCliente.asp	5
-6	Campaña	Ver Campaña	dcs_vercampaña.asp	7
-7	Mantenimiento	Contacto	dcs_admContacto.asp	6
-8	Campaña	Crear Campaña	dcs_admcrearcampaña.asp	8
-9	Campaña	Tipo Campaña	dcs_admtipocampaña.asp	9
-10	Campaña	Campaña Campo	dcs_admCampañacampo.asp	10
+Cod.Campaña	Cliente	TipoCampaña	Descripción	FechaInicio	FechaFin	FlagHistorico	Estado
+1	GPS	Campaña FUNO 01-2018	Campaña FUNO 26 de Enero 2018	2018-01-26 00:00:00.000		1	0
+2	GPS	Campaña FUNO 02-2018	Campaña FUNO 26 de Enero 2018	2018-01-26 00:00:00.000		1	0
