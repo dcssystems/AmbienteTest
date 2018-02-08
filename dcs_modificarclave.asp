@@ -59,8 +59,8 @@ if session("codusuario")<>"" then
 			<body topmargin="0" leftmargin="0" style="margin-top: 10px;">
 				<form name="formula" method="post" action="dcs_modificarclave.asp">
 					<table border="0" cellspacing="0" cellpadding="0" width="100%">
-					<tr>	
-						<td class="text-orange" colspan="3">			
+					<tr class="fondo-red">	
+						<td class="text-withe" colspan="2">			
 							<font size="2"><b>&nbsp;<b>Modificar Contraseña:</b></b></font>
 						</td>
 					</tr>
@@ -74,7 +74,7 @@ if session("codusuario")<>"" then
 					<tr>	
 						<td colspan=3><hr></td>
 					</tr>					
-					<tr>
+					<tr class="fondo-gris">
 						<td class="text-orange">
 							<font size=2>&nbsp;&nbsp;Ingrese Nueva Contraseña:</font>
 						</td>
