@@ -119,12 +119,12 @@ if session("codusuario")<>"" then
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true,true, true);
-		    anchocolumna[tabla] =  new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%');
-		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left','left');
-		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left','left');
-		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left','left');
-		    decimalesnumero[tabla] = new Array(-1 ,-1   ,-1      ,-1 ,-1 , -1   ,-1 ,-1 , -1  );
-		    formatofecha[tabla] =   new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'',''  );
+		    anchocolumna[tabla]   = new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%');
+		    aligncabecera[tabla]  = new Array('left','left','left','left','left','left','left','left','left');
+		    aligndetalle[tabla]   = new Array('left','left','left','left','left','left','left','left','left');
+		    alignpie[tabla]       = new Array('left','left','left','left','left','left','left','left','left');
+		    decimalesnumero[tabla] = new Array(-1,-1,-1,-1,-1,-1,-1,-1,-1);
+		    formatofecha[tabla]    = new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'',''  );
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
