@@ -239,7 +239,7 @@ if session("codusuario")<>"" then
 		<script type="text/javascript">
 		    var ventanaclave;
 		    function modificarclave() {
-		        ventanaclave = global_popup_IWTSystem(ventanaclave, "dcs_modificarclave.asp", "NewClave", "scrollbars=yes,scrolling=yes,top=" + (screen.height / 4 - 30) + ",height=120,width=400,left=" + ((screen.width - 400) / 2) + ",resizable=yes");
+		        ventanaclave = global_popup_IWTSystem(ventanaclave, "dcs_modificarclave.asp", "NewClave", "scrollbars=yes,scrolling=yes,top=" + (screen.height / 4 - 30) + ",height=220,width=450,left=" + ((screen.width - 400) / 2) + ",resizable=yes");
 		    }
 		</script>
 		</head>
