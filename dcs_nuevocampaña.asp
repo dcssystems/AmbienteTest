@@ -57,7 +57,7 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if codfacultad<>"" then
-					sql="SELECT A.*, A.Descripcion AS tipocampaña, E.Descripcion AS descripcion, " & _
+					sql="SELECT A.*, " & _
 						"B.nombres as Nombreusureg, " & _
 						"B.apepaterno as Apepatusureg, " & _
 						"B.apematerno as Apematusureg, " & _
@@ -71,11 +71,13 @@ if session("codusuario")<>"" then
 						"INNER JOIN TipoCampaña E ON A.IDTipoCampaña = E.IDTipoCampaña " & _
 						"WHERE A.idcampaña = " & codfacultad
 					consultar sql,RS
-					descripcion=rs.Fields("descripcion")
+					descripcion=rs.Fields("Descripcion")
 					codcliente=rs.Fields("IDCliente")		
 					fechInicio=rs.Fields("FechaInicio")	
 					fechFin=rs.Fields("FechaFin")						
-					tipocampana=rs.Fields("tipocampaña")
+					tipocampana=rs.Fields("IDTipoCampaña")
+					flaghistorico=rs.Fields("FlagHistorico")						
+					estado=rs.Fields("Estado")
 					fechaReg=RS.Fields("fecharegistra")
 					usuarioReg=iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
 					fechaMod=RS.Fields("fechamodifica")
@@ -155,18 +157,18 @@ if session("codusuario")<>"" then
 					<%end if%>						
 					<tr>
 						<td class="text-orange" width="20%"><font  size="2">Descripción:</font></td>
-						<td><input name="descripcion" type=text maxlength=200 value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
+						<td><input name="descripcion" type="text" maxlength="200" value="<%=Descripcion%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr class="fondo-gris">
-						<td class="text-orange"><font size="2">Grupo:</font></td>
+						<td class="text-orange"><font size="2">Cliente:</font></td>
 						<td>
-							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
+							<select name="cliente" style="font-size: xx-small; width: 200px;">
 							<%
-							sql = "select codgrupofacultad, descripcion from grupofacultad order by orden"
+							sql = "SELECT IDCliente, RazonSocial FROM cliente ORDER BY RazonSocial ASC"
 							consultar sql,RS
 							Do While Not  RS.EOF
 							%>
-								<option value="<%=RS.Fields("codgrupofacultad")%>" <% if codgrupofacultad<>"" then%><% if RS.fields("codgrupofacultad")=int(codgrupofacultad) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
+								<option value="<%=RS.Fields("IDCliente")%>" <% if codcliente<>"" then%><% if RS.fields("IDCliente")=int(codcliente) then%> selected<%end if%><%end if%>><%=RS.Fields("RazonSocial")%></option>
 							<%
 							RS.MoveNext
 							loop
@@ -175,6 +177,24 @@ if session("codusuario")<>"" then
 							</select>
 						</td>
 					</tr>
+					<tr>
+						<td class="text-orange"><font size="2">Tipo de Campaña:</font></td>
+						<td>
+							<select name="codgrupofacultad" style="font-size: xx-small; width: 200px;">
+							<%
+							sql = "SELECT IDTipoCampaña, Descripcion FROM TipoCampaña ORDER BY IDTipoCampaña ASC"
+							consultar sql,RS
+							Do While Not  RS.EOF
+							%>
+								<option value="<%=RS.Fields("IDTipoCampaña")%>" <% if tipocampana<>"" then%><% if RS.fields("IDTipoCampaña")=int(tipocampana) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
+							<%
+							RS.MoveNext
+							loop
+							RS.Close
+							%>
+							</select>
+						</td>
+					</tr class="fondo-gris">
 					<tr>
 						<td class="text-orange" width="30%"><font size="2" >P&aacute;gina:</font></td>
 						<td><input name="pagina" type="text" maxlength="200" value="<%=pagina%>" style="font-size: xx-small; width: 200px;"></td>
