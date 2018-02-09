@@ -155,7 +155,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 						<select name="codtipoaccion" onchange="actualizarcodrespuesta()" style="font-size: xx-small; width: 94%">
 						<option value="">Seleccionar Acción</option>
 						<%
-						sql="select A.codtipoaccion,A.descripcion from TipoAccion A inner join Gestion B on A.codtipoaccion=B.codtipoaccion and A.activo=1 and B.activo=1 group by A.codtipoaccion,A.descripcion order by A.descripcion"
+						sql="select A.IDTipoAccion,A.descripcion from TipoAccion A inner join Gestion B on A.IDTipoAccion=B.IDTipoAccion and A.activo=1 and B.activo=1 group by A.IDTipoAccion,A.descripcion order by A.descripcion"
 						consultar sql,RS
 						Do While Not  RS.EOF
 						%>
