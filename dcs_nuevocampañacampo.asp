@@ -70,7 +70,7 @@ if session("codusuario")<>"" then
 					"B.apematerno AS apematernoReg, " &_
 					"A.fechamodifica, " &_
 					"C.nombres AS nombresMod, " &_
-					"C.apepaterno AS apepaternoMod, " &_
+					"C.apepaterno AS apematernoMod, " &_
 					"C.apematerno AS apematernoMod " &_
 					"FROM Campaña_Campo a  " &_
 					"LEFT OUTER JOIN Usuario B ON A.usuarioregistra=B.codusuario " &_
@@ -86,9 +86,9 @@ if session("codusuario")<>"" then
 					visible          = rs.Fields("Visible")	
 					descampana       = rs.Fields("Descampaña")					
 					FechaRegistra    = RS.Fields("FechaRegistra")
-					usuarioReg       = iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
+					usuarioReg       = iif(IsNull(RS.Fields("nombresReg")),"",RS.Fields("nombresReg")) & ", " & iif(IsNull(RS.Fields("apepaternoReg")),"",RS.Fields("apepaternoReg")) & " " & iif(IsNull(RS.Fields("apematernoReg")),"",RS.Fields("apematernoReg"))
 					FechaModifica    = RS.Fields("FechaModifica")
-					usuarioMod       = iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
+					usuarioMod       = iif(IsNull(RS.Fields("nombresMod")),"",RS.Fields("nombresMod")) & ", " & iif(IsNull(RS.Fields("apepaternoMod")),"",RS.Fields("apepaternoMod")) & " " & iif(IsNull(RS.Fields("apematernoMod")),"",RS.Fields("apematernoMod"))
 					RS.Close
 			end if		
 		%>
