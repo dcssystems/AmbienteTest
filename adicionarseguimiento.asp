@@ -173,7 +173,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 						<td bgcolor="#f5f5f5">
 						<select name="codtipocontacto" onchange="actualizarcodrespuesta()" style="font-size: xx-small; width: 94%">
 						<%
-						sql="select codtipocontacto,descripcion from tipocontacto where activo=1 order by codtipocontacto"
+						sql="select IDTipoContacto,descripcion from tipocontacto where activo=1 order by IDTipoContacto"
 						consultar sql,RS
 						Do While Not  RS.EOF
 						%>
