@@ -57,28 +57,38 @@ if session("codusuario")<>"" then
 			end if
 		else
 			if idcliente<>"" then
-					sql="SELECT A.*, " & _
-						"	B.nombres AS Nombreusureg, " & _
-						"	B.apepaterno AS Apepatusureg, " & _
-						"	B.apematerno AS Apematusureg, " & _
-						"	C.nombres AS Nombreusumod, " & _
-						"	C.apepaterno AS Apepatusumod, " & _
-						"	C.apematerno AS Apematusumod " & _
-						"FROM cliente A " & _
-						"INNER JOIN usuario B ON B.codusuario=A.UsuarioRegistra " & _
-						"LEFT OUTER JOIN usuario C ON C.codusuario=A.UsuarioModifica " & _
-						"WHERE A.IDCliente = " & idcliente 
+					sql="SELECT a.IDCampañaCampo, " &_
+					"a.GlosaCampo, " &_
+					"a.Nivel, " &_
+					"a.TipoCampo, " &_
+					"a.FlagNroDocumento, " &_
+					"a.Visible, " &_
+					"d.Descripcion AS 'Descampaña', " &_
+					"A.fecharegistra, " &_
+					"B.nombres AS nombresReg, " &_
+					"B.apepaterno AS apepaternoReg, " &_
+					"B.apematerno AS apematernoReg, " &_
+					"A.fechamodifica, " &_
+					"C.nombres AS nombresMod, " &_
+					"C.apepaterno AS apepaternoMod, " &_
+					"C.apematerno AS apematernoMod " &_
+					"FROM Campaña_Campo a  " &_
+					"LEFT OUTER JOIN Usuario B ON A.usuarioregistra=B.codusuario " &_
+					"LEFT OUTER JOIN Usuario C ON A.usuariomodifica=C.codusuario " &_
+					"INNER JOIN TipoCampaña d ON a.IDTipoCampaña = d.IDTipoCampaña " &_
+					"WHERE IDCampañaCampo = " & idcliente
 					consultar sql,RS
-					RazonSocial= rs.Fields("RazonSocial")	
-					RUC        = rs.Fields("RUC")
-					Direccion  = rs.Fields("Direccion")	
-					Telefono   = rs.Fields("Telefono")
-					Activo     = rs.Fields("Activo")	
-					Email     = rs.Fields("Email")					
-					FechaRegistra   = RS.Fields("FechaRegistra")
-					usuarioReg = iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
-					FechaModifica   = RS.Fields("FechaModifica")
-					usuarioMod = iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
+					idcampanacampo   = rs.Fields("IDCampañaCampo")	
+					glosacampo       = rs.Fields("GlosaCampo")
+					nivel            = rs.Fields("Nivel")	
+					tipoCampo        = rs.Fields("TipoCampo")
+					FlagNroDocumento = rs.Fields("FlagNroDocumento")
+					visible          = rs.Fields("Visible")	
+					descampana       = rs.Fields("Descampaña")					
+					FechaRegistra    = RS.Fields("FechaRegistra")
+					usuarioReg       = iif(IsNull(RS.Fields("Nombreusureg")),"",RS.Fields("Nombreusureg")) & ", " & iif(IsNull(RS.Fields("Apepatusureg")),"",RS.Fields("Apepatusureg")) & " " & iif(IsNull(RS.Fields("Apematusureg")),"",RS.Fields("Apematusureg"))
+					FechaModifica    = RS.Fields("FechaModifica")
+					usuarioMod       = iif(IsNull(RS.Fields("Nombreusumod")),"",RS.Fields("Nombreusumod")) & ", " & iif(IsNull(RS.Fields("Apepatusumod")),"",RS.Fields("Apepatusumod")) & " " & iif(IsNull(RS.Fields("Apematusumod")),"",RS.Fields("Apematusumod"))
 					RS.Close
 			end if		
 		%>
