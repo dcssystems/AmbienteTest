@@ -41,7 +41,10 @@ if session("codusuario")<>"" then
         }
       }
       
-    </script>   	
+    </script>
+
+
+    	
 		<script language="javascript" src="scripts/TablaDinamica.js"></script>
 		<script language="javascript">
 		var ventanafacultad;
@@ -100,7 +103,7 @@ if session("codusuario")<>"" then
 		
 		<script language="javascript">
 			<%
-				idcampana = obtener("idcampana")''idcampana=2 
+				idcampana=2 ''obtener("idcampaña")
 				sql="select GlosaCampo,ROW_NUMBER () over (order by NroCampo) as Orden,CampoCalculado,Formula,Condicion,IDCampañaCampo,TipoCampo,FlagNroDocumento,anchocolumna,aligncabecera,aligndetalle,alignpie,decimalesnumero,formatofecha " & chr(10) & _
                     "from Campaña_Campo " & chr(10) & _
                     "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña=2) " & chr(10) & _
@@ -200,7 +203,7 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " "
+			filtrobuscador = " where (f.codfacultad like '%" & buscador & "%' or f.descripcion like '%" & buscador & "%' or g.descripcion like '%" & buscador & "%' or f.orden like '%" & buscador & "%') "
 		end if
 		
 		if filtrobuscador<>"" then
@@ -208,7 +211,7 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		sql="select Count(*) / (select count(*) from Campaña_Campo where IDTipoCampaña =" & idcampana & " and FlagNroDocumento <> 1) from Campaña_Detalle where IDCampañaPersona in (Select IDCampañaPersona from Campaña_Persona where IDCampaña =" & idcampana & ")  " & filtrobuscador 
+		sql="select count(*) from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -262,9 +265,9 @@ if session("codusuario")<>"" then
 		consultar sql,RS2            
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " and " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " order by A.IDCampañaPersona) order by A.IDCampañaPersona"
+		sql="select top 0 *,f.descripcion as descrip,g.descripcion as grupo, f.orden from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad where " & filtrobuscador1 & " f.codfacultad not in (select top " & topnovisible & " f.codfacultad from facultad f inner join grupofacultad g on f.codgrupofacultad = g.codgrupofacultad " & filtrobuscador & " order by f.codfacultad) order by f.codfacultad" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " order by A.IDCampañaPersona"
+		sql="select A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=2 order by A.IDCampañaPersona"
 		end if
 		''response.write sql
 		consultar sql,RS

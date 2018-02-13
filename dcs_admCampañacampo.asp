@@ -4,7 +4,7 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("dcs_admCampañacampo.asp") then
+	if permisofacultad("dcs_admCampaÃ±acampo.asp") then
 		buscador=obtener("buscador")
 		''Codigo exp excel - se repite
 		expimp=obtener("expimp")
@@ -57,11 +57,11 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevocampañacampo.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCampañacampo.asp&IDCliente=" + codigo,"NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp&IDCliente=" + codigo,"NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 220)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
 		function agregar()
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevocampañacampo.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCampañacampo.asp","NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevoCliente.asp?vistapadre=" + window.name + "&paginapadre=dcs_admCliente.asp","NewCliente","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}
 		function actualizar()
 		{
@@ -108,7 +108,7 @@ if session("codusuario")<>"" then
 		
 		<script language="javascript">
 			rutaimgcab="imagenes/"; 
-		  //Configuración general de datos de tabla 0
+		  //ConfiguraciÃ³n general de datos de tabla 0
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
@@ -120,11 +120,11 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDCampañaCampo','Tipo Campaña','GlosaCampo','Nivel','Tipo Campo','FlagNroDocumento','Visible','Editar');
+		    cabecera[tabla] = new Array('IDCampaÃ±aCampo','Tipo CampaÃ±a','GlosaCampo','Nivel','Tipo Campo','FlagNroDocumento','Visible','Editar');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true, true);
-		    anchocolumna[tabla] =  new Array( '6%','20%', '30%' , '6%','6%' ,'5%','4%' ,'');
+		    anchocolumna[tabla] =  new Array( '6%','20%', '6%' , '30%','6%' ,'5%','4%' ,'');
 		    aligncabecera[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    aligndetalle[tabla] = new Array('left','left','left','left','left','left','left','left');
 		    alignpie[tabla] =     new Array('left','left','left','left','left','left','left','left');
@@ -135,7 +135,7 @@ if session("codusuario")<>"" then
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
-				objetofomulario[tabla][0]='<input type=hidden name=IDCampañaCampo-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][0]='<input type=hidden name=IDCampaÃ±aCampo-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][2]='<a href=javascript:modificar("-id-");>-valor-</a>';
 				objetofomulario[tabla][3]='<a href=javascript:modificar("-id-");>-valor-</a>';
@@ -183,7 +183,7 @@ if session("codusuario")<>"" then
 		end if		
 		
 		contadortotal=0
-		sql="SELECT COUNT(*) FROM Campaña_Campo a inner join TipoCampaña b on a.IDTipoCampaña = b.IDTipoCampaña " & filtrobuscador 
+		sql="SELECT COUNT(*) FROM CampaÃ±a_Campo a inner join TipoCampaÃ±a b on a.IDTipoCampaÃ±a = b.IDTipoCampaÃ±a " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -227,18 +227,18 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " a.IDCampañaCampo,a.GlosaCampo,a.Nivel,a.TipoCampo,a.FlagNroDocumento,a.Visible, b.Descripcion as Descampaña from Campaña_Campo a inner join TipoCampaña b on a.IDTipoCampaña = b.idtipocampaña where " & filtrobuscador1 & " a.IDCampañaCampo NOT  IN (SELECT TOP " & topnovisible & " a.IDCampañaCampo FROM Campaña_Campo a inner join TipoCampaña b on a.IDTipoCampaña = b.idtipocampaña  " & filtrobuscador & " ORDER BY a.IDCampañaCampo) ORDER BY a.IDCampañaCampo" 
+		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaÃ±aCampo,a.GlosaCampo,a.Nivel,a.TipoCampo,a.FlagNroDocumento,a.Visible, b.Descripcion as DescampaÃ±a from CampaÃ±a_Campo a inner join TipoCampaÃ±a b on a.IDTipoCampaÃ±a = b.idtipocampaÃ±a where " & filtrobuscador1 & " a.IDCampaÃ±aCampo NOT  IN (SELECT TOP " & topnovisible & " a.IDCampaÃ±aCampo FROM CampaÃ±a_Campo a inner join TipoCampaÃ±a b on a.IDTipoCampaÃ±a = b.idtipocampaÃ±a  " & filtrobuscador & " ORDER BY a.IDCampaÃ±aCampo) ORDER BY a.IDCampaÃ±aCampo" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " a.IDCampañaCampo,a.GlosaCampo,a.Nivel,a.TipoCampo,a.FlagNroDocumento,a.Visible, b.Descripcion as 'Descampaña' from Campaña_Campo a inner join TipoCampaña b on a.IDTipoCampaña = b.IDTipoCampaña " & filtrobuscador & " ORDER BY a.IDCampañaCampo" 
+		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaÃ±aCampo,a.GlosaCampo,a.Nivel,a.TipoCampo,a.FlagNroDocumento,a.Visible, b.Descripcion as 'DescampaÃ±a' from CampaÃ±a_Campo a inner join TipoCampaÃ±a b on a.IDTipoCampaÃ±a = b.IDTipoCampaÃ±a " & filtrobuscador & " ORDER BY a.IDCampaÃ±aCampo" 
 		end if
 		''response.write sql
 		consultar sql,RS
 		contador=0
 		
 			Do while not RS.EOF 
-				if obtener("actualizarlista")<>"" and obtener("IDCampañaCampo" & RS.Fields("IDCampañaCampo"))<>"" then
+				if obtener("actualizarlista")<>"" and obtener("IDCampaÃ±aCampo" & RS.Fields("IDCampaÃ±aCampo"))<>"" then
 					
-					if obtener("Visible" & RS.Fields("IDCampañaCampo"))<>"" then
+					if obtener("Visible" & RS.Fields("IDCampaÃ±aCampo"))<>"" then
 						Visible="1"
 					else
 						Visible="0"
@@ -246,7 +246,7 @@ if session("codusuario")<>"" then
 
 		
 						if 	int(Visible) <> rs.Fields("Visible") then
-							sql="UPDATE Campaña_Campo SET Visible=" & Visible & " WHERE IDCampañaCampo=" & rs.Fields("IDCampañaCampo") 
+							sql="UPDATE CampaÃ±a_Campo SET Visible=" & Visible & " WHERE IDCampaÃ±aCampo=" & rs.Fields("IDCampaÃ±aCampo") 
 									'response.write "query:" & sql
 							conn.Execute sql
 						end if	
@@ -255,13 +255,13 @@ if session("codusuario")<>"" then
 										
 		%>
 			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDCampañaCampo")%>';
-				datos[tabla][<%=contador%>][1]='<%=rs.Fields("Descampaña")%>';
+				datos[tabla][<%=contador%>][0]='<%=RS.Fields("IDCampaÃ±aCampo")%>';
+				datos[tabla][<%=contador%>][1]='<%=rs.Fields("DescampaÃ±a")%>';
 				datos[tabla][<%=contador%>][2]='<%=rs.Fields("GlosaCampo")%>';
 				datos[tabla][<%=contador%>][3]='<%=rs.Fields("Nivel")%>';
 				datos[tabla][<%=contador%>][4]='<%=rs.Fields("TipoCampo")%>';
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("FlagNroDocumento")%>';
-				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCampañaCampo" & RS.Fields("IDCampañaCampo"))<>"" then%><%if int(Visible)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Visible")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
+				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaÃ±aCampo" & RS.Fields("IDCampaÃ±aCampo"))<>"" then%><%if int(Visible)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Visible")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;						
 				datos[tabla][<%=contador%>][7]='';
 							
 		<%
@@ -298,7 +298,7 @@ if session("codusuario")<>"" then
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0">	
 						<tr class="fondo-orange">
-							<td class="text-orange"><font size="2" face="Raleway" ><b>Campaña Campo (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
+							<td class="text-orange"><font size="2" face="Raleway" ><b>CampaÃ±a Campo (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><img src="imagenes/nuevo.gif" border="0" alt="Nuevo" title="Nuevo" align="middle"></a></td>
 							<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><img src="imagenes/buscar.gif" border="0" alt="Buscar" title="Buscar" align="middle"></a></td>
 						</tr>
@@ -309,7 +309,7 @@ if session("codusuario")<>"" then
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0" border="0">		
 						<tr class="fondo-orange">
-							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>Campaña Campo (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
+							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>CampaÃ±a Campo (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
 							<!--<td bgcolor="#F5F5F5" align=left><font size=2 face=Raleway color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
 							<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
@@ -385,7 +385,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorización para este proceso.");
+		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	

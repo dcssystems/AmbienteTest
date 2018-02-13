@@ -107,7 +107,7 @@ if session("codusuario")<>"" then
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
-		    nrocolumnas[tabla]=9;
+		    nrocolumnas[tabla]=10;
 		    fondovariable[tabla]='bgcolor=#f5f5f5';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
@@ -115,16 +115,16 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDCampaña', 'Cliente', 'TipoCampaña', 'Descripcion', 'FechaInicio', 'FechaFin', 'FlagHistorico', 'Estado','Editar');
+		    cabecera[tabla] = new Array('IDCampaña', 'Cliente', 'TipoCampaña', 'Descripcion', 'FechaInicio', 'FechaFin', 'FlagHistorico', 'Estado','Editar','Acción');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true,true, true);
-		    anchocolumna[tabla]   = new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%');
-		    aligncabecera[tabla]  = new Array('left','left','left','left','left','left','left','left','left');
-		    aligndetalle[tabla]   = new Array('left','left','left','left','left','left','left','left','left');
-		    alignpie[tabla]       = new Array('left','left','left','left','left','left','left','left','left');
-		    decimalesnumero[tabla] = new Array(-1,-1,-1,-1,-1,-1,-1,-1,-1);
-		    formatofecha[tabla]    = new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'',''  );
+		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true,true, true, true);
+		    anchocolumna[tabla]   = new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%','5%');
+		    aligncabecera[tabla]  = new Array('left','left','left','left','left','left','left','left','left','left');
+		    aligndetalle[tabla]   = new Array('left','left','left','left','left','left','left','left','left','left');
+		    alignpie[tabla]       = new Array('left','left','left','left','left','left','left','left','left','left');
+		    decimalesnumero[tabla] = new Array(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1);
+		    formatofecha[tabla]    = new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'','',''  );
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
@@ -137,8 +137,11 @@ if session("codusuario")<>"" then
 			    objetofomulario[tabla][4]='<a href="javascript:modificar(-id-);">-valor-</a>';
 			    objetofomulario[tabla][5]='<a href="javascript:modificar(-id-);">-valor-</a>';			  
 				objetofomulario[tabla][6]=objetodatos("checkbox",tabla,"FlagHistorico","","","");
-				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"Activo","","","");
+				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][8]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
+				objetofomulario[tabla][9]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-paper-plane">&#xf1d8;</i></a>';
+
+
 				
 										
 					
@@ -153,7 +156,8 @@ if session("codusuario")<>"" then
 				filtrofomulario[tabla][5]='';
 				filtrofomulario[tabla][6]='';
 				filtrofomulario[tabla][7]='';
-				filtrofomulario[tabla][8]='';										
+				filtrofomulario[tabla][8]='';	
+				filtrofomulario[tabla][9]='';									
 					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
@@ -165,6 +169,7 @@ if session("codusuario")<>"" then
 				valorfiltrofomulario[tabla][6]='';
 				valorfiltrofomulario[tabla][7]='';
 				valorfiltrofomulario[tabla][8]='';
+				valorfiltrofomulario[tabla][9]='';
 
 
 		    //Se escribe el conjunto de datos de tabla 0
@@ -227,9 +232,9 @@ if session("codusuario")<>"" then
 
 		
 		if pag>1 then					
-		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaña, b.RazonSocial as 'Cliente', c.Descripcion as 'TipoCampaña', a.Descripcion, a.FechaInicio, a.FechaFin, a.FlagHistorico, a.Estado from campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña WHERE " & filtrobuscador1 & " a.IDCampaña NOT IN (SELECT TOP " & topnovisible & " a.IDCampaña FROM campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña " & filtrobuscador & " ORDER BY a.IDCampaña) ORDER BY a.IDCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaña, b.RazonSocial as Cliente, c.Descripcion as TipoCampaña , a.Descripcion, a.FechaInicio, a.FechaFin, a.FlagHistorico, d.Descripcion AS Estado from campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña inner join Estado d on d.CodEstado = a.Estado and d.Tabla = 'Campaña' WHERE " & filtrobuscador1 & " a.IDCampaña NOT IN (SELECT TOP " & topnovisible & " campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña inner join Estado d on d.CodEstado = a.Estado and d.Tabla = 'Campaña' " & filtrobuscador & " ORDER BY a.IDCampaña) ORDER BY a.IDCampaña" 
 		else
-		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaña, b.RazonSocial as Cliente, c.Descripcion as TipoCampaña , a.Descripcion, a.FechaInicio, a.FechaFin, a.FlagHistorico, a.Estado from campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña " & filtrobuscador & " ORDER BY a.IDCampaña" 
+		sql="SELECT TOP " & cantidadxpagina & " a.IDCampaña, b.RazonSocial as Cliente, c.Descripcion as TipoCampaña , a.Descripcion, a.FechaInicio, a.FechaFin, a.FlagHistorico, d.Descripcion AS Estado from campaña a inner join Cliente b  on a.IDCliente = b.IDCliente inner join TipoCampaña c on a.IDTipoCampaña = c.IDTipoCampaña inner join Estado d on d.CodEstado = a.Estado and d.Tabla = 'Campaña' " & filtrobuscador & " ORDER BY a.IDCampaña" 
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -262,8 +267,9 @@ if session("codusuario")<>"" then
 				datos[tabla][<%=contador%>][4]='<%=rs.Fields("FechaInicio")%>';
 				datos[tabla][<%=contador%>][5]='<%=rs.Fields("FechaFin")%>';
 				datos[tabla][<%=contador%>][6]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaña" & RS.Fields("IDCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("FlagHistorico")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("IDCampaña" & RS.Fields("IDCampaña"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Estado")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;				
+				datos[tabla][<%=contador%>][7]='<%=rs.Fields("Estado")%>';		
 				datos[tabla][<%=contador%>][8]='';
+				datos[tabla][<%=contador%>][9]='';
 							
 		<%
 			contador=contador + 1
@@ -273,8 +279,8 @@ if session("codusuario")<>"" then
 		%>
 			    
 		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
-		    piefunciones[tabla] = new Array('','','','','','','','',''); 
+		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
+		    piefunciones[tabla] = new Array('','','','','','','','','',''); 
 
 
 		    //Se escriben las opciones para los selects que contenga
