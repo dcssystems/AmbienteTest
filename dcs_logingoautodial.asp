@@ -94,7 +94,11 @@
 		
 		
 		
+<<<<<<< HEAD
 		<iframe name="t_new" style="height:100%; width:100%;" ></iframe><!--style="visibility:hidden;"-->
+=======
+		<iframe id="t_new" name="t_new" style="height:100%; width:100%;" ></iframe><!--style="visibility:hidden;"-->
+>>>>>>> 60331cec3af872d4b622639875bfa690e963578d
 		
 		<!-- jQuery first, then Tether, then Bootstrap JS. -->
 		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
