@@ -114,7 +114,9 @@
 		}
 		
 		function codeCountry(){
-			var myIframe = window.parent.document.getElementById("MDDiaLCodE").value="51";
+			var myIFrameOne = document.querySelector('#t_new');
+			console.log(myIFrameOne);
+			var myIframe = document.getElementById('t_new');;
 			//myIframe.document.getElementById("MDDiaLCodE").value="51";
 			console.log(myIframe);
 		}
