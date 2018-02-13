@@ -114,9 +114,13 @@
 		}
 		
 		function codeCountry(){
-			var myIframe = window.parent.document.getElementById("MDDiaLCodE").value="51";
+			var myIFrameOne = document.querySelector('#t_new');
+			//myIFrameOne.getElementById('MDDiaLCodE').value=51;
+			console.log(myIFrameOne);
+			//var myIframe = document.getElementById('t_new');
+			//myIframe.getElementById('MDPhonENumbeR').value=944267001;
 			//myIframe.document.getElementById("MDDiaLCodE").value="51";
-			console.log(myIframe);
+			//console.log(myIframe);
 		}
 		</script>
 		

@@ -139,7 +139,7 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][6]=objetodatos("checkbox",tabla,"FlagHistorico","","","");
 				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][8]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
-				objetofomulario[tabla][9]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-paper-plane">&#xf1d8;</i></a>';
+				objetofomulario[tabla][9]='<a href="dcs_vercampaña.asp?idcampana=-id-"><i class="demo-icon2 icon-paper-plane">&#xf1d8;</i></a>';
 
 
 				
