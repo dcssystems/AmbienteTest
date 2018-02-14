@@ -243,7 +243,7 @@
     {
       "uid": "38575a803c4da31ce20d77e1e1236bcb",
       "css": "paper-plane",
-      "code": 61912,
+      "code": 61837,
       "src": "fontawesome"
     },
     {
@@ -251,6 +251,24 @@
       "css": "bell",
       "code": 59421,
       "src": "entypo"
+    },
+    {
+      "uid": "b6fc2f656ef87275889422e19550680a",
+      "css": "reply",
+      "code": 59422,
+      "src": "entypo"
+    },
+    {
+      "uid": "26aba7edd46944209b4961670675a813",
+      "css": "cog",
+      "code": 59423,
+      "src": "websymbols"
+    },
+    {
+      "uid": "5048fb5dd929882d2bac1ad3777b0b7d",
+      "css": "filter",
+      "code": 59424,
+      "src": "elusive"
     }
   ]
 }

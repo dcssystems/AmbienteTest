@@ -29,6 +29,9 @@
 .icon-stop:before { content: '\e81b'; } /* '' */
 .icon-flash:before { content: '\e81c'; } /* '' */
 .icon-bell:before { content: '\e81d'; } /* '' */
+.icon-reply:before { content: '\e81e'; } /* '' */
+.icon-cog:before { content: '\e81f'; } /* '' */
+.icon-filter:before { content: '\e820'; } /* '' */
 .icon-menu:before { content: '\f008'; } /* '' */
 .icon-sort:before { content: '\f0dc'; } /* '' */
 .icon-coffee:before { content: '\f0f4'; } /* '' */
@@ -36,7 +39,7 @@
 .icon-circle:before { content: '\f111'; } /* '' */
 .icon-ok-squared:before { content: '\f14a'; } /* '' */
 .icon-pencil-squared:before { content: '\f14b'; } /* '' */
+.icon-paper-plane:before { content: '\f18d'; } /* '' */
 .icon-dot-circled:before { content: '\f192'; } /* '' */
 .icon-file-excel:before { content: '\f1c3'; } /* '' */
-.icon-paper-plane:before { content: '\f1d8'; } /* '' */
 .icon-user-circle:before { content: '\f2bd'; } /* '' */
