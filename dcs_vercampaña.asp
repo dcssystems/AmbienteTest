@@ -227,18 +227,19 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
+		filtrobuscador = "where a.IDCampaña =" & idcampana 
 		if buscador<>"" then
-			filtrobuscador = " "
+			filtrobuscador = "where a.IDCampaña =" & idcampana & " and a.IDCampañaPersona in ( select b.IDCampañaPersona from Campaña_Detalle a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where b.IDCampaña = 1 and IDCampañaCampo = 1 and ValorTexto like '%" & buscador & "%')"
 		end if
 		
 		if filtrobuscador<>"" then
 			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
 		end if		
-				filtrobuscador = " and a.IDCampañaPersona in ( select b.IDCampañaPersona from Campaña_Detalle a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where b.IDCampaña = 1 and IDCampañaCampo = 1 and ValorTexto like '%Moises%')"
+				
 		
 		contadortotal=0
 		
-		sql="select Count(*) / (select count(*) from Campaña_Campo b inner join campaña c on b.IDTipoCampaña = c.IDTipoCampaña where c.IDCampaña =" & idcampana & " and b.FlagNroDocumento <> 1) from Campaña_Detalle a where IDCampañaPersona in (Select IDCampañaPersona from Campaña_Persona where IDCampaña =" & idcampana & ") " & filtrobuscador 
+		sql="select Count(*) / (select count(*) from Campaña_Campo b inner join campaña c on b.IDTipoCampaña = c.IDTipoCampaña where c.IDCampaña =" & idcampana & " and b.FlagNroDocumento <> 1) from Campaña_Detalle a where IDCampañaPersona in (Select IDCampañaPersona from Campaña_Persona a " & filtrobuscador & ") "  
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -289,13 +290,13 @@ if session("codusuario")<>"" then
             "on B.IDTipoCampaña=C.IDTipoCampaña and C.Nivel=1 and C.Visible=1 " & chr(10) & _
             "inner join Campaña_Detalle D " & chr(10) & _
             "on A.IDCampañaPersona=D.IDCampañaPersona and C.IDCampañaCampo=D.IDCampañaCampo " & chr(10) & _
-            "where A.IDCampaña=" & IDCampana 
+            filtrobuscador
 		consultar sql,RS2            
 		
 		if pag>1 then					
 		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " and " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " order by A.IDCampañaPersona) order by A.IDCampañaPersona"
 		else
-		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " " & filtrobuscador & " order by A.IDCampañaPersona"
+		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A " & filtrobuscador & " order by A.IDCampañaPersona"
 		end if
 		''response.write sql
 		consultar sql,RS
