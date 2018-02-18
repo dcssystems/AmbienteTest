@@ -24,13 +24,28 @@ if session("codusuario")<>"" then
 		<!--cargando--><img src="imagenes/loading.gif" border="0" id="imgloading" name="imgloading" style="margin-left: 50px;margin-top:50px;"><%Response.Flush()%>
 		<head>
 			<link rel="stylesheet" href="assets/css/css/animation.css"/>
-			<link rel="stylesheet" href="assets/css/custom.css" />
+			<link rel="stylesheet" href="assets/css/custom.css" />			
 			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
+
 			<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->	
 			
-			
+			<script language="javascript" src="assets/jquery/dist/jquery-3.3.1.js"></script>
+			<script language="javascript">
+				$(document).ready(function(){
+					$("#modal-filtro").hide();
+					
+				    $("#close-modal").on('click', function(){
+						$("#modal-filtro").hide();
+				    });
+					$("#show-filtro").on('click', function(){
+						$("#modal-filtro").removeClass('no-visible');
+						$("#modal-filtro").show();
+					});
+					
+				});
+			</script>
 	
-    <script>
+    <script language="javascript">
       function toggleCodes(on) {
         var obj = document.getElementById('icons');
       
@@ -40,6 +55,9 @@ if session("codusuario")<>"" then
           obj.className = obj.className.replace(' codesOn', '');
         }
       }
+      /*$document.scroll(function() {
+ 			 $(".title").toggleClass(newClass, $document.scrollTop() >= 5);
+		});*/
       
     </script>   	
 		<script language="javascript" src="scripts/TablaDinamica.js"></script>
@@ -94,16 +112,26 @@ if session("codusuario")<>"" then
 			document.formula.pag.value=pagina;
 			document.formula.submit();
 		}
+		function mostrarfiltro()
+		{
+			var filtro = document.getElementsByClassName('filtro-oculto').className="filtro-visible";
+			console.log(filtro);
+			//filtro.remove('visibility');			
+		}
+		
+
+		
 		</script>
 		
 		</head>
 		
 		<script language="javascript">
+			
 			<%
 				idcampana = obtener("idcampana")''idcampana=2 
 				sql="select GlosaCampo,ROW_NUMBER () over (order by NroCampo) as Orden,CampoCalculado,Formula,Condicion,IDCampañaCampo,TipoCampo,FlagNroDocumento,anchocolumna,aligncabecera,aligndetalle,alignpie,decimalesnumero,formatofecha " & chr(10) & _
                     "from Campaña_Campo " & chr(10) & _
-                    "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña=2) " & chr(10) & _
+                    "where IDTipoCampaña in (select IDTipoCampaña from Campaña where idcampaña=" & idcampana & ") " & chr(10) & _
                     "and Nivel=1 and Visible=1 " & chr(10) & _
                     "order by Orden"
 				consultar sql,RS3	
@@ -206,9 +234,11 @@ if session("codusuario")<>"" then
 		if filtrobuscador<>"" then
 			filtrobuscador1=mid(filtrobuscador,7,len(filtrobuscador)) & " and "
 		end if		
+				filtrobuscador = " and a.IDCampañaPersona in ( select b.IDCampañaPersona from Campaña_Detalle a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where b.IDCampaña = 1 and IDCampañaCampo = 1 and ValorTexto like '%Moises%')"
 		
 		contadortotal=0
-		sql="select Count(*) / (select count(*) from Campaña_Campo where IDTipoCampaña =" & idcampana & " and FlagNroDocumento <> 1) from Campaña_Detalle where IDCampañaPersona in (Select IDCampañaPersona from Campaña_Persona where IDCampaña =" & idcampana & ")  " & filtrobuscador 
+		
+		sql="select Count(*) / (select count(*) from Campaña_Campo b inner join campaña c on b.IDTipoCampaña = c.IDTipoCampaña where c.IDCampaña =" & idcampana & " and b.FlagNroDocumento <> 1) from Campaña_Detalle a where IDCampañaPersona in (Select IDCampañaPersona from Campaña_Persona where IDCampaña =" & idcampana & ") " & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		
@@ -250,6 +280,7 @@ if session("codusuario")<>"" then
 		bloquemax=int(pagmax/paginasxbloque) + 1
 		end if
 
+
         sql="select A.IDCampañaPersona,A.NroDocumento,C.IDCampañaCampo,C.NroCampo,C.TipoCampo,D.ValorTexto,D.ValorEntero,D.ValorFloat,D.ValorFecha " & chr(10) & _
             "from Campaña_Persona A " & chr(10) & _
             "inner join Campaña B " & chr(10) & _
@@ -264,7 +295,7 @@ if session("codusuario")<>"" then
 		if pag>1 then					
 		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " and " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " order by A.IDCampañaPersona) order by A.IDCampañaPersona"
 		else
-		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " order by A.IDCampañaPersona"
+		sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " " & filtrobuscador & " order by A.IDCampañaPersona"
 		end if
 		''response.write sql
 		consultar sql,RS
@@ -331,7 +362,7 @@ if session("codusuario")<>"" then
 		
 		<%if contador=0 then%>
 		
-		<body topmargin="0" leftmargin="0">
+		<body topmargin="0" leftmargin="0" style="overflow-x:hidden;">
 			<form name="formula" method="post">
 				<table width="100%" cellpadding="4" cellspacing="0">	
 					<tr class="fondo-orange">
@@ -341,15 +372,62 @@ if session("codusuario")<>"" then
 					</tr>
 				</table>
 		<%else		
-		%>
-		<body topmargin="0" leftmargin="0"><!--onload="inicio();"-->
-			<div class="filtro" >
-					<table>
-						<tr>
-							<td>
-								TABLA OCULTA
+		%>		
+		<body topmargin="0" leftmargin="0" style="overflow-x:hidden;"><!--onload="inicio();"-->
+			<div id="modal-filtro" class="filtro-visible no-visible" >				
+					<table border="0">
+						<tr class="fondo-red">
+							<td class="text-withe" colspan="4"  >
+								Realizar Filtro
 							</td>
+							<td id="close-modal"><a style="float:right; padding-right:5px;" href="#"><i style="color: white;" class="demo-icon2 icon-cancel-circle">&#xe807;</i></a></td>
 						</tr>
+						<tr class="fondo-red" >
+							<td class="text-withe">Campo</td>
+							<td class="text-withe">Filtro</td>
+							<td class="text-withe">Dato</td>
+							<td class="text-withe">Aplicar</td>
+							<td class="text-withe">Revertir</td>
+						</tr>
+						<%
+							sql = "select ROW_NUMBER() OVER(ORDER BY IDCampañaCampo ) AS nro ,IDCampañaCampo, GlosaCampo, TipoCampo from Campaña_Campo a inner join Campaña b on a.IDTipoCampaña = b.IDTipoCampaña where a.Nivel = 1 and b.IDCampaña =" & IDCampana
+							consultar sql,RS
+							Do While Not  RS.EOF
+							%>
+						<tr class="fondo-red <% IF(CInt(RS.Fields("nro")) mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>"  >
+
+							<td>
+							<input type="hidden" name="<%=RS.Fields("IDCampañaCampo")%>" value="<%=RS.Fields("IDCampañaCampo")%>">
+							<%=RS.Fields("GlosaCampo")%>
+							</td>
+							<td class="text-withe" width="120">
+									<select name="idfiltro" style="font-size: xx-small; text-align: center; width: 100px;">
+										<option value="">Seleccione un filtro</option>
+										<%
+										sql = "SELECT idfiltro, descripcion FROM Filtro WHERE TipoCampo =" & RS.Fields("TipoCampo") 
+										consultar sql,RS4
+										Do While Not  RS4.EOF
+										%>
+											<option value="<%=RS4.Fields("idfiltro")%>" <% if idfiltro<>"" then%><% if RS4.fields("idfiltro")=int(idfiltro) then%> selected<%end if%><%end if%>><%=RS4.Fields("descripcion")%></option>
+										<%
+										RS4.MoveNext
+										loop
+										RS4.Close
+										%>
+									</select>
+							</td>
+							<td class="text-orange">
+								<input type="text" name="dato" class="form-control" />
+							</td>
+							<td class="text-orange icon-campana" onclick=""><i class="demo-icon2 icon-flash">&#xe81c;</i></td>
+							<td class="text-orange icon-campana" onclick=""><i class="demo-icon2 icon-reply">&#xe81e;</i></td>
+
+						</tr>
+						<%
+							RS.MoveNext
+							loop
+							RS.Close
+							%>
 					</table>				
 				</div>
 			<form name="formula" method="post">				
@@ -359,7 +437,7 @@ if session("codusuario")<>"" then
 						<td class="text-orange" align="right" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td>
 								<a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a>
-								<a href="dcs_admcrearcampaña.asp"><i class="demo-icon icon-filter">&#xe820;</i></a>
+								<a id="show-filtro" href="#"><i class="demo-icon icon-filter">&#xe820;</i></a>
 							</td>
 						<td class="text-orange" align="right">
 							<a href="dcs_admcrearcampaña.asp"><i class="demo-icon icon-reply">&#xe81e;</i></a>

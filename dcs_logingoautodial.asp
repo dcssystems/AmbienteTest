@@ -115,8 +115,12 @@
 		
 		function codeCountry(){
 			var myIFrameOne = document.querySelector('#t_new');
-			//myIFrameOne.getElementById('MDDiaLCodE').value=51;
-			console.log(myIFrameOne);
+			//console.log(myIFrameOnownerDocumente.ownerDocument);
+			console.log("1) ownerDocument " + myIFrameOne.ownerDocument.getElementById("NewManualDialTableID"));
+			//console.log("2) contentDocument " + myIFrameOne.contentDocument.getElementById("NewManualDialTableID"));
+			//console.log("3) contentWindows " + myIFrameOne.contentWindow.getElementById("NewManualDialTableID"));
+			console.log(document.getElementById("NewManualDialTableID"))
+			//console.log(myIFrameOne.contentDocument.getElementById("vicidial_form");
 			//var myIframe = document.getElementById('t_new');
 			//myIframe.getElementById('MDPhonENumbeR').value=944267001;
 			//myIframe.document.getElementById("MDDiaLCodE").value="51";

@@ -41,6 +41,7 @@ set RS = server.CreateObject("ADODB.Recordset")
 set RS1 = server.CreateObject("ADODB.Recordset")
 set RS2 = server.CreateObject("ADODB.Recordset")
 set RS3 = server.CreateObject("ADODB.Recordset")
+set RS4 = server.CreateObject("ADODB.Recordset")
 conn_server="192.168.1.7"
 conn_uid="sa"
 conn_pwd="d1rc0n$$"

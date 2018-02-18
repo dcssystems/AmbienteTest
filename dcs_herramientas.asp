@@ -354,7 +354,7 @@ if session("codusuario")<>"" then
 						cadenamenu=cadenamenu & "<li><a href=" & chr(34) & "javascript:agregarcol('" & RS.Fields("CodFacultad") & "','" & iif(len(RS.Fields("Facultad"))<=16,RS.Fields("Facultad"),mid(RS.Fields("Facultad"),1,16) & "...") & "','" & RS.Fields("Pagina") & "');" & chr(34) & ">" & RS.Fields("Facultad") & "</a></li>" & chr(10)
 					end if
 					
-					cadenaiframes=cadenaiframes & "<IFRAME SRC='progvacio.html' style='visibility: hidden; position: absolute;' allowTransparency='true' HSPACE=0 ALIGN=TOP WIDTH=0 HEIGHT=0 FRAMEBORDER=0 NAME='fr_carpeta" & RS.Fields("CodFacultad") & "' ID='fr_carpeta" & RS.Fields("CodFacultad") & "' SCROLLING=AUTO><BLOCKQUOTE><P>Debe utilizar IExplorer 5.5 o superior.</P></BLOCKQUOTE></IFRAME>" & chr(10)
+					cadenaiframes=cadenaiframes & "<IFRAME SRC='progvacio.html' style='visibility: hidden; position: absolute; overflow-x: hidden;' allowTransparency='true' HSPACE=0 ALIGN=TOP WIDTH=0 HEIGHT=0 FRAMEBORDER=0 NAME='fr_carpeta" & RS.Fields("CodFacultad") & "' ID='fr_carpeta" & RS.Fields("CodFacultad") & "' SCROLLING=AUTO><BLOCKQUOTE><P>Debe utilizar IExplorer 5.5 o superior.</P></BLOCKQUOTE></IFRAME>" & chr(10)
 					
 				RS.MoveNext
 				Loop
