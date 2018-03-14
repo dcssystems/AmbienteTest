@@ -50,7 +50,7 @@ if session("codusuario")<>"" then
 			
 			if existeusuario=0 then			
 				if obtener("agregardato")="1" then		
-				sql="INSERT INTO usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,fechaultacceso,usuarioregistra,usuariomodifica,administrador,activo,fecharegistra,fechamodifica, anexo, clavephone) VALUES ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & administrador & "," & activo & "," & session("codusuario") & ",getdate()," & codtipousuario & "," & act_codagencia & "," & act_codoficina & ")"
+				sql="INSERT INTO usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,administrador,activo,usuarioregistra,fecharegistra,codtipousuario,codagencia,codoficina) VALUES ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & administrador & "," & activo & "," & session("codusuario") & ",getdate()," & codtipousuario & "," & act_codagencia & "," & act_codoficina & ")"
 				else
 					if obtener("hclave")=obtener("clave")then
 					sql="UPDATE usuario SET usuario='" & usuario & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
@@ -270,69 +270,101 @@ if session("codusuario")<>"" then
 					<tr>
 					<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Tipo Usuario:</font></td>
 					<td>
-						
 						<select name="codtipousuario" style="font-size: xx-small; width: 200px;" onchange="activarseleccion();">
 						<%
-							IF codusuario<>"" THEN
-								''esto es para que si anteriormente hab?a un tipo de usuario inactivo se muestre
-								sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "&_
-									  "FROM UsuarioPerfil a "&_
-									  "INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
-									  "WHERE activo=1 and p.CodPerfil=" & codtipousuario &_ 
-									  " ORDER BY descripcion"
-								consultar sql,RS
-								IF RS.RecordCount <> 0 THEN	
-									DIM typePerfil(10),i 
-									i=0 
-									DO WHILE NOT RS.EOF
-										typePerfil(i) = RS.Fields("codtipousuario") 
-										i=i+1 
-									RS.MoveNext
-									LOOP
-									RS.Close
-								END IF									  
-									  
-							END IF				
-						
-							sqlSelectTipoUsuario = "SELECT p.CodPerfil AS codtipousuario, p.descripcion " &_
-												   "FROM Perfil p ORDER BY descripcion"
-							consultar sqlSelectTipoUsuario, RS1
-							DIM x
-							DO WHILE NOT RS1.EOF 
-								'IF IsNull(typePerfil) THEN
-								'
-								'ELSE
-								'	count = UBound(typePerfil)
-								'	FOR x=0 TO count 
-								'	NEXT
-								'END IF
-								
-							%>
-						<option value="<%=RS1.Fields("codtipousuario")%>"><%=RS1.Fields("Descripcion")%></option>
-						<%
-							
-							RS1.MoveNext
-							LOOP
-							RS1.Close
-							'Response.Write( typePerfil(0) )					
-						
+						if codusuario<>"" then
+							''esto es para que si anteriormente hab?a un tipo de usuario inactivo se muestre
+							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "&_
+								"FROM UsuarioPerfil a "&_
+								"INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
+								"WHERE activo=1 and p.CodPerfil=" & codtipousuario &_ 
+								" ORDER BY descripcion"
+							else
+							 
+							sql = "SELECT p.CodPerfil AS codtipousuario, p.descripcion "&_
+								  "FROM UsuarioPerfil a "&_
+							      "INNER JOIN Perfil p ON p.CodPerfil=a.CodPerfil "&_
+							      "WHERE activo=1 "&_
+								  "ORDER BY descripcion"
+						end if
+						consultar sql,RS
+						Do While not RS.EOF
 						%>
-						
+						<option value="<%=RS.Fields("codtipousuario")%>"<%if codtipousuario<>"" then%><%if RS.fields("codtipousuario")=int(codtipousuario) then%> selected<%end if%><%end if%>><%=RS.Fields("Descripcion")%></option>
+						<%
+						RS.MoveNext
+						Loop
+						RS.Close
+						%>
 						</select>
 						</td>
 					</tr>					
 					<tr>
-					<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anexo:</font></td>
+					<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Agencia:</font></td>
 					<td bgcolor="#f5f5f5">
-						<input type="text" id="phone" name="phone" value="" />
-					</td>
-					</tr>
-					<tr>
-					<td><font size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clave tel&eacute;fono:</font></td>
-					<td>
-						<input name="passphone" type="password" value="" />
+						<select name = "codagencia" style="font-size: xx-small; width: 200px;">
+						<option value="">Seleccionar</option>
+						<%
+						sql = "select codagencia, razonsocial from agencia order by razonsocial"
+						consultar sql,RS
+						Do While Not RS.EOF
+						%>
+						<option value="<%=RS.Fields("codagencia")%>"<% if codagencia<>"" then%><% if RS.fields("codagencia")=int(codagencia) then%> selected<%end if%><%end if%>><%=RS.Fields("razonsocial")%></option>
+						<%
+						RS.MoveNext
+						Loop
+						RS.Close
+						%>
+						</select>
 						</td>
 					</tr>
+					<tr>
+					<td bgcolor="#f5f5f5"><font size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oficina:</font></td>
+					<td bgcolor="#f5f5f5">
+						<select name="codoficina" style="font-size: xx-small; width: 200px;">
+						<option value="">Seleccionar</option>
+						<%
+						sql = "select codoficina, descripcion from oficina order by codoficina"
+						consultar sql,RS
+						Do While Not RS.EOF
+						%>
+						<option value="<%=RS.Fields("codoficina")%>"<% if codoficina<>"" then%><% if RS.fields("codoficina")=codoficina then%> selected<%end if%><%end if%>><%=RS.fields("codoficina") & " - " & RS.Fields("Descripcion")%></option>
+						<%
+						RS.MoveNext
+						Loop
+						RS.Close
+						%>
+						</select>
+						</td>
+					</tr>					
+					<script language="javascript">
+					function activarseleccion()
+					{
+						//agencia
+						if(formula.codtipousuario.value=="1")
+						{
+							formula.codoficina.value="";
+							formula.codoficina.disabled=true;
+							formula.codagencia.disabled=false;
+						}
+						//oficina o gestor
+						if(formula.codtipousuario.value=="2"||formula.codtipousuario.value=="3")
+						{
+							formula.codagencia.value="";
+							formula.codagencia.disabled=true;
+							formula.codoficina.disabled=false;
+						}	
+						//admin
+						if(formula.codtipousuario.value=="4")
+						{
+							formula.codagencia.value="";
+							formula.codoficina.value="";
+							formula.codagencia.disabled=true;
+							formula.codoficina.disabled=true;
+						}																
+					}
+					activarseleccion();
+					</script>
 					<tr>
 						<td><font  size=2 color=#483d8b>&nbsp;</font></td>
 						<td><input type=checkbox name="activo" style="font-size: xx-small;" <%if activo=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Activo</font></td>

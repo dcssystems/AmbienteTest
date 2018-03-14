@@ -101,7 +101,7 @@
 		    }
 		}
 	        html += '<th onclick="cambiar(' + i + ',' + x + ')" align="' + aligncabecera[x][i] + '" width="' + anchocolumna[x][i] + '">';
-        	html += ((orden[x] == i)?(ascendente[x]?  '<i class="demo-icon3 icon-up-open">&#xe817;</i>': '<i class="demo-icon3 icon-down-open">&#xe816;</i>'): '<i class="demo-icon3 icon-sort">&#xf0dc;</i>');
+        	html += ((orden[x] == i)?(ascendente[x]?  '<i class="demo-icon3 icon-up-open" TITTLE="HOLA">&#xe817;</i>': '<i class="demo-icon3 icon-down-open">&#xe816;</i>'): '<i class="demo-icon3 icon-sort">&#xf0dc;</i>');
 	        html += cabecera[x][i] + seteo + '</th>';
 	    }
 	}

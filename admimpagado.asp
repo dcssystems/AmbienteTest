@@ -903,7 +903,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
     <td align="right"><font size=1 face=Arial color=#00529B><b>Del</b></font></td>
     <td width="78"><input name="fechapromesaini" type=text maxlength=10 id="sel4"  value="<%if IsDate(fechapromesaini) then%><%=fechapromesaini%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel4', '%d/%m/%Y');"></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>al</b></font></td>
-    <td><input name="fechapromesafin" type=text maxlength=10 id="sel5" value="<%if IsDate(fechapromesafin) then%><%=fechapromesafin%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel5', '%d/%m/%Y');"></td>    
+    <td><input name="fechapromesafin" type=text maxlength=10 id="sel8" value="<%if IsDate(fechapromesafin) then%><%=fechapromesafin%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel8', '%d/%m/%Y');"></td>    
   </tr>
   <tr>
   <td colspan="17">

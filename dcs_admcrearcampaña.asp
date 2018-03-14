@@ -56,6 +56,12 @@ if session("codusuario")<>"" then
 		{
 			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admcrearcampaña.asp&codfacultad=" + codigo,"NewCampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=250,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
 		}			
+
+		function vercamp(codigo,nombrecamp)
+		{
+			window.parent.agregarcol('' + codigo,nombrecamp.substring(0,12),'dcs_vercampaña.asp?idcampana=' + codigo);
+		}		
+
 		function agregar()
 		{
 			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevocampaña.asp?vistapadre=" + window.name + "&paginapadre=dcs_admcrearcampaña.asp","NewCampaña","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=250,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
@@ -107,7 +113,7 @@ if session("codusuario")<>"" then
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
-		    nrocolumnas[tabla]=10;
+		    nrocolumnas[tabla]=11;
 		    fondovariable[tabla]='bgcolor=#f5f5f5';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
@@ -115,16 +121,16 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDCampaña', 'Cliente', 'TipoCampaña', 'Descripcion', 'FechaInicio', 'FechaFin', 'FlagHistorico', 'Estado','Editar','Acción');
+		    cabecera[tabla] = new Array('IDCampaña', 'Cliente', 'TipoCampaña', 'Descripcion', 'FechaInicio', 'FechaFin', 'FlagHistorico', 'Estado','Editar','Call','SMS');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true,true, true, true);
-		    anchocolumna[tabla]   = new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%','5%');
-		    aligncabecera[tabla]  = new Array('left','left','left','left','left','left','left','left','left','left');
-		    aligndetalle[tabla]   = new Array('left','left','left','left','left','left','left','left','left','left');
-		    alignpie[tabla]       = new Array('left','left','left','left','left','left','left','left','left','left');
-		    decimalesnumero[tabla] = new Array(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1);
-		    formatofecha[tabla]    = new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'','',''  );
+		    columnavisible[tabla] = new Array(true, true, true ,true,true, true,true,true, true, true, true);
+		    anchocolumna[tabla]   = new Array( '4%', '10%', '15%' , '10%','4%' ,'5%', '5%','4%' ,'5%','5%','5%');
+		    aligncabecera[tabla]  = new Array('left','left','left','left','left','left','left','left','left','left','left');
+		    aligndetalle[tabla]   = new Array('left','left','left','left','left','left','left','left','left','left','left');
+		    alignpie[tabla]       = new Array('left','left','left','left','left','left','left','left','left','left','left');
+		    decimalesnumero[tabla] = new Array(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1);
+		    formatofecha[tabla]    = new Array(''  ,''   ,''      ,'' ,'','' ,'' ,'','','' ,'' );
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
@@ -139,7 +145,8 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][6]=objetodatos("checkbox",tabla,"FlagHistorico","","","");
 				objetofomulario[tabla][7]='<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][8]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
-				objetofomulario[tabla][9]='<a href="dcs_vercampaña.asp?idcampana=-id-"><i class="demo-icon2 icon-cog">&#xe81f;</i></a>';
+				objetofomulario[tabla][9]='<a href="javascript:vercamp(-id-,\'-c2-\');"><i class="demo-icon2 icon-phone-circled">&#xe822;</i> </a>';
+				objetofomulario[tabla][10]='<a href="javascript:vercamp(-id-,\'-c2-\');"><i class="demo-icon2 icon-comment">&#xf4ac;</i> </a>';
 
 
 				
@@ -157,7 +164,8 @@ if session("codusuario")<>"" then
 				filtrofomulario[tabla][6]='';
 				filtrofomulario[tabla][7]='';
 				filtrofomulario[tabla][8]='';	
-				filtrofomulario[tabla][9]='';									
+				filtrofomulario[tabla][9]='';	
+				filtrofomulario[tabla][10]='';								
 					
 		    valorfiltrofomulario[tabla] = new Array();
 				valorfiltrofomulario[tabla][0]='';
@@ -170,6 +178,7 @@ if session("codusuario")<>"" then
 				valorfiltrofomulario[tabla][7]='';
 				valorfiltrofomulario[tabla][8]='';
 				valorfiltrofomulario[tabla][9]='';
+				valorfiltrofomulario[tabla][10]='';
 
 
 		    //Se escribe el conjunto de datos de tabla 0
@@ -270,6 +279,7 @@ if session("codusuario")<>"" then
 				datos[tabla][<%=contador%>][7]='<%=rs.Fields("Estado")%>';		
 				datos[tabla][<%=contador%>][8]='';
 				datos[tabla][<%=contador%>][9]='';
+				datos[tabla][<%=contador%>][10]='';
 							
 		<%
 			contador=contador + 1
@@ -279,8 +289,8 @@ if session("codusuario")<>"" then
 		%>
 			    
 		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
-		    piefunciones[tabla] = new Array('','','','','','','','','',''); 
+		    pievalores[tabla] = new Array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;');
+		    piefunciones[tabla] = new Array('','','','','','','','','','',''); 
 
 
 		    //Se escriben las opciones para los selects que contenga

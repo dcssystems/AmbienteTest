@@ -269,6 +269,24 @@
       "css": "filter",
       "code": 59424,
       "src": "elusive"
+    },
+    {
+      "uid": "fe4b70ed76eb9a48877632032b33c942",
+      "css": "calendar",
+      "code": 59425,
+      "src": "zocial"
+    },
+    {
+      "uid": "23a1de57eb7b0c8281656a3ddadf3ee3",
+      "css": "phone-circled",
+      "code": 59426,
+      "src": "elusive"
+    },
+    {
+      "uid": "51fb22f9ff9d7f60c95ef31e4c59502d",
+      "css": "comment",
+      "code": 62636,
+      "src": "mfglabs"
     }
   ]
 }
