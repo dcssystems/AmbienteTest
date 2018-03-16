@@ -3,7 +3,7 @@
 <%
 if session("codusuario")<>"" then
 	conectar
-	''traemos maxima fecha de gestion en distribución diaria
+	''traemos maxima fecha de gestion en distribuciÃ³n diaria
 	''si se seleccions fecha de asignacion inicio y fin igual a esta maxima fecha de gestion
 	''se cruza con la tabla UltClienteDiario y UltContratoDiario para rapidez de reporte de gestion
 	''sql="select max(fechagestion) from DistribucionDiaria"
@@ -267,7 +267,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 	%>
 	<script language=javascript>
 			rutaimgcab="imagenes/"; 
-		  //Configuración general de datos de tabla 0
+		  //ConfiguraciÃ³n general de datos de tabla 0
 		    tabla=0;
 		    orden[tabla]=0;
 		    ascendente[tabla]=true;
@@ -279,7 +279,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '2';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('Código','N° Contrato','Nombre','Teléfono','Producto','Subprod','D','Mon','Deuda','Agencia','F.Asig','F.Gest','Mejor&nbsp;Gestión','Tipo Contacto','Fecha Datos','Fecha Gestion');
+		    cabecera[tabla] = new Array('CÃ³digo','NÂ° Contrato','Nombre','TelÃ©fono','Producto','Subprod','D','Mon','Deuda','Agencia','F.Asig','F.Gest','Mejor&nbsp;GestiÃ³n','Tipo Contacto','Fecha Datos','Fecha Gestion');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
 		    columnavisible[tabla] = new Array( true, true, true,true,true,true, true, true,true,true,true, true, true,true,false,false);
@@ -653,10 +653,10 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 			datos[tabla][<%=contador%>] = new Array();
 				datos[tabla][<%=contador%>][0]='<%=RS.Fields("codigocentral")%>';
 			    datos[tabla][<%=contador%>][1]='<%=rs.Fields("contrato")%>';
-				datos[tabla][<%=contador%>][2]='<%if len(trim(replace(RS.Fields("nombre"),"'","´")))<=27 then%><%=trim(replace(RS.Fields("nombre"),"'","´"))%><%else%><%=mid(trim(replace(RS.Fields("nombre"),"'","´")),1,27) & "..."%><%end if%>';
+				datos[tabla][<%=contador%>][2]='<%if len(trim(replace(RS.Fields("nombre"),"'","Â´")))<=27 then%><%=trim(replace(RS.Fields("nombre"),"'","Â´"))%><%else%><%=mid(trim(replace(RS.Fields("nombre"),"'","Â´")),1,27) & "..."%><%end if%>';
 				datos[tabla][<%=contador%>][3]='<%=iif(trim(RS.Fields("tipofono1"))="C",RS.Fields("fono1"),iif(trim(RS.Fields("prefijo1"))="001",iif(trim(RS.Fields("extension1"))<>"0000" and trim(RS.Fields("extension1"))<>"",RS.Fields("fono1") & ".Ext." & RS.Fields("extension1"),RS.Fields("fono1")),iif(trim(RS.Fields("extension1"))<>"0000" and trim(RS.Fields("extension1"))<>"",RS.Fields("prefijo1") & RS.Fields("fono1") & ".Ext." & RS.Fields("extension1"),RS.Fields("prefijo1") & RS.Fields("fono1"))))%>';
 				datos[tabla][<%=contador%>][4]='<%=RS.Fields("producto")%>';
-				datos[tabla][<%=contador%>][5]='<%if len(trim(replace(RS.Fields("subproducto"),"'","´")))<=20 then%><%=trim(replace(RS.Fields("subproducto"),"'","´"))%><%else%><%=mid(trim(replace(RS.Fields("subproducto"),"'","´")),1,20) & "..."%><%end if%>';
+				datos[tabla][<%=contador%>][5]='<%if len(trim(replace(RS.Fields("subproducto"),"'","Â´")))<=20 then%><%=trim(replace(RS.Fields("subproducto"),"'","Â´"))%><%else%><%=mid(trim(replace(RS.Fields("subproducto"),"'","Â´")),1,20) & "..."%><%end if%>';
 				datos[tabla][<%=contador%>][6]=<%=RS.Fields("diasvencimiento")%>;
 				datos[tabla][<%=contador%>][7]='<%=RS.Fields("divisa")%>';
 				datos[tabla][<%=contador%>][8]=<%=RS.Fields("saldohoy")%>;
@@ -697,14 +697,14 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 <table border=0 cellspacing=0 cellpadding=2 width=100%>
   <tr bgcolor="#007DC5">
     <td colspan="17" align="center" height="22">
-      <font size=2 face=Arial color="#FFFFFF"><b>Gestión de Impagados</b></font>
+      <font size=2 face=Arial color="#FFFFFF"><b>GestiÃ³n de Impagados</b></font>
     </td>
   </tr>
   <tr bgcolor="#E9F8FE">
-    <td align="right"><font size=1 face=Arial color=#00529B><b>N°&nbsp;Contrato:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>NÂ°&nbsp;Contrato:</b></font></td>
     <td colspan="4"><input name="contrato" type=text maxlength=18 value="<%=contrato%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Código&nbsp;Cliente:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>CÃ³digo&nbsp;Cliente:</b></font></td>
     <td colspan="4"><input name="codigocentral" type=text maxlength=8 value="<%=codigocentral%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>Gestor:</b></font></td>
@@ -745,10 +745,10 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 			</select>
     </td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>N°&nbsp;Documento:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>NÂ°&nbsp;Documento:</b></font></td>
     <td colspan="4"><input name="numdocumento" type=text maxlength=15 value="<%=numdocumento%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Días&nbsp;de&nbsp;Atraso:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>DÃ­as&nbsp;de&nbsp;Atraso:</b></font></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>Del</b></font></td>
   <td><input name="diaatrasoini" type=text maxlength=10 value="<%=diaatrasoini%>" style="text-align: right;font-size: x-small; width: 50px;"></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>al</b></font></td>
@@ -860,17 +860,17 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 		<%end if%> 
     </td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Tipo&nbsp;de&nbsp;Gestión:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>Tipo&nbsp;de&nbsp;GestiÃ³n:</b></font></td>
     <td colspan="4">
 		<select name = "tipogestion" style="font-size: x-small; width: 250px;">
-			<option value="">Seleccione Gestión</option>
+			<option value="">Seleccione GestiÃ³n</option>
 			<option value="Preventiva" <% if tipogestion<>"" then%><%if tipogestion="Preventiva" then%> selected<%end if%><%end if%>>Preventiva</option>
 			<option value="Impagado" <% if tipogestion<>"" then%><%if tipogestion="Impagado" then%> selected<%end if%><%end if%>>Impagado</option>
 		</select>    
     </td>
   </tr>
   <tr bgcolor="#E9F8FE">
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Fecha&nbsp;de&nbsp;Asignación:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>Fecha&nbsp;de&nbsp;AsignaciÃ³n:</b></font></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>Del</b></font></td>
     <td width="78"><input name="fechaasigini"  id="sel0" readonly  type=text maxlength=10 size=10 value="<%if IsDate(fechaasigini) then%><%=fechaasigini%><%else%><%=maxfechagestion%><%end if%>"  style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel0', '%d/%m/%Y');"></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>al</b></font></td>
@@ -879,11 +879,11 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 	<!--<input type="text" name="date3" id="sel3" size="10"><input type="image" value=" ... " onclick="return showCalendar('sel3', '%d/%m/%Y');">-->
 	</td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Mejor&nbsp;Gestión:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>Mejor&nbsp;GestiÃ³n:</b></font></td>
     <td colspan=4>
 		<select name = "codgestion" style="font-size: x-small; width: 250px;">
-			<option value="">Seleccione Mejor Gestión</option>
-			<option value="*" <%if codgestion="*" then%> selected<%end if%>>Sin Gestión</option>
+			<option value="">Seleccione Mejor GestiÃ³n</option>
+			<option value="*" <%if codgestion="*" then%> selected<%end if%>>Sin GestiÃ³n</option>
 			<option value="**" <%if codgestion="**" then%> selected<%end if%>>Todas las Gestionadas</option>
 			<%
 				sql = "select codgestion, descripcion from Gestion where activo=1 order by codgestion"
@@ -903,7 +903,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
     <td align="right"><font size=1 face=Arial color=#00529B><b>Del</b></font></td>
     <td width="78"><input name="fechapromesaini" type=text maxlength=10 id="sel4"  value="<%if IsDate(fechapromesaini) then%><%=fechapromesaini%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel4', '%d/%m/%Y');"></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>al</b></font></td>
-    <td><input name="fechapromesafin" type=text maxlength=10 id="sel8" value="<%if IsDate(fechapromesafin) then%><%=fechapromesafin%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel8', '%d/%m/%Y');"></td>    
+    <td><input name="fechapromesafin" type=text maxlength=10 id="sel5" value="<%if IsDate(fechapromesafin) then%><%=fechapromesafin%><%end if%>" style="font-size: x-small; width: 60px;"><input type="image" style="vertical-align: bottom;" src="imagenes/minicalendar.png" border=0 onclick="return showCalendar('sel5', '%d/%m/%Y');"></td>    
   </tr>
   <tr>
   <td colspan="17">
@@ -918,7 +918,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 			<table width=100% cellpadding=4 cellspacing=0 border=0>		
 			<tr>
 				<td bgcolor="#F5F5F5" align=left><font size=1 face=Arial color=#00529B><b>Impagados (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:buscar();"><img src="imagenes/buscar.gif" border=0 alt="Buscar" title="Buscar" align=middle></a>&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%><!--&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><img src="imagenes/descargar.gif" border=0 alt="Descargar Excel" title="Descargar Excel" align=middle></a>--><%end if%></b></font></td>
-				<td bgcolor="#F5F5F5" align=right width=180><font size=1 face=Arial color=#00529B>Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+				<td bgcolor="#F5F5F5" align=right width=180><font size=1 face=Arial color=#00529B>PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
 			</tr>	
 			</table>
 			<div id="tabla0"> 
@@ -976,7 +976,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
                             conn.execute sql                    
 				        %>
 					        <script language="javascript">
-					            alert("Su exportación está en proceso. Se enviará un e-mail con el enlace de descarga.");
+					            alert("Su exportaciÃ³n estÃ¡ en proceso. Se enviarÃ¡ un e-mail con el enlace de descarga.");
 					        </script>
 				        <%									    
 				end if			
@@ -991,7 +991,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorización para este proceso.");
+		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	

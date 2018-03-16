@@ -13,6 +13,10 @@ if session("codusuario")<>"" then
 		ordentipo = obtener("ordentipo")
 		codusuario = obtener("codusuario")
 		idpersonas_asig = obtener("idpersonas_asig")
+		datapersona = obtener("datapersona")
+
+
+
 
 
 
@@ -21,9 +25,6 @@ if session("codusuario")<>"" then
 		else
 		ordencampo = CInt(ordencampo)
 		end if
-
-		
-		
 
 		
 
@@ -92,7 +93,10 @@ if session("codusuario")<>"" then
 						$("#modal-filtro2").removeClass('no-visible');
 						$("#modal-filtro2").show();
 					});
-					
+					<% if datapersona <> "" then%>
+							$("#modal-filtro2").removeClass('no-visible');
+							$("#modal-filtro2").show();
+					<%end if%>
 				});
 			</script>
 	
@@ -106,11 +110,13 @@ if session("codusuario")<>"" then
           obj.className = obj.className.replace(' codesOn', '');
         }
       }
+
       /*$document.scroll(function() {
  			 $(".title").toggleClass(newClass, $document.scrollTop() >= 5);
 		});*/
       
-    </script>   	
+    </script>   
+
 		<script language="javascript" src="scripts/TablaDinamica.js"></script>
 		<script language="javascript">	
 
@@ -123,7 +129,14 @@ if session("codusuario")<>"" then
 		}
 		function modificar(codigo)
 		{
-			ventanafacultad=global_popup_IWTSystem(ventanafacultad,"dcs_nuevofacultad.asp?vistapadre=" + window.name + "&paginapadre=dcs_admfacultad.asp&codfacultad=" + codigo,"NewFacultad","scrollbars=yes,scrolling=yes,top=" + ((screen.height - 180)/2 - 30) + ",height=180,width=" + (screen.width/2 - 10) + ",left=" + (screen.width/4) + ",resizable=yes");
+			
+			
+
+			document.formula.datapersona.value=codigo;
+			document.formula.submit();
+	
+
+			
 		}			
 		function agregar(idcampana, personasasignar)
 		{
@@ -311,9 +324,10 @@ if session("codusuario")<>"" then
 			
 			<%
 				idcampana = obtener("idcampana")''idcampana=2 	
-				filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado is NULL "
+				filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
 
 				sql="Select Descripcion, convert(varchar(10),FechaInicio,103) as Inicio,  convert(varchar(10),fechafin,103) as Fin from Campaña where idcampaña =" & idcampana
+
 
 
 
@@ -645,8 +659,13 @@ if session("codusuario")<>"" then
 				<%
 				indicecampo=0
 				Do while not RS.EOF 
+					
 				    indicecampo=indicecampo + 1
-				    %>objetofomulario[tabla][<%=indicecampo%>]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				    %>objetofomulario[tabla][<%=indicecampo%>]='<a href="javascript:modificar(-id-);" >-valor-</a>';
+						   
+									
+											
+											
 				    <%
 				RS.MoveNext 
 				Loop
@@ -988,7 +1007,7 @@ if session("codusuario")<>"" then
 												 selected
 												<%end if 
 												end if%> 
-											    ><%=RS4.Fields("descripcion")%>								    	
+											    <%=RS4.Fields("descripcion")%>								    	
 											 </option>									
 												
 										<%										
@@ -1035,41 +1054,55 @@ if session("codusuario")<>"" then
 				<div id="modal-filtro2" class="filtro-visible2 no-visible" >	
 					<table border="0">
 						<tr class="fondo-red">
-							<td class="text-withe">
-								Asignar Filtro.
+							<td class="text-withe" colspan="3">
+								Dato de persona a contactar													
 							</td>
-							<td id="close-modal2" style="text-align: right;" ><a style="float:right; padding-right:0px;" href="#"><i style="color: white;" class="demo-icon2 icon-cancel-circle">&#xe807;</i></a></td>
-							
+							<td id="close-modal2"><a style="float:right; padding-right:0px;" href="javascript:if (modfiltro != 0 ){ buscar2();}"><i style="color: white;" class="demo-icon2 icon-cancel-circle">&#xe807;</i></a></td>
 						</tr>
-						<tr class="fondo-red  fondo-blanco ">
-							<td><font size="2">Campaña:</font></td>
-							<td><font size="2"><%=Nombcampana%><br>Inicio:<%=fechainicio%>&nbsp;al:<%=fechafin%></font></td>
+						<tr class="fondo-red">
+							<td class="text-withe">Campo</td>
+							<td class="text-withe">Dato</td>
+							<td class="text-withe">Telefonos</td>
+							<td class="text-withe">Gestiones</td>								
 						</tr>
-						<tr class="fondo-red  fondo-blanco ">
-						<td><font size="2">Asignar a:</font></td>
-						<td>
-							<select name="codusuario" style="font-size: xx-small; width: 200px;">
-							<OPTION value="">Seleccione un Operador</OPTION>
-							<%
-							sql = "SELECT CodUsuario, Usuario FROM Usuario"
-							consultar sql,RS4
-							Do While Not  RS4.EOF
-							%>
-								<option value="<%=RS4.Fields("CodUsuario")%>" <% if codusuario<>"" then%><% if RS4.fields("CodUsuario")=int(codusuario) then%> selected<%end if%><%end if%>><%=RS4.Fields("Usuario")%></option>
-							<%
-							RS4.MoveNext
+						<%
+						Do While Not RS.EOF								
+						%>
+						<tr class="fondo-red <% IF(CInt(RS.Fields("nro")) mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+							<input type="hidden" name="idcampanacampo<%=RS.fields("IDCampañaCampo")%>" value="<%=obtener("idcampanacampo" & RS.fields("IDCampañaCampo"))%>">							
+							<input type="hidden" name="idTipocampo<%=RS.Fields("IDCampañaCampo")%>" value="<%If RS.Fields("FlagNroDocumento") = 0 then%><%=RS.Fields("TipoCampo")%><%Else%>0<%End if%>">
+							<td>							
+							<%=RS.Fields("GlosaCampo")%>
+							</td>
+							<td>
+								<%   
+								if datapersona <> "" and RS.Fields("FlagNroDocumento") = 0  then
+										  sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and IDCampañaCampo = " & RS.Fields("IDCampañaCampo") 
+
+										consultar sql, RS4 
+
+										response.write RS4.Fields("datoper")
+										
+										RS4.Close
+								else
+									if datapersona <> "" and RS.Fields("FlagNroDocumento") = 1  then
+										sql="Select NroDocumento from Campaña_Persona where IDCampañaPersona = " & datapersona
+										
+										consultar sql, RS4 
+
+										response.write RS4.Fields("NroDocumento")
+										
+										RS4.Close
+									end if
+								end if
+								 %>
+							</td>
+						</tr>
+						<%
+							RS.MoveNext
 							loop
-							RS4.Close
+							RS.MoveFirst
 							%>
-							</select>
-						</td>
-					</tr>	
-					<tr class="fondo-red" style="text-align: right;">
-						<td colspan="2">
-								<a href="javascript:asignar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>
-								&nbsp;
-							</td>
-					</tr>
 					</table>
 					
 				</div>
@@ -1110,7 +1143,7 @@ if session("codusuario")<>"" then
 								</Select>
 							</td>
 						<td class="text-orange" align="right">
-							&nbsp;&nbsp;<a  id="show-filtro2" href="#"><i class="demo-icon icon-cog">&#xe81f;</i></a>
+							&nbsp;&nbsp;<a  id="show-filtrox" href="#" style="visibility: hidden;"><i class="demo-icon icon-cog">&#xe81f;</i></a>
 							&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a>
 						<%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font>
 						</td>
@@ -1124,7 +1157,8 @@ if session("codusuario")<>"" then
 		<input type="hidden" name="actualizarlista" value="">
 		<input type="hidden" name="expimp" value="">	
 		<input type="hidden" name="idpersonas_asig" value="<%=idpersonas_asig%>">
-		<input type="hidden" name="buscador" value="<%=buscador%>">		
+		<input type="hidden" name="buscador" value="<%=buscador%>">
+		<input type="hidden" name="datapersona" value="">	
 		
 		<input type="hidden" name="pag" value="<%=pag%>">	
 		</form>

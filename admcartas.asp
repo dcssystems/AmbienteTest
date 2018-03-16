@@ -4,7 +4,7 @@
 <%
 if session("codusuario")<>"" then
 conectar
-''traemos maxima fecha de gestion en distribución diaria
+''traemos maxima fecha de gestion en distribuciÃ³n diaria
 ''si se seleccions fecha de asignacion inicio y fin igual a esta maxima fecha de gestion
 ''se cruza con la tabla UltClienteDiario y UltContratoDiario para rapidez de reporte de gestion
 sql="select max(fechadatos) from Cliente_FileCarta"
@@ -236,7 +236,7 @@ cursor:hand;
 <%if actualizarlista<>"" then%>
 <script language=javascript>
 rutaimgcab="imagenes/"; 
- //Configuración general de datos de tabla 0
+ //ConfiguraciÃ³n general de datos de tabla 0
    tabla=0;
    orden[tabla]=0;
    ascendente[tabla]=true;
@@ -248,7 +248,7 @@ rutaimgcab="imagenes/";
    botonagregar[tabla] = false;
 paddingtabla[tabla] = '2';
 spacingtabla[tabla] = '1';       
-   cabecera[tabla] = new Array('FDCli','Fecha','Código','Nombre','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','Clasificación','Estado');
+   cabecera[tabla] = new Array('FDCli','Fecha','CÃ³digo','Nombre','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','ClasificaciÃ³n','Estado');
    identificadorfilas[tabla]="fila";
    pievisible[tabla]=true;
    columnavisible[tabla] = new Array( false, true, true,true,true,true, true, true,true,true,true, true, true);
@@ -402,14 +402,14 @@ end if
 ''response.write sql
 consultar sql,RS
 contador=0
-''FDCli','Fecha','Código','Nombre','Tipo','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','Clasificación','Estado
+''FDCli','Fecha','CÃ³digo','Nombre','Tipo','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','ClasificaciÃ³n','Estado
 Do while not RS.EOF
 %>
 datos[tabla][<%=contador%>] = new Array();
 datos[tabla][<%=contador%>][0]='<%=RS.Fields("FDCli")%>';
    datos[tabla][<%=contador%>][1]=<%if not IsNull(RS.Fields("fechadatos")) then%>new Date(<%=Year(RS.Fields("fechadatos"))%>,<%=Month(RS.Fields("fechadatos"))-1%>,<%=Day(RS.Fields("fechadatos"))%>,0,0,0)<%else%>null<%end if%>;
        datos[tabla][<%=contador%>][2]='<%=RS.Fields("codigocentral")%>';
-datos[tabla][<%=contador%>][3]='<%if len(trim(replace(RS.Fields("nombres"),"'","´")))<=27 then%><%=trim(replace(RS.Fields("nombres"),"'","´"))%><%else%><%=mid(trim(replace(RS.Fields("nombres"),"'","´")),1,27) & "..."%><%end if%>';
+datos[tabla][<%=contador%>][3]='<%if len(trim(replace(RS.Fields("nombres"),"'","Â´")))<=27 then%><%=trim(replace(RS.Fields("nombres"),"'","Â´"))%><%else%><%=mid(trim(replace(RS.Fields("nombres"),"'","Â´")),1,27) & "..."%><%end if%>';
 datos[tabla][<%=contador%>][4]='<%=RS.Fields("tipodocumento") + " - " + RS.Fields("numdocumento")%>';
 datos[tabla][<%=contador%>][5]='<%=RS.Fields("marca")%>';
 datos[tabla][<%=contador%>][6]='<%=RS.Fields("segmento_riesgo")%>';
@@ -448,14 +448,14 @@ funcionactualiza[tabla]='document.formula.actualizarlista.value=1;document.formu
 <table border=0 cellspacing=0 cellpadding=2 width=100%>
   <tr bgcolor="#007DC5">
     <td colspan="17" align="center" height="22">
-      <font size=2 face=Arial color="#FFFFFF"><b>Gestión de Cartas </b></font>
+      <font size=2 face=Arial color="#FFFFFF"><b>GestiÃ³n de Cartas </b></font>
     </td>
   </tr>
   <tr bgcolor="#E9F8FE">
-    <td align="right"><font size=1 face=Arial color=#00529B><b>N°&nbsp;Contrato:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>NÂ°&nbsp;Contrato:</b></font></td>
     <td colspan="4"><input name="contrato" type=text maxlength=18 value="<%=contrato%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Código&nbsp;Cliente:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>CÃ³digo&nbsp;Cliente:</b></font></td>
     <td colspan="4"><input name="codigocentral" type=text maxlength=8 value="<%=codigocentral%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>Gestor:</b></font></td>
@@ -496,7 +496,7 @@ RS.Close
 </select>
     </td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>N°&nbsp;Documento:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>NÂ°&nbsp;Documento:</b></font></td>
     <td colspan="4"><input name="numdocumento" type=text maxlength=15 value="<%=numdocumento%>" style="font-size: x-small; width: 250px;"></td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
     <td align="right"><font size=1 face=Arial color=#00529B><b>Segmento:</b></font></td>
@@ -554,10 +554,10 @@ RS.Close
 </select>
     </td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>    
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Clasificación:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>ClasificaciÃ³n:</b></font></td>
     <td colspan="4">
         <select name="clasificacion" style="font-size: x-small; width: 250px;">
-<option value="">Seleccione Clasificación</option>
+<option value="">Seleccione ClasificaciÃ³n</option>
 <%
 sql = "select codclasificacion,descripcion from Clasificacion where activo=1 order by codclasificacion"
 consultar sql,RS
@@ -648,7 +648,7 @@ RS.Close
 <!--<input type="text" name="date3" id="sel3" size="10"><input type="image" value=" ... " onclick="return showCalendar('sel3', '%d/%m/%Y');">-->
 </td>
     <td><font size=1 face=Arial color=#00529B>&nbsp;</font></td>
-    <td align="right"><font size=1 face=Arial color=#00529B><b>Días&nbsp;de&nbsp;Atraso:</b></font></td>
+    <td align="right"><font size=1 face=Arial color=#00529B><b>DÃ­as&nbsp;de&nbsp;Atraso:</b></font></td>
     <td width="40" align="right"><font size=1 face=Arial color=#00529B><b>Del</b></font></td>
     <td width="78"><input name="diaatrasoini" type=text maxlength=10 value="<%=diaatrasoini%>" style="text-align: right;font-size: x-small; width: 50px;"></td>
     <td width="40" align="right"><font size=1 face=Arial color=#00529B><b>al</b></font></td>
@@ -669,7 +669,7 @@ RS.Close
 <table width=100% cellpadding=4 cellspacing=0 border=0>    
 <tr>
 <td bgcolor="#F5F5F5" align=left><font size=1 face=Arial color=#00529B><b>Cartas (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:buscar();"><img src="imagenes/buscar.gif" border=0 alt="Buscar" title="Buscar" align=middle></a>&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><img src="imagenes/descargar.gif" border=0 alt="Descargar Excel" title="Descargar Excel" align=middle></a><%end if%></b></font></td>
-<td bgcolor="#F5F5F5" align=right width=180><font size=1 face=Arial color=#00529B>Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+<td bgcolor="#F5F5F5" align=right width=180><font size=1 face=Arial color=#00529B>PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
 </tr>    
 </table>
 <div id="tabla0"> 
@@ -718,8 +718,8 @@ if expimp="1" then
 ''RS.Close    
 ''Para Exportar a Excel
 ''Primero Cabecera en temp1_(user).txt
-''FDCli','Fecha','Código','Nombre','Tipo','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','Clasificación','Estado
-consulta_exp="select 'Fecha','Código','Nombre','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','Clasificación','Estado'"
+''FDCli','Fecha','CÃ³digo','Nombre','Tipo','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','ClasificaciÃ³n','Estado
+consulta_exp="select 'Fecha','CÃ³digo','Nombre','Documento','Marca','Segmento','Banca','Territorio','Oficina','D','ClasificaciÃ³n','Estado'"
 sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp1_" & session("codusuario") & ".txt'"
 conn.execute sql
 ''Segundo Detalle en temp2_(user).txt
@@ -761,7 +761,7 @@ end if
 else
 %>
 <script language="javascript">
-    alert("Ud. No tiene autorización para este proceso.");
+    alert("Ud. No tiene autorizaciÃ³n para este proceso.");
     window.open("userexpira.asp", "_top");
 </script>
 <%    

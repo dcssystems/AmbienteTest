@@ -19,9 +19,7 @@
 			<label>Pase 3: </label> <input type="text" name="pasetres" id="pasetres" value="" /><br/>
 			<label>Pase 4: </label> <input type="text" name="pasecuatro" id="pasecuatro" value="" /><br/>
 			<label>Pase 5: </label> <input type="text" name="pasecinco" id="pasecinco" value="" /><br/>
-		 
-		
-		
+		 				
 			<input type="hidden" name="DB" id="DB" value="" />
 			<input type="hidden" name="JS_browser_height" id="JS_browser_height" value="" />
 			<input type="hidden" name="JS_browser_width" id="JS_browser_width" value="" />
@@ -29,7 +27,7 @@
 			<input name="relogin" id="relogin" type="hidden" value="NO" />
 			<input name="VD_login" id="VD_login" type="hidden" value="Sistemas2" />
 			<input name="phone_login" id="phone_login" type="hidden" value="598006" />
-			<input name="phone_pass" id="phone_pass"  type="hidden" value="1Aaq9e3wLJ" />
+			<input name="phone_pass" id="phone_pass"  type="hidden" value="1Aaq9e3wLJ" /><!-- 1Aaq9e3wLJ -->
 			<input name="VD_pass" id="VD_pass" type="hidden" value="MkYGSDeI5" />
 			<input name="VD_campaign" id="VD_campaign" type="hidden" value="18021801" />
 		
@@ -42,15 +40,15 @@
 		<script language="javascript">
 			function getHiddenValues()
 			{
-				const DB = document.getElementById('DB').value;
+				const DB 				= document.getElementById('DB').value;
 				const JS_browser_height = document.getElementById('JS_browser_height').value;
-				const JS_browser_width = document.getElementById('JS_browser_width').value;
-				const relogin = document.getElementById('relogin').value;
-				const VD_login = document.getElementById('VD_login').value;
-				const phone_login = document.getElementById('phone_login').value;
-				const phone_pass = document.getElementById('phone_pass').value;
-				const VD_pass = document.getElementById('VD_pass').value;
-				const VD_campaign = document.getElementById('VD_campaign').value;
+				const JS_browser_width 	= document.getElementById('JS_browser_width').value;
+				const relogin			= document.getElementById('relogin').value;
+				const VD_login 			= document.getElementById('VD_login').value;
+				const phone_login 		= document.getElementById('phone_login').value;
+				const phone_pass 		= document.getElementById('phone_pass').value;
+				const VD_pass 			= document.getElementById('VD_pass').value;
+				const VD_campaign	 	= document.getElementById('VD_campaign').value;
 				
 				var cadenaUno = "?DB="+DB+"&JS_browser_height="+JS_browser_height+"&JS_browser_width="+JS_browser_width+"&relogin="+relogin+"&VD_login="+VD_login;
 				var cadenaDos = "&phone_login="+phone_login+"&phone_pass="+phone_pass+"&VD_pass="+VD_pass+"&VD_campaign="+VD_campaign
@@ -90,9 +88,7 @@
 			else {
 				window.attachEvent("onmessage", displayMessage);
 			}
-			
-			
-			
+						
 			function mensajefinal(smf){
 				alert(smf);
 			}
