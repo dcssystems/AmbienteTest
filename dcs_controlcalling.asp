@@ -50,6 +50,12 @@
 
 
 	<script>
+	
+		function mensajefinal(smf){
+			//alert(smf);
+			document.getElementById("stepone").value = smf;
+			
+		}
 		
 	</script>
 	

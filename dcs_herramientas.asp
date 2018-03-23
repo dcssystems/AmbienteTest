@@ -6,12 +6,23 @@
 <!--#include file=capa1.asp-->
 <!--#include file=capa2.asp-->  
 <%
-	
+Dim DUSUARIO,DPASSWORD,DTELFLOGIN,DTELFPASSWORD,DCODPAIS
+Dim nameUser,firsthLetter, codPerfil
+	DUSUARIO		= session("goUsuario")
+	DPASSWORD		= session("goClaveUsuario")
+	DTELFLOGIN		= session("anexo")
+	DTELFPASSWORD	= session("claveAnexo")
+	DCODPAIS		= session("codigoPais")
+	DTELEFONO		= ""
+	nameUser        = session("nombreusuario") 
+	firsthLetter    = Mid(nameUser,1,1)
+
 if session("codusuario")<>"" then
 	conectar
 	sql="select C.CodPerfil,C.Descripcion,C.Orden from Usuario A inner join UsuarioPerfil B on A.codusuario=B.codusuario inner join Perfil C on B.codperfil=C.codperfil where A.codusuario=" & session("codusuario") & " and B.activo=1 UNION select A.CodPerfil,A.Descripcion,A.Orden from Perfil A where (select administrador from Usuario where codusuario=" & session("codusuario") & ")=1 order by Orden"
 	consultar sql,RS1	
 	if RS1.RecordCount>0 then
+		codPerfil = RS1.Fields("CodPerfil")
 	%>
 	
 	<html>
@@ -29,90 +40,90 @@ if session("codusuario")<>"" then
 			<script src="assets/jquery/dist/jquery.js"></script>
 			<script src="assets/bootstrap/dist/js/bootstrap.js"></script>
 			
-    <script>
-      function toggleCodes(on) {
-        var obj = document.getElementById('icons');
-      
-        if (on) {
-          obj.className += ' codesOn';
-        } else {
-          obj.className = obj.className.replace(' codesOn', '');
-        }
-      }
-      
-    </script>
+			<script>
+			  function toggleCodes(on) {
+				var obj = document.getElementById('icons');
+			  
+				if (on) {
+				  obj.className += ' codesOn';
+				} else {
+				  obj.className = obj.className.replace(' codesOn', '');
+				}
+			  }
+			  
+			</script>
 
 			
-		<!--referencias menu-->
-		<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-base.css" />
-		<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-topbar.css" />
-		<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-sidebar.css" />
-		<script type="text/javascript" src="scripts/ddlevelsmenu.js"></script>
-		<script type="text/javascript" src="scripts/popcalendar_cobcm.js"></script>
-		<!--fin referencias menu-->
-		
-		<!--script para carpetas-->
-		<script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
-		<!--<script type="text/javascript" src="scripts/tablas.js"></script>-->
-		<script type="text/javascript" language="javascript">
-		window.name = "SISTEMA - CRM";
-		window.status="Desarrollado por: Direct Contact Solutions"
-		function agregarcol(ac_codigo,ac_descripcion,ac_url)
-		{
-			if ( $("#carpeta" + ac_codigo).length==0)
+			<!--referencias menu-->
+			<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-base.css" />
+			<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-topbar.css" />
+			<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-sidebar.css" />
+			<script type="text/javascript" src="scripts/ddlevelsmenu.js"></script>
+			<script type="text/javascript" src="scripts/popcalendar_cobcm.js"></script>
+			<!--fin referencias menu-->
+			
+			<!--script para carpetas-->
+			<script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
+			<!--<script type="text/javascript" src="scripts/tablas.js"></script>-->
+			<script type="text/javascript" language="javascript">
+			window.name = "SISTEMA - CRM";
+			window.status="Desarrollado por: Direct Contact Solutions"
+			function agregarcol(ac_codigo,ac_descripcion,ac_url)
 			{
-				//alert("inicio");
-				//if($('#tblTabla thead tr th').length<5)
-				//{				
-					//tomamos la tabla con la que vamos a trabajar
-					var $objTabla=$('#tblTabla'),
-					//contamos la cantidad de columnas que tiene la tabla
-					iTotalColumnasExistentes=$('#tblTabla thead tr th').length;
-					
-					//aumentamos en uno el valor que contiene la variable
-					iTotalColumnasExistentes++;
-					//display:table-cell; vertical-align:middle; 
-					//agregamos una columna con el titulo (en thead)
-					$('<th>').html(
-						'<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height="7" width="178"><font face="Raleway" size="2" color="#fff">&nbsp;&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#fff">' + ac_descripcion + '</font></a> <div style="float: right; margin-right: 5px;">'
-						+
-						'<a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><i class="demo-icon2 icon-cw">&#xe80e;</i></a>'
-						+
-						'<a href="" id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '")><i   class="demo-icon2 icon-cancel">&#xe806;</i></a></div></div>' 
+				if ( $("#carpeta" + ac_codigo).length==0)
+				{
+					//alert("inicio");
+					//if($('#tblTabla thead tr th').length<5)
+					//{				
+						//tomamos la tabla con la que vamos a trabajar
+						var $objTabla=$('#tblTabla'),
+						//contamos la cantidad de columnas que tiene la tabla
+						iTotalColumnasExistentes=$('#tblTabla thead tr th').length;
 						
-					).appendTo($objTabla.find('thead tr'));					
+						//aumentamos en uno el valor que contiene la variable
+						iTotalColumnasExistentes++;
+						//display:table-cell; vertical-align:middle; 
+						//agregamos una columna con el titulo (en thead)
+						$('<th>').html(
+							'<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height="7" width="178"><font face="Raleway" size="2" color="#fff">&nbsp;&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#fff">' + ac_descripcion + '</font></a> <div style="float: right; margin-right: 5px;">'
+							+
+							'<a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><i class="demo-icon2 icon-cw">&#xe80e;</i></a>'
+							+
+							'<a href="" id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '")><i   class="demo-icon2 icon-cancel">&#xe806;</i></a></div></div>' 
+							
+						).appendTo($objTabla.find('thead tr'));					
 
-					//alert("vercarpeta");
-					func_vercarpeta(ac_codigo);
-					//alert("refrescar url");
-					//solo para cuando sea la primera ventana debemos hacer el navigate para que no loopee la barra de estado en iexplorer
-					//if(iTotalColumnasExistentes==1)
-					//if(navigator.appName.indexOf("Internet Explorer")!=-1) window["fr_carpeta" + ac_codigo].navigate();
-					func_refrescarcarpeta(ac_codigo,ac_url);
-					//alert("termine");
-					//sin link '<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height=4 width=178><font face="Raleway" size="2" color="#d15027">&nbsp;</font><font face="Raleway" size="2" color="#000064">' + ac_descripcion + '</font><a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><img src="imagenes/refrescarcarpeta.png" alt="Actualizar vista" title="Actualizar vista" border=0></a><a href=""><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '");></a></div>'
-					//con link '<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height=4 width=178><font face="Raleway" size="2" color="#d15027">&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#000064">' + ac_descripcion + '</font></a><a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><img src="imagenes/refrescarcarpeta.png" alt="Actualizar vista" title="Actualizar vista" border=0></a><a href=""><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '");></a></div>'
-					
-					//'<font face="Raleway" size="2" color="#d15027">' + ac_descripcion + '</font><img id="carpeta' + ac_codigo + '" class="clsEliminar" src="imagenes/cerrarcarpeta.png" border=0>'
-					//'<table cellpadding=0 cellspacing=0 border=0 height=26 width=178><THEAD><TR background="imagenes/carpetaon.jpg"><td width=178><font face"Raleway size=2 color=#d15027>'+ ac_descripcion + '</font><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar"></td></TR></THEAD></table>'
-					
-					//adjuntamos los td's de la columna al body de la tabla
-					//$('<td>').html(
-					//	'<input type="text" size="4">'
-					//).appendTo($objTabla.find('tbody tr'));
-					
-					//cambiamos el atributo colspan del pie de la tabla y su contenido
-					//$objTabla.find('tfoot tr td').attr('colspan',iTotalColumnasExistentes).
-					//text('La tabla tiene '+iTotalColumnasExistentes+' columnas');
-				//}
-				//else alert("Cierre alguna vista para poder continuar.");
+						//alert("vercarpeta");
+						func_vercarpeta(ac_codigo);
+						//alert("refrescar url");
+						//solo para cuando sea la primera ventana debemos hacer el navigate para que no loopee la barra de estado en iexplorer
+						//if(iTotalColumnasExistentes==1)
+						//if(navigator.appName.indexOf("Internet Explorer")!=-1) window["fr_carpeta" + ac_codigo].navigate();
+						func_refrescarcarpeta(ac_codigo,ac_url);
+						//alert("termine");
+						//sin link '<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height=4 width=178><font face="Raleway" size="2" color="#d15027">&nbsp;</font><font face="Raleway" size="2" color="#000064">' + ac_descripcion + '</font><a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><img src="imagenes/refrescarcarpeta.png" alt="Actualizar vista" title="Actualizar vista" border=0></a><a href=""><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '");></a></div>'
+						//con link '<div id="divcarpeta' + ac_codigo + '" onmousedown=func_vercarpeta("' + ac_codigo + '"); style="text-align: left; width: 178px; height: 26px; background-image: url(imagenes/carpetaon.jpg);"><img src="imagenes/vacio.png" height=4 width=178><font face="Raleway" size="2" color="#d15027">&nbsp;</font><a style="text-decoration: none;" href=javascript:func_vercarpeta("' + ac_codigo + '","' + ac_url + '");><font face="Raleway" size="2" color="#000064">' + ac_descripcion + '</font></a><a href=javascript:func_vercarpeta("' + ac_codigo + '");func_refrescarcarpeta("' + ac_codigo + '","' + ac_url + '");><img src="imagenes/refrescarcarpeta.png" alt="Actualizar vista" title="Actualizar vista" border=0></a><a href=""><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar" alt="Cerrar vista" title="Cerrar vista" onclick=javascript:func_cerrarcarpeta("' + ac_codigo + '","' + ac_url + '");></a></div>'
+						
+						//'<font face="Raleway" size="2" color="#d15027">' + ac_descripcion + '</font><img id="carpeta' + ac_codigo + '" class="clsEliminar" src="imagenes/cerrarcarpeta.png" border=0>'
+						//'<table cellpadding=0 cellspacing=0 border=0 height=26 width=178><THEAD><TR background="imagenes/carpetaon.jpg"><td width=178><font face"Raleway size=2 color=#d15027>'+ ac_descripcion + '</font><img src="imagenes/cerrarcarpeta.png" border=0 id="carpeta' + ac_codigo + '" class="clsEliminar"></td></TR></THEAD></table>'
+						
+						//adjuntamos los td's de la columna al body de la tabla
+						//$('<td>').html(
+						//	'<input type="text" size="4">'
+						//).appendTo($objTabla.find('tbody tr'));
+						
+						//cambiamos el atributo colspan del pie de la tabla y su contenido
+						//$objTabla.find('tfoot tr td').attr('colspan',iTotalColumnasExistentes).
+						//text('La tabla tiene '+iTotalColumnasExistentes+' columnas');
+					//}
+					//else alert("Cierre alguna vista para poder continuar.");
+				}
+				else
+				{
+						func_ocultartotalcarpetas();
+						func_vercarpeta(ac_codigo);
+				}
 			}
-			else
-			{
-					func_ocultartotalcarpetas();
-					func_vercarpeta(ac_codigo);
-			}
-		}
 			
 			
 			//clic en el enlace para eliminar la columna
@@ -177,7 +188,7 @@ if session("codusuario")<>"" then
 				{
 					window.open(ac_url,"fr_carpeta" + ac_codigo);
 					//window["fr_carpeta" + ac_codigo].location=ac_url;
-	}
+				}
 	            
 
 				function func_cerrarcarpeta(ac_codigo)
@@ -233,17 +244,17 @@ if session("codusuario")<>"" then
 						  }
 						}					
 				}															
-		</script>
-		<!--fin script para carpetas-->
-		
-		<script type="text/javascript">
-		    var ventanaclave;
-		    function modificarclave() {
-		        ventanaclave = global_popup_IWTSystem(ventanaclave, "dcs_modificarclave.asp", "NewClave", "scrollbars=yes,scrolling=yes,top=" + (screen.height / 4 - 30) + ",height=160,width=450,left=" + ((screen.width - 400) / 2) + ",resizable=yes");
-		    }
-		</script>
+			</script>
+			<!--fin script para carpetas-->
+			
+			<script type="text/javascript">
+				var ventanaclave;
+				function modificarclave() {
+					ventanaclave = global_popup_IWTSystem(ventanaclave, "dcs_modificarclave.asp", "NewClave", "scrollbars=yes,scrolling=yes,top=" + (screen.height / 4 - 30) + ",height=160,width=450,left=" + ((screen.width - 400) / 2) + ",resizable=yes");
+				}
+			</script>
 		</head>
-		<body topmargin="0" leftmargin="0">
+		<body topmargin="0" leftmargin="0" onload="cargarLogin();">
 			<table class="table-header-template" cellpadding="2" >
 				<tr>
 					<td><img src="imagenes/dcs_logo_agua.png" alt="Direct Contact Solutions" title="Direct Contact Solutions" height="80"></td>
@@ -255,12 +266,12 @@ if session("codusuario")<>"" then
 									<div class="block">
 										<div class="circle">
 											<div class="dropdown dropdown-user">
-												<a class="text-user dropdown-toggle" href="#" data-toggle="dropdown"><font face="Raleway" size="5" color="#fff">A</b></font></a>												
+												<a class="text-user dropdown-toggle" href="#" data-toggle="dropdown"><font face="Raleway" size="5" color="#fff"><%=firsthLetter%></b></font></a>												
 												<ul class="dropdown-menu">
-													<li><a class="link-text-dark" href="javascript:void(0);"><font face="Raleway" size="2" ><i class="demo-icon icon-up-dir">&#xe811;</i><b><%=session("nombreusuario")%></b></font></a></li>
+													<li><a class="link-text-dark" href="javascript:void(0);"><font face="Raleway" size="2" ><i class="demo-icon icon-up-dir">&#xe811;</i><b><%=nameUser%></b></font></a></li>
 													<li><a class="link-text-dark" href="javascript:modificarclave();"><font face="Raleway" size="2" ><i class="demo-icon icon-coffee">&#xf0f4;</i> Modificar&nbsp;contrase&ntildea&nbsp;</font></a></li>
 													<li class="divider"></li>
-													<li><a class="link-text-dark" href="dcs_userexpira.asp" target="_top"><i class="logout demo-icon icon-logout">&#xe800;</i> Salir</a></li>
+													<li><a class="link-text-dark" href="dcs_userexpira.asp" target="_top" onclick="salirLlamador();"><i class="logout demo-icon icon-logout">&#xe800;</i> Salir</a></li>
 												</ul>
 											</div>
 										</div>
@@ -269,6 +280,7 @@ if session("codusuario")<>"" then
 							</tr>							
 						</table>
 					</td>
+					<td style="padding-right:10px"><i class="demo-icon icon-menu">&#xf008;</i></td><!-- 0xf008 -->
 				</tr>
 			</table>
 			<form name="formula" method="post">
@@ -318,10 +330,92 @@ if session("codusuario")<>"" then
 				</tr>				
 			</table>
 			</form>
-			<table width="100%" border="0" cellpadding="0" cellspacing="0">			
-			
-			
-			
+			<% if (codPerfil = 3) then %>			
+			<div style="height:0px">
+				<div style="visibility:hidden;">		
+					<form name="formulaMando" id="formulaMando">
+						<input name="login" id="login" type="button" value="Login" onclick="enviardatosp5('LOGIN');">
+					
+						<input name="logout" id="logout" type="button" value="Logout" onclick="enviardatosp5('LOGOUT')">
+						
+						<input name="llamar" id="llamar" type="button" value="Llamar" onclick="enviardatosp5('LLAMAR');" disabled>
+						
+						<center>
+							<iframe src="http://192.168.1.5/p5.php" id="mandophp" name="mandophp" height="90%" width="90%"  style="height: 800px;" ></iframe>
+						</center>
+					</form>	
+					<script language="javascript">	
+						async function cargarLogin()
+						{		
+							await sleep(1750);
+							document.getElementById("login").click();
+						}
+						
+						function salirLlamador(){
+							document.getElementById("logout").click();
+						}
+					
+						async function enviardatosp5(cadena)			
+						{
+							//var frame = document.getElementById('interloc'); 
+							//window.parent.frames[1].contentWindow.postMessage("jajajaja", "http://192.168.1.7");
+							var frameV = window.parent.frames[0].frames[1]; 
+							//postMessage(mensaje, ip a donde mando el mensaje);				
+							//
+							switch(cadena){
+								case "LOGIN":
+									frameV.postMessage("E-LOGIN", "http://192.168.1.5");
+									await sleep(250);
+									frameV.postMessage("D-USUARIO|<%=DUSUARIO%>", "http://192.168.1.5");
+									//await sleep(1);
+									frameV.postMessage("D-PASSWORD|<%=DPASSWORD%>", "http://192.168.1.5");
+									//await sleep(1);
+									frameV.postMessage("D-TELFLOGIN|<%=DTELFLOGIN%>", "http://192.168.1.5");
+									//await sleep(1);
+									frameV.postMessage("D-TELFPASSWORD|<%=DTELFPASSWORD%>", "http://192.168.1.5");
+									await sleep(250);
+									frameV.postMessage("D-CAMP|18021801", "http://192.168.1.5");	
+									await sleep(250);
+									frameV.postMessage("F-LOGIN", "http://192.168.1.5");							
+								break;
+								
+								case "LLAMAR":
+									frameV.postMessage("E-LLAMAR", "http://192.168.1.5");
+									//await sleep(1);
+									frameV.postMessage("D-CODPAIS|<%=DCODPAIS%>", "http://192.168.1.5");
+									//await sleep(1);
+									frameV.postMessage("D-TELEFONO|<%=DTELEFONO%>", "http://192.168.1.5");						
+									await sleep(250);
+									frameV.postMessage("F-LLAMAR", "http://192.168.1.5");							
+								break;
+
+								case "LOGOUT":
+									frameV.postMessage("E-LOGOUT", "http://192.168.1.5");
+								break;
+								
+							}				 
+						}			
+						
+						function sleep(ms)
+						{
+						  return new Promise(resolve => setTimeout(resolve, ms));
+						}
+						
+						function respuesta_peticion(cadena)			
+						{
+							switch(cadena)
+							{
+								case "D-LOGINOK":
+									document.formulaMando.login.disabled = true;
+									document.formulaMando.login.value = "LOGIN OK";
+									document.formulaMando.llamar.disabled = false;
+							}			
+							 
+						}
+					</script>			
+				</div>
+			</div>
+			<% end if %>
 			<!--carpetas-->
 			<TABLE id="tblTabla" class="clsTabla" cellspacing="0" cellpadding="0" border="0"><THEAD><TR></TR></THEAD></TABLE>
 			<!--fin carpetas-->
@@ -370,8 +464,11 @@ if session("codusuario")<>"" then
 			<!--datos del menu:  Inicio-->
 			<ul id="ddsubmenuside1" class="imagenes/arrow-right.gif blackwhite">
 			<%=cadenamenu%>
-			<!--fin datos del menu:  Inicio-->			
+			<!--fin datos del menu:  Inicio-->		
+
+			
 		</body>
+		
 	</html>
 	<%
 	else

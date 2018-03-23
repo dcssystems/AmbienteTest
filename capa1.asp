@@ -33,7 +33,7 @@ Const TITLE = ".::DIRCON | Sistema web de gestión de cobranzas::."
 
 
 
-Dim enlace,conn,RS,RS1,RS2,RS3
+Dim enlace,conn,RS,RS1,RS2,RS3,RS4
 Dim conn_server,conn_uid,conn_pwd,conn_database
 
 set conn = server.CreateObject("ADODB.Connection")
@@ -42,6 +42,9 @@ set RS1 = server.CreateObject("ADODB.Recordset")
 set RS2 = server.CreateObject("ADODB.Recordset")
 set RS3 = server.CreateObject("ADODB.Recordset")
 set RS4 = server.CreateObject("ADODB.Recordset")
+set RS5 = server.CreateObject("ADODB.Recordset")
+set RS6 = server.CreateObject("ADODB.Recordset")
+
 conn_server="192.168.1.7"
 conn_uid="sa"
 conn_pwd="d1rc0n$$"

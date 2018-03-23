@@ -187,13 +187,20 @@ End Function
 Function validarusuario(usr,pwd,mensajevalida)
 ''Para Validar un usuario
 ''3er Intento Bloqueo
-	sql="select codusuario,clave,flagbloqueo,nombres,apepaterno,apematerno from Usuario where usuario='" & usr &"' and activo=1"
+	sql="select codusuario,clave,flagbloqueo,nombres,apepaterno,apematerno,Anexo, ClaveAnexo, GoUsuario, GoClave from Usuario where usuario='" & usr &"' and activo=1"
 	consultar sql,RS
 	if not RS.EOF then
 		if pwd=Desencriptar(RS.Fields("clave")) and RS.Fields("flagbloqueo")<3 then
 			session("codusuario")=RS.Fields("codusuario")
 			session("codusuariodif")=RS.Fields("codusuario") & replace(Date(),"/","") & "h" & Hour(Now()) & "m" & Minute(Now()) & "s" & Second(Now())
 			session("nombreusuario")=iif(IsNull(RS.Fields("nombres")),"",RS.Fields("nombres")) & ", " & iif(IsNull(RS.Fields("apepaterno")),"",RS.Fields("apepaterno")) & " " & iif(IsNull(RS.Fields("apematerno")),"",RS.Fields("apematerno"))
+			session("codigoPais") 	  = "51"
+			session("anexo")      	  = RS.Fields("Anexo")
+			session("claveAnexo") 	  = RS.Fields("ClaveAnexo")
+			session("goUsuario")  	  = RS.Fields("GoUsuario")
+			session("goClaveUsuario") = RS.Fields("GoClave")
+			'session("telefono")
+			'session("telefono")			
 			sql="Update Usuario set flagbloqueo=0 from Usuario where usuario='" & usr &"' and activo=1"
 			conn.execute sql				
 			validarusuario=true
@@ -223,9 +230,14 @@ Function validarusuario(usr,pwd,mensajevalida)
 End Function
 
 Function expirarusuario()
-session("codusuario")=""
-session("codusuariodif")=""
-session("nombreusuario")=""
+session("codusuario")     =""
+session("codusuariodif")  =""
+session("nombreusuario")  =""
+session("codigoPais") 	  =""
+session("anexo")      	  =""
+session("claveAnexo") 	  =""
+session("goUsuario")  	  =""
+session("goClaveUsuario") =""
 End Function
 
 Function permisofacultad(pagina)

@@ -13,6 +13,7 @@ if session("codusuario")<>"" then
 		ordentipo = obtener("ordentipo")
 		codusuario = obtener("codusuario")
 		idpersonas_asig = obtener("idpersonas_asig")
+		filoperador = obtener("filoperador")
 
 
 
@@ -170,27 +171,54 @@ if session("codusuario")<>"" then
 		}
 
 		
-		function asignar()
+		function asignar(cruces)
 		{
-				if(formula.codusuario.value=="0"){swal("Debe escoger a un Operador");return;}
-				document.formula.pag.value=1;
-				swal("Estas seguro de continuar con la asignación.", {
-		  dangerMode: true,
-		   buttons: ["NO", "SI"],
-		}).then(
-	       function (isConfirm) {
-				if (isConfirm) {
-	           
-	                document.formula.submit();
-	           
 
-	        } else {
-	            swal("Cancelado", "no se realizo ninguna asignación", "error");
-	        }
+						if(formula.codusuario.value=="0"){swal("Debe escoger a un Operador");return;}
 
-	       });
-					
+						document.formula.pag.value=1;
 
+						if (cruces != "0")
+						{
+								swal("Existen " + cruces + " registros ya asignados, estas seguro de continuar con la asignación.", {
+						  dangerMode: true,
+						   buttons: ["NO", "SI"],
+						}).then(
+					       function (isConfirm) {
+								if (isConfirm) {
+					           
+					                document.formula.submit();
+					           
+
+					        } else {
+					            swal("Cancelado", "no se realizo ninguna asignación", "error");
+					        }
+
+					       });
+					}
+						else
+						{
+
+						  swal("Estas seguro de continuar con la asignación.", {
+						  dangerMode: true,
+						   buttons: ["NO", "SI"],
+						}).then(
+					       function (isConfirm) {
+								if (isConfirm) {
+					           
+					                document.formula.submit();
+					           
+
+					        } else {
+					            swal("Cancelado", "no se realizo ninguna asignación", "error");
+					        }
+
+					       });			
+						}
+
+			
+										
+			
 		}
 		// function selectall(form)  
 		// {  
@@ -310,8 +338,17 @@ if session("codusuario")<>"" then
 		<script language="javascript">
 			
 			<%
-				idcampana = obtener("idcampana")''idcampana=2 	
-				filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado is NULL "
+				idcampana = obtener("idcampana")''idcampana=2 
+
+				if ( filoperador = "") then					
+				filtrobuscador = " where a.IDCampaña = " & idcampana 
+				else
+					if ( filoperador = 0) then	
+						filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado is NULL " 
+					else
+						filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & filoperador
+					end if
+				end if 
 
 				sql="Select Descripcion, convert(varchar(10),FechaInicio,103) as Inicio,  convert(varchar(10),fechafin,103) as Fin from Campaña where idcampaña =" & idcampana
 
@@ -334,6 +371,8 @@ if session("codusuario")<>"" then
 							%>							
 								swal("Se asigno correctamente",{icon: "success",  buttons: false,  timer: 3000,});							
 							<%
+							idpersonas_asig =""
+							codusuario =""
 				 end if
 								
 
@@ -546,7 +585,7 @@ if session("codusuario")<>"" then
 				glosavisible=""
 				glosaancho=""				
 				glosaalineamiento=""
-				camposel=0
+				camposel=1
 				mitablaorden=0
 				Do while not RS.EOF 			
 					camposel= camposel+1
@@ -625,25 +664,26 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDCampanaPersona'<%=glosacampos%>);
+		    cabecera[tabla] = new Array('IDCampanaPersona','Asignacion'<%=glosacampos%>);
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(false<%=glosavisible%>);
-		    anchocolumna[tabla] =  new Array(''<%=glosaancho%>);
-		    aligncabecera[tabla] = new Array('left'<%=glosaaligncabecera%>);
-		    aligndetalle[tabla] = new Array('left'<%=glosaaligndetalle%>);
-		    alignpie[tabla] =     new Array('left'<%=glosaalignpie%>);
-		    decimalesnumero[tabla] = new Array(-1<%=glosadecimalesnumero%>);
-		    formatofecha[tabla] =   new Array(''<%=glosaformatofecha%>);
+		    columnavisible[tabla] = new Array(false,true<%=glosavisible%>);
+		    anchocolumna[tabla] =  new Array('','5%'<%=glosaancho%>);
+		    aligncabecera[tabla] = new Array('left','left'<%=glosaaligncabecera%>);
+		    aligndetalle[tabla] = new Array('left','left'<%=glosaaligndetalle%>);
+		    alignpie[tabla] =     new Array('left','left'<%=glosaalignpie%>);
+		    decimalesnumero[tabla] = new Array(-1,-1<%=glosadecimalesnumero%>);
+		    formatofecha[tabla] =   new Array('',''<%=glosaformatofecha%>);
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
 		    idobjetofomulario[tabla]=0; //columna 1 trae el id de objetos x administrar ejm. zona1543 = 'zona' + idpedido (datos[0][fila][idobjetofomulario[0]])
 		    objetofomulario[tabla] = new Array();
 		   		
-				objetofomulario[tabla][0]='<input type=hidden name=idcampanapersona-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';				
+				objetofomulario[tabla][0]='<input type=hidden name=idcampanapersona-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';				
 				<%
-				indicecampo=0
+				indicecampo=1
 				Do while not RS.EOF 
 				    indicecampo=indicecampo + 1
 				    %>objetofomulario[tabla][<%=indicecampo%>]='<a href="javascript:modificar(-id-);">-valor-</a>';
@@ -656,9 +696,10 @@ if session("codusuario")<>"" then
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
 		    filtrofomulario[tabla] = new Array();
 		    tipofiltrofomulario[tabla] = new Array();
-		    	filtrofomulario[tabla][0]='';		    
+		    	filtrofomulario[tabla][0]='';	
+		    	filtrofomulario[tabla][1]='';	    
                 <%
-				indicecampo=0
+				indicecampo=1
 				Do while not RS.EOF 
 				    indicecampo=indicecampo + 1
 				    %>filtrofomulario[tabla][<%=indicecampo%>]='';
@@ -670,9 +711,10 @@ if session("codusuario")<>"" then
 				
 				
 		    valorfiltrofomulario[tabla] = new Array();
-				valorfiltrofomulario[tabla][0]='';				
+				valorfiltrofomulario[tabla][0]='';	
+				valorfiltrofomulario[tabla][1]='';			
                 <%
-				indicecampo=0
+				indicecampo=1
 				Do while not RS.EOF 
 				    indicecampo=indicecampo + 1
 				    %>valorfiltrofomulario[tabla][<%=indicecampo%>]='';
@@ -714,210 +756,211 @@ if session("codusuario")<>"" then
 		
 		if contadortotal <> 0 then
 
-		if trim(filtrobuscador2) <> "" then
-		sql = "select STUFF((SELECT CAST(',' AS varchar(MAX)) + CONVERT(VARCHAR(MAX),  a.IDCampañaPersona) from Campaña_Persona a " & filtrobuscador & " and a.IDCampañaPersona IN (" & filtrobuscador2 & " ) group by a.IDCampañaPersona FOR XML PATH('') ), 1, 1, '') as Cadena"
-		else
-		sql = "select STUFF((SELECT CAST(',' AS varchar(MAX)) + CONVERT(VARCHAR(MAX),  a.IDCampañaPersona) from Campaña_Persona a " & filtrobuscador & " group by a.IDCampañaPersona FOR XML PATH('') ), 1, 1, '') as Cadena"		
-		end if
+				if trim(filtrobuscador2) <> "" then
+				sql = "select STUFF((SELECT CAST(',' AS varchar(MAX)) + CONVERT(VARCHAR(MAX),  a.IDCampañaPersona) from Campaña_Persona a " & filtrobuscador & " and a.IDCampañaPersona IN (" & filtrobuscador2 & " ) group by a.IDCampañaPersona FOR XML PATH('') ), 1, 1, '') as Cadena"
+				else
+				sql = "select STUFF((SELECT CAST(',' AS varchar(MAX)) + CONVERT(VARCHAR(MAX),  a.IDCampañaPersona) from Campaña_Persona a " & filtrobuscador & " group by a.IDCampañaPersona FOR XML PATH('') ), 1, 1, '') as Cadena"		
+				end if
 
 
 		'response.Write sql
 
-		consultar sql,RS3
+				consultar sql,RS3
 
-		idpersonas_asig = RS3.fields(0)
+				idpersonas_asig = RS3.fields(0)
 
-		RS3.Close
+				RS3.Close
 
-		if paginado <> "" then
-		cantidadxpagina=paginado
-	    else
-	    cantidadxpagina=18
-		end if
-		paginasxbloque=10
+				if paginado <> "" then
+				cantidadxpagina=paginado
+			    else
+			    cantidadxpagina=18
+				end if
+				paginasxbloque=10
 		
-		if obtener("pag")="" then
-		pag=1
-		else
-		pag=int(obtener("pag"))
-		end if
+				if obtener("pag")="" then
+				pag=1
+				else
+				pag=int(obtener("pag"))
+				end if
 		
-		topnovisible=int((pag - 1)*cantidadxpagina)
-		
-		if contadortotal mod cantidadxpagina = 0 then
-		pagmax=int(contadortotal/cantidadxpagina)
-		else
-		pagmax=int(contadortotal/cantidadxpagina) + 1
-		end if
+				topnovisible=int((pag - 1)*cantidadxpagina)
+				
+				if contadortotal mod cantidadxpagina = 0 then
+				pagmax=int(contadortotal/cantidadxpagina)
+				else
+				pagmax=int(contadortotal/cantidadxpagina) + 1
+				end if
 
-		if contadortotal mod cantidadxpagina = 0 then
-		pagmax=int(contadortotal/cantidadxpagina)
-		else
-		pagmax=int(contadortotal/cantidadxpagina) + 1
-		end if
+				if contadortotal mod cantidadxpagina = 0 then
+				pagmax=int(contadortotal/cantidadxpagina)
+				else
+				pagmax=int(contadortotal/cantidadxpagina) + 1
+				end if
 
-		if pag mod paginasxbloque = 0 then
-		bloqueactual=int(pag/paginasxbloque)
-		else
-		bloqueactual=int(pag/paginasxbloque) + 1
-		end if				
+				if pag mod paginasxbloque = 0 then
+				bloqueactual=int(pag/paginasxbloque)
+				else
+				bloqueactual=int(pag/paginasxbloque) + 1
+				end if				
 
-		if pagmax mod paginasxbloque = 0 then
-		bloquemax=int(pagmax/paginasxbloque)
-		else
-		bloquemax=int(pagmax/paginasxbloque) + 1
-		end if
+				if pagmax mod paginasxbloque = 0 then
+				bloquemax=int(pagmax/paginasxbloque)
+				else
+				bloquemax=int(pagmax/paginasxbloque) + 1
+				end if
 
              
 		
-       if ordentipo <> "" then
-       		
-			sql="SELECT A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A " & filtrobuscador & " order by A.IDCampañaPersona" 
-			
-			if filtrobuscador2 <> "" or (filtrobuscador2 <>"" and buscador <>"") then
-				
-				sql="SELECT A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"	
-				
-			end if
-       else
-			if pag>1 then					
-			sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where A.idcampaña=" & IDCampana & " and " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " order by A.IDCampañaPersona) order by A.IDCampañaPersona"		
-			else
-			sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A " & filtrobuscador & " order by A.IDCampañaPersona" 
-			end if
-			
-			if filtrobuscador2 <> "" or (filtrobuscador2 <>"" and buscador <>"") then
-				if pag>1 then			
+		       if ordentipo <> "" then
+		       		
+					sql="SELECT A.IDCampañaPersona,A.NroDocumento, isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacion from Campaña_Persona A " & filtrobuscador & " order by A.IDCampañaPersona" 
+					
+					if filtrobuscador2 <> "" or (filtrobuscador2 <>"" and buscador <>"") then
+						
+						sql="SELECT A.IDCampañaPersona,A.NroDocumento, isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacion from Campaña_Persona A " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"	
+						
+					end if
+		       else
+					if pag>1 then					
+					sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento , isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacionfrom Campaña_Persona A where A.idcampaña=" & IDCampana & " and " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " order by A.IDCampañaPersona) order by A.IDCampañaPersona"		
+					else
+					sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento , isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacion from Campaña_Persona A " & filtrobuscador & " order by A.IDCampañaPersona" 
+					end if
+					
+					if filtrobuscador2 <> "" or (filtrobuscador2 <>"" and buscador <>"") then
+						if pag>1 then			
 
-				sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A where " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") ) and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"
-				else
-				sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento from Campaña_Persona A " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"	
+						sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento ,isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacion from Campaña_Persona A where " & filtrobuscador1 & " A.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " A.IDCampañaPersona FROM Campaña_Persona A  " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") ) and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"
+						else
+						sql="SELECT TOP " & cantidadxpagina & " A.IDCampañaPersona,A.NroDocumento , isnull((SELECT Usuario from Usuario where CodUsuario = A.UsuarioAsignado),'Sin asignar') as Asignacion from Campaña_Persona A " & filtrobuscador & " and A.IDCampañaPersona in (" & filtrobuscador2 & ") order by A.IDCampañaPersona"	
+						end if
+					end if
 				end if
-			end if
-		end if
 		'response.write sql
 
-		consultar sql,RS3
-		contador=0
- 
+				consultar sql,RS3
+				contador=0
+		 
 		
 		if RS.RecordCount > 0 then
-			idpersonas =""
-			Do while not RS3.EOF 
-				if idpersonas = "" then
-					idpersonas = RS3.Fields("IDCampañaPersona")
-				Else
-					idpersonas = idpersonas & "," & RS3.Fields("IDCampañaPersona")
-				end if				
-			RS3.MoveNext 
-			Loop 			
+					idpersonas =""
+					Do while not RS3.EOF 
+						if idpersonas = "" then
+							idpersonas = RS3.Fields("IDCampañaPersona")
+						Else
+							idpersonas = idpersonas & "," & RS3.Fields("IDCampañaPersona")
+						end if				
+					RS3.MoveNext 
+					Loop 			
 		
 
-		if ordentipo <> "" then
-			RS3.Close
-			
-				             if pag>1 then
-				             		  sql = "select TOP " & cantidadxpagina & " a.IDCampañaPersona, b.NroDocumento from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ") and a.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " a.IDCampañaPersona from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ")  order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo & " ) order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo  
-				             else
-				               sql = "select TOP " & cantidadxpagina & " a.IDCampañaPersona, b.NroDocumento from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ")  order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo  
-				             end if
+				if ordentipo <> "" then
+					RS3.Close
+					
+						             if pag>1 then
+						             		  sql = "select TOP " & cantidadxpagina & " a.IDCampañaPersona, b.NroDocumento, isnull((SELECT Usuario from Usuario where CodUsuario = b.UsuarioAsignado),'Sin asignar') as Asignacion from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ") and a.IDCampañaPersona NOT  IN (SELECT TOP " & topnovisible & " a.IDCampañaPersona from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ")  order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo & " ) order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo  
+						             else
+						               sql = "select TOP " & cantidadxpagina & " a.IDCampañaPersona, b.NroDocumento, isnull((SELECT Usuario from Usuario where CodUsuario = b.UsuarioAsignado),'Sin asignar') as Asignacion from campaña_detalle  a inner join Campaña_Persona b on a.IDCampañaPersona = b.IDCampañaPersona where a.IDCampañaCampo = " & ordencampo & " and a.IDCampañaPersona in (" & idpersonas & ")  order by a.ValorTexto " & ordentipo  & ",a.ValorEntero " & ordentipo  & ",a.ValorFloat " & ordentipo  & ",a.valorfecha " & ordentipo  
+						             end if
 
-				   'response.Write sql
+						  '' response.Write sql
 
-			consultar sql, RS3
-			
+					consultar sql, RS3
+					
 
-			if RS3.RecordCount > 0 then
-			idpersonas =""
-			Do while not RS3.EOF 
-				if idpersonas = "" then
-					idpersonas = RS3.Fields("IDCampañaPersona")
-				Else
-					idpersonas = idpersonas & "," & RS3.Fields("IDCampañaPersona")
-				end if				
-			RS3.MoveNext 
-			Loop 			
+					if RS3.RecordCount > 0 then
+					idpersonas =""
+					Do while not RS3.EOF 
+						if idpersonas = "" then
+							idpersonas = RS3.Fields("IDCampañaPersona")
+						Else
+							idpersonas = idpersonas & "," & RS3.Fields("IDCampañaPersona")
+						end if				
+					RS3.MoveNext 
+					Loop 			
+					end if
+					RS3.MoveFirst
+				else
+					RS3.MoveFirst
+				end if
+
+
+
+
+		   		sql="select A.IDCampañaPersona,A.NroDocumento,C.IDCampañaCampo,C.NroCampo,C.TipoCampo,D.ValorTexto,D.ValorEntero,D.ValorFloat,D.ValorFecha " & chr(10) & _
+		            "from Campaña_Persona A " & chr(10) & _
+		            "inner join Campaña B " & chr(10) & _
+		            "on A.IDCampaña=B.IDCampaña " & chr(10) & _
+		            "inner join Campaña_Campo C " & chr(10) & _
+		            "on B.IDTipoCampaña=C.IDTipoCampaña and C.Nivel=1 and C.Visible=1 " & chr(10) & _
+		            "inner join Campaña_Detalle D " & chr(10) & _
+		            "on A.IDCampañaPersona=D.IDCampañaPersona and C.IDCampañaCampo=D.IDCampañaCampo " & chr(10) & _
+		            " where A.IDCampañaPersona IN (" & idpersonas & ")"
+		           '' response.write sql
+				consultar sql,RS2
+
+		
+				Do while not RS3.EOF		
+									
+					%>
+					datos[tabla][<%=contador%>] = new Array();
+						datos[tabla][<%=contador%>][0]=<%=RS3.Fields("IDCampañaPersona")%>;			
+						datos[tabla][<%=contador%>][1]='<%=RS3.Fields("Asignacion")%>';				
+		                <%
+						indicecampo=1
+						Do while not RS.EOF
+						    indicecampo=indicecampo + 1
+		   				    if RS.Fields("FlagNroDocumento")=0 then
+						        RS2.Filter=" IDCampañaPersona=" & RS3.Fields("IDCampañaPersona") & " and IDCampañaCampo=" & RS.Fields("IDCampañaCampo") & " "
+		    				    
+						        Select Case RS.Fields("TipoCampo")
+						        case 1 
+						                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS2.Fields("ValorTexto") & "';" & chr(10)
+						        case 2 
+						                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorEntero") & ";" & chr(10)
+						        case 3 
+						                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorFloat") & ";" & chr(10)
+						        case 4
+						                if not IsNull(RS2.Fields("ValorFecha")) then
+						                    valorfecha="new Date(" & Year(RS2.Fields("ValorFecha")) & "," & Month(RS2.Fields("ValorFecha"))-1 & "," & Day(RS2.Fields("ValorFecha")) & "," & Hour(RS2.Fields("ValorFecha")) & "," & Minute(RS2.Fields("ValorFecha")) & "," & Second(RS2.Fields("ValorFecha")) & ")"
+						                else
+						                    valorfecha="null"
+						                end if
+						                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & valorfecha & ";" & chr(10)
+						        End Select
+						    else
+						        Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS3.Fields("NroDocumento") & "';" & chr(10)
+						    end if
+						RS.MoveNext 
+						Loop
+						RS.MoveFirst				
+
+				contador=contador + 1
+				RS3.MoveNext 
+				Loop 			
+				RS3.Close
+
 			end if
-			RS3.MoveFirst
-		else
-			RS3.MoveFirst
-		end if
-
-
-
-
-   		sql="select A.IDCampañaPersona,A.NroDocumento,C.IDCampañaCampo,C.NroCampo,C.TipoCampo,D.ValorTexto,D.ValorEntero,D.ValorFloat,D.ValorFecha " & chr(10) & _
-            "from Campaña_Persona A " & chr(10) & _
-            "inner join Campaña B " & chr(10) & _
-            "on A.IDCampaña=B.IDCampaña " & chr(10) & _
-            "inner join Campaña_Campo C " & chr(10) & _
-            "on B.IDTipoCampaña=C.IDTipoCampaña and C.Nivel=1 and C.Visible=1 " & chr(10) & _
-            "inner join Campaña_Detalle D " & chr(10) & _
-            "on A.IDCampañaPersona=D.IDCampañaPersona and C.IDCampañaCampo=D.IDCampañaCampo " & chr(10) & _
-            " where A.IDCampañaPersona IN (" & idpersonas & ")"
-            'response.write sql
-		consultar sql,RS2
-
-		
-			Do while not RS3.EOF		
-							
-		%>
-			datos[tabla][<%=contador%>] = new Array();
-				datos[tabla][<%=contador%>][0]=<%=RS3.Fields("IDCampañaPersona")%>;				
-                <%
-				indicecampo=0
-				Do while not RS.EOF
-				    indicecampo=indicecampo + 1
-   				    if RS.Fields("FlagNroDocumento")=0 then
-				        RS2.Filter=" IDCampañaPersona=" & RS3.Fields("IDCampañaPersona") & " and IDCampañaCampo=" & RS.Fields("IDCampañaCampo") & " "
-    				    
-				        Select Case RS.Fields("TipoCampo")
-				        case 1 
-				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS2.Fields("ValorTexto") & "';" & chr(10)
-				        case 2 
-				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorEntero") & ";" & chr(10)
-				        case 3 
-				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & RS2.Fields("ValorFloat") & ";" & chr(10)
-				        case 4
-				                if not IsNull(RS2.Fields("ValorFecha")) then
-				                    valorfecha="new Date(" & Year(RS2.Fields("ValorFecha")) & "," & Month(RS2.Fields("ValorFecha"))-1 & "," & Day(RS2.Fields("ValorFecha")) & "," & Hour(RS2.Fields("ValorFecha")) & "," & Minute(RS2.Fields("ValorFecha")) & "," & Second(RS2.Fields("ValorFecha")) & ")"
-				                else
-				                    valorfecha="null"
-				                end if
-				                Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]=" & valorfecha & ";" & chr(10)
-				        End Select
-				    else
-				        Response.Write "datos[tabla][" & contador & "][" & indicecampo & "]='" & RS3.Fields("NroDocumento") & "';" & chr(10)
-				    end if
-				RS.MoveNext 
-				Loop
-				RS.MoveFirst				
-
-			contador=contador + 1
-			RS3.MoveNext 
-			Loop 			
-			RS3.Close
-
-			end if
-		
+		end if 
 		%>
 			    
-		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;'<%=glosapie%>);
-		    piefunciones[tabla] = new Array(''<%=glosapiefunciones%>); 
+				    //datos del pie si fuera visible
+				    pievalores[tabla] = new Array('&nbsp;','&nbsp;'<%=glosapie%>);
+				    piefunciones[tabla] = new Array('',''<%=glosapiefunciones%>); 
 
 
-		    //Se escriben las opciones para los selects que contenga
-		    posicionselect[tabla]=new Array();
-		    nombreselect[tabla]=new Array();
-		    opcionesvalor[tabla]=new Array();
-		    opcionestexto[tabla]=new Array();
-		    //Finaliza configuracion de tabla 0
+				    //Se escriben las opciones para los selects que contenga
+				    posicionselect[tabla]=new Array();
+				    nombreselect[tabla]=new Array();
+				    opcionesvalor[tabla]=new Array();
+				    opcionestexto[tabla]=new Array();
+				    //Finaliza configuracion de tabla 0
 
-				
-			    
-		    funcionactualiza[tabla]='document.formula.actualizarlista.value=1;document.formula.submit();';
-		    funcionagrega[tabla]='agregar();';
+						
+					    
+				    funcionactualiza[tabla]='document.formula.actualizarlista.value=1;document.formula.submit();';
+				    funcionagrega[tabla]='agregar();';
 
 		</script> 
 		
@@ -928,19 +971,9 @@ if session("codusuario")<>"" then
 		descripcioncampana = rs3.fields("Descripcion")
 		RS3.Close
 
-		end if 
-		if contadortotal=0 then%>
-		
-		<body topmargin="0" leftmargin="0" style="overflow-x:hidden;">
-			<form name="formula" method="post">
-				<table width="100%" cellpadding="4" cellspacing="0">	
-					<tr class="fondo-orange">
-						<td class="text-orange"><font size="2" face="Raleway"><b><%=descripcioncampana%> (0) - No hay registros.</b></font>&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a></td>
-						<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
-						<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
-					</tr>
-				</table>
-		<%else		
+	
+
+
 		%>		
 		<body topmargin="0" leftmargin="0" style="overflow-x:hidden;"><!--onload="inicio();"-->
 			<div id="modal-filtro" class="filtro-visible no-visible" >		
@@ -963,10 +996,11 @@ if session("codusuario")<>"" then
 							''consultar sql,RS
 							
 							cadenareset = ""
+							varcolor = 1
 							Do While Not RS.EOF								
 						%>
 
-						<tr class="fondo-red <% IF(CInt(RS.Fields("nro")) mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+						<tr class="fondo-red <% IF varcolor <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
 							<input type="hidden" name="idcampanacampo<%=RS.fields("IDCampañaCampo")%>" value="<%=obtener("idcampanacampo" & RS.fields("IDCampañaCampo"))%>">							
 							<input type="hidden" name="idTipocampo<%=RS.Fields("IDCampañaCampo")%>" value="<%If RS.Fields("FlagNroDocumento") = 0 then%><%=RS.Fields("TipoCampo")%><%Else%>0<%End if%>">
 							<td>							
@@ -1018,6 +1052,11 @@ if session("codusuario")<>"" then
 							</td>							
 						</tr>
 						<%
+							if varcolor <> 0 then
+								varcolor = 0
+							else
+							 	varcolor = 1
+						    end if
 							RS.MoveNext
 							loop
 							RS.MoveFirst
@@ -1066,7 +1105,19 @@ if session("codusuario")<>"" then
 					</tr>	
 					<tr class="fondo-red" style="text-align: right;">
 						<td colspan="2">
-								<a href="javascript:asignar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>
+							<%
+								if trim(filtrobuscador2) <> "" then
+								sql = "select   count(a.IDCampañaPersona)  AS Nro from Campaña_Persona a " & filtrobuscador & " and a.UsuarioAsignado is not null and a.IDCampañaPersona IN (" & filtrobuscador2 & " ) "
+							    else
+								sql = "select Count(a.IDCampañaPersona) as Nro from Campaña_Persona a " & filtrobuscador & " and a.UsuarioAsignado is not null "
+								end if
+								
+								consultar sql,RS4
+
+								cruces= RS4.Fields("Nro")
+								RS4.Close
+							%>
+								<a href="javascript:asignar('<%=cruces%>');"><i class="demo-icon icon-floppy">&#xe809;</i></a>
 								&nbsp;
 							</td>
 					</tr>
@@ -1075,7 +1126,7 @@ if session("codusuario")<>"" then
 				</div>
 				<table width="100%" cellpadding="4" cellspacing="0" border="0"><!--Esto no sale -->	
 					<tr class="fondo-orange">
-						<td class="text-orange" align="left" width="250"><font size="2" face="Raleway"><b><%=descripcioncampana%> (<%=contadortotal%>)</td>
+						<td class="text-orange" align="left" width="250"><font size="2" face="Raleway"><b><%if contadortotal=0 then%><%=descripcioncampana%> (0) - No hay registros.<%Else%><%=descripcioncampana%> (<%=contadortotal%>)<%end if%></b></font></td>
 							<td class="text-orange" align="right" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="textobuscar" value="<%=buscador%>" size="20" id="textobuscar" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td width="80">
 								<a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a>
@@ -1103,10 +1154,32 @@ if session("codusuario")<>"" then
 									RS.MoveFirst
 								%>
 								</Select>
-								<Select name="ordentipo" id="ordentipo" onChange="javascript:buscar();" <%if ordencampo=0 then%> disabled <%end if%>>
-									<option value="">Seleccione vector</option>
+							</td>
+							<td>
+								<Select  style="width: 50px; " name="ordentipo" id="ordentipo" onChange="javascript:buscar();" <%if ordencampo=0 then%> disabled <%end if%>>
+									<option value="">Ord</option>
 									<option value="asc" <%if ordentipo = "asc" then %> selected <%end if%>>Ascendente</option>
 									<option value="desc" <%if ordentipo = "desc" then %> selected <%end if%>>Descendente</option>
+								</Select>
+							</td>													
+							<td>
+								<Select style="width: 50px; " name="filoperador"  id="filoperador" onChange="javascript:buscar();">
+								<option value="">Todos</option>
+								<% sql=" select distinct isNull(UsuarioAsignado,0) as codusuario, ISNULL((select Usuario from Usuario where CodUsuario = UsuarioAsignado),'Sin Asignar') as Usuario from Campaña_Persona where IDCampaña = " & IDCampana
+
+								consultar sql,RS4
+								do while not RS4.EOF
+								%>
+								<option value="<%=RS4.fields("codusuario")%>" 	<% if filoperador <>"" then 
+								IF Cint(filoperador) = Cint(RS4.fields("codusuario")) then %> Selected <%
+								END IF 
+								end if%>><%=RS4.fields("Usuario")%>							 
+								</option>
+								<%
+									RS4.MoveNext
+									loop
+									RS4.Close
+								%>
 								</Select>
 							</td>
 						<td class="text-orange" align="right">
@@ -1114,12 +1187,14 @@ if session("codusuario")<>"" then
 							&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a>
 						<%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font>
 						</td>
-						<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+						<%if contadortotal>0 then%>
+								<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+						<%end if%>
 					</tr>	
 				</table>
 				<div id="tabla0"> 
 				</div>
-		<%end if%>
+		
 		
 		<input type="hidden" name="actualizarlista" value="">
 		<input type="hidden" name="expimp" value="">	
@@ -1182,11 +1257,7 @@ if session("codusuario")<>"" then
 						window.open("<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>","_self");
 					</script>
 				<%					
-				end if			
-	
-
-		
-	
+				end if		
 
 		
 	else

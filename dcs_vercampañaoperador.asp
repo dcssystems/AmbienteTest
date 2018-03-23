@@ -4,7 +4,7 @@
 <%
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("dcs_admfacultad.asp") then
+	if permisofacultad("dcs_vercampañaoperador.asp") then
 		buscador=obtener("buscador")
 		paginado=obtener("paginado")
 		filtrobuscador2=obtener("filtrobuscador2")
@@ -16,18 +16,12 @@ if session("codusuario")<>"" then
 		datapersona = obtener("datapersona")
 
 
-
-
-
-
 		if ordencampo ="" then
 			ordencampo = 0
 		else
 		ordencampo = CInt(ordencampo)
 		end if
-
 		
-
 		if seltodo = "" then
 		seltodo = 0
 		end if
@@ -130,13 +124,9 @@ if session("codusuario")<>"" then
 		function modificar(codigo)
 		{
 			
-			
-
 			document.formula.datapersona.value=codigo;
 			document.formula.submit();
 	
-
-			
 		}			
 		function agregar(idcampana, personasasignar)
 		{
@@ -198,12 +188,154 @@ if session("codusuario")<>"" then
 	           
 
 	        } else {
-	            swal("Cancelado", "no se realizo ninguna asignación", "error");
+	            swal("Cancelado", "No se realizó ninguna asignación", "error");
 	        }
 
 	       });
 					
 
+		}	
+
+		function agregartelefono(idpersona) {
+
+			  var TipoTelefono = document.getElementById("tipotelf").value;
+			  var numero = document.getElementById("telnuevo").value;
+			  var extension = document.getElementById("exttelnuevo").value;
+			  var descripcion = document.getElementById("destelnuevo").value;
+
+			   if(TipoTelefono == ""){ 
+			 	  swal("Debe ingresar un Tipo de telefono",{icon: "warning",  buttons: false,  timer: 3000,}); 
+			 	   document.getElementById("telnuevo").focus();
+				  return; 
+				}
+
+				if(TipoTelefono == "1"){
+						if (numero.length != 9 ){
+							  swal("El celular debe tener 9 números",{icon: "warning",  buttons: false,  timer: 3000,}); 
+							  document.getElementById("tipotelf").focus();
+							  return;
+						}
+				}
+
+				if(TipoTelefono == "2"){
+						if (numero.length != 8 ){
+							  swal("El teléfono debe tener 8 números",{icon: "warning",  buttons: false,  timer: 3000,}); 
+							  document.getElementById("telnuevo").focus();
+							  return;
+						}
+				}
+
+				if(descripcion =="")
+				{
+							  swal("Debe ingresar una Descripción",{icon: "warning",  buttons: false,  timer: 3000,}); 
+							  document.getElementById("destelnuevo").focus();
+							  return;
+				}
+
+
+			  var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function(){
+			    if (this.readyState == 4 && this.status == 200) {			    
+			    
+			      	if(this.responseText == "1")
+			      	{
+			      		swal("se agrego el telefono correctamente",{icon: "success",  buttons: false,  timer: 3000,});
+			      	}
+			      	else
+			      	{
+				      	if(this.responseText == "0")
+				      	{
+				      		swal("ah ocurrido un error!, no se agrego el telefono",{icon: "error",  buttons: false,  timer: 3000,});
+				      	}
+				      	else
+				      	{
+					      	if(this.responseText == "2")
+					      	{
+					      		swal("ya existe este telefono en la base de datos para esta persona",{icon: "warning",  buttons: false,  timer: 3000,});
+					      	}
+				        }
+			        }
+			    }
+			     // document.getElementById("tipotelf").value = "";
+				 // document.getElementById("telnuevo").value = "";
+				 // document.getElementById("exttelnuevo").value ="";
+			  	 // document.getElementById("destelnuevo").value ="";
+
+
+			  };
+			  
+
+			  xhttp.open("GET", "http://192.168.1.7/AmbienteTest/dcs_guardartelefono.asp?idpersona="+idpersona+"&tipotelf="+TipoTelefono+"&numero="+numero+"&extension="+extension+"&descripcion="+descripcion, true);
+			  xhttp.send();
+
+
+
+			   xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange=function() {
+				if (this.readyState == 4 && this.status == 200) {
+				      document.getElementById("tabinterna_telf").innerHTML = this.responseText;
+				    }
+				  };
+				  xhttp.open("GET", "dcs_listartelefonos.asp?datapersona="+idpersona, true);
+				  xhttp.send();
+		}
+
+
+		function creargestion(datapersona, IDCampana, telefono)
+		{
+
+			var idCampPerTelf = document.getElementById(""+telefono+"").value;
+
+			 xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange=function() {
+				if (this.readyState == 4 && this.status == 200) {
+				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
+				    }
+				  };
+				  xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf, true);
+				  xhttp.send();
+		}
+
+		function guardargestion(idcamperacc,datapersona)
+		{	
+
+		
+			var idgestion, comentario
+
+			var select = document.getElementById("codigogestion"), //El <select>
+        	valueges = select.value;//El valor seleccionado
+
+        			
+			idgestion = valueges;
+			
+			comentario = document.getElementById("comentario").value;
+
+			 xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange=function() {
+				if (this.readyState == 4 && this.status == 200) {
+				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
+				    }
+				  };
+				  xhttp.open("GET", "dcs_gestionactiva.asp?idcamperacc="+idcamperacc+"&idgestion="+idgestion+"&comentario="+comentario, true);
+				  xhttp.send();
+
+				  swal("Se guardo la gestión correctamente.",{icon: "success",  buttons: false,  timer: 3000,});
+
+				  gestionanterior(datapersona);
+		}
+
+
+		function gestionanterior(datapersona)
+		{			
+
+			 xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange=function() {
+				if (this.readyState == 4 && this.status == 200) {
+				      document.getElementById("gesanteriores").innerHTML = this.responseText;
+				    }
+				  };
+				  xhttp.open("GET", "dcs_gesanteriores.asp?datapersona="+datapersona, true);
+				  xhttp.send();
 		}
 		// function selectall(form)  
 		// {  
@@ -982,10 +1114,10 @@ if session("codusuario")<>"" then
 							''consultar sql,RS
 							
 							cadenareset = ""
+							varcolor = 1
 							Do While Not RS.EOF								
 						%>
-
-						<tr class="fondo-red <% IF(CInt(RS.Fields("nro")) mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+						<tr class="fondo-red <% IF varcolor <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
 							<input type="hidden" name="idcampanacampo<%=RS.fields("IDCampañaCampo")%>" value="<%=obtener("idcampanacampo" & RS.fields("IDCampañaCampo"))%>">							
 							<input type="hidden" name="idTipocampo<%=RS.Fields("IDCampañaCampo")%>" value="<%If RS.Fields("FlagNroDocumento") = 0 then%><%=RS.Fields("TipoCampo")%><%Else%>0<%End if%>">
 							<td>							
@@ -1010,7 +1142,8 @@ if session("codusuario")<>"" then
 											    <%=RS4.Fields("descripcion")%>								    	
 											 </option>									
 												
-										<%										
+										<%			
+													
 										RS4.MoveNext
 										loop
 										RS4.Close
@@ -1037,6 +1170,11 @@ if session("codusuario")<>"" then
 							</td>							
 						</tr>
 						<%
+										if varcolor <> 0 then
+											varcolor = 0
+										else
+										 	varcolor = 1
+									    end if				
 							RS.MoveNext
 							loop
 							RS.MoveFirst
@@ -1052,59 +1190,339 @@ if session("codusuario")<>"" then
 				</div>		
 
 				<div id="modal-filtro2" class="filtro-visible2 no-visible" >	
-					<table border="0">
+					<table border="0" >
 						<tr class="fondo-red">
-							<td class="text-withe" colspan="3">
-								Dato de persona a contactar													
-							</td>
-							<td id="close-modal2"><a style="float:right; padding-right:0px;" href="javascript:if (modfiltro != 0 ){ buscar2();}"><i style="color: white;" class="demo-icon2 icon-cancel-circle">&#xe807;</i></a></td>
+															<td class="text-withe" colspan="3" >
+																											
+															</td>																
+														
+															<td id="close-modal2" style="width: 120;"><a style="float:right; padding-right:0px;" href="javascript:if (modfiltro != 0 ){ buscar2();}"><i style="color: white;" class="demo-icon2 icon-cancel-circle">&#xe807;</i></a>
+															</td>								
+						</tr>
+						<tr class="fondo-red" valign="top">
+						<td rowspan="2">
+											<table class="tabinterna" >	
+													<tr class="cabecera-orange">
+														<td colspan="2">
+															Datos Personales
+														</td>
+													</tr>
+														<%
+														varcolor = 0
+														Do While Not RS.EOF								
+														%>
+														<tr class="fondo-red <% IF varcolor	 = 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+															<input type="hidden" name="idcampanacampo<%=RS.fields("IDCampañaCampo")%>" value="<%=obtener("idcampanacampo" & RS.fields("IDCampañaCampo"))%>">							
+															<input type="hidden" name="idTipocampo<%=RS.Fields("IDCampañaCampo")%>" value="<%If RS.Fields("FlagNroDocumento") = 0 then%><%=RS.Fields("TipoCampo")%><%Else%>0<%End if%>">
+															<td>							
+															<%=RS.Fields("GlosaCampo")%>
+															</td>
+															<td>
+																<%   
+																if datapersona <> "" and RS.Fields("FlagNroDocumento") = 0  then
+
+																		  sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and IDCampañaCampo = " & RS.Fields("IDCampañaCampo") 
+
+																		consultar sql, RS4 
+
+																		response.write RS4.Fields("datoper")
+																		
+																		RS4.Close
+																else
+																	if datapersona <> "" and RS.Fields("FlagNroDocumento") = 1  then
+																		sql="Select NroDocumento from Campaña_Persona where IDCampañaPersona = " & datapersona
+																		
+																		consultar sql, RS4 
+
+																		response.write RS4.Fields("NroDocumento")
+																		
+																		RS4.Close
+																	end if
+																end if
+																 %>
+															</td>
+														</tr>
+														<%
+														if varcolor	 = 0 then
+															varcolor = 1
+														else
+															varcolor = 0
+														end if
+															RS.MoveNext
+															loop
+															RS.MoveFirst
+															%>
+											</table>
+						</td>
+						<td class="text-withe" valign="top" colspan="2">
+											<% 
+											sql="select ROW_NUMBER () over (order by NroCampo) AS nro ,IDCampañaCampo, GlosaCampo, TipoCampo, FlagNroDocumento,CampoCalculado,Formula,Condicion,anchocolumna,aligncabecera,aligndetalle,alignpie,decimalesnumero,formatofecha,visible from Campaña_Campo a inner join Campaña b on a.IDTipoCampaña = b.IDTipoCampaña where a.Nivel = 2 and b.IDCampaña = " & IDCampana & " order by nro"
+
+											consultar sql,RS5
+
+											%>
+										<table  class="tabinterna" >
+											<tr class="cabecera-orange"  >
+											<td colspan="<%=RS5.RecordCount%>">
+																Contratos												
+											</td>	
+											</tr>
+											
+											<tr class="fondo-red">
+											<%
+											Do While Not RS5.EOF	
+											%> 
+											<td class="text-withe" align="left" valign="top" >
+												<%=RS5.fields("GlosaCampo")%>
+											</td>
+											<%
+											RS5.MoveNext
+											loop
+											RS5.MoveFirst
+
+											%>
+											</tr>
+											<%
+
+											if datapersona <>"" then
+
+											sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and Nivel =2 order by IDCampañaDetalle,IDCampañaCampo"
+
+											consultar sql,RS4
+											
+											For i = 1 To (RS4.RecordCount/RS5.RecordCount)
+											%>
+											<tr class="fondo-red <% IF(i mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+											<%
+												Do While Not RS5.EOF													
+												%>
+												<td><%=RS4.fields("datoper")%></td>
+												<%
+													RS4.MoveNext																			
+												RS5.MoveNext
+												loop
+												RS5.MoveFirst
+												%>
+												</tr>
+												<%										
+											next
+											RS5.Close
+											RS4.Close
+											end if
+											%>													
+
+										</table>									
+						</td>
+						<td class="text-withe"  rowspan="2"><!--  ESTE ES PARA EL SPEECH -->
+						<table class="tabinterna">
+							<tr class="cabecera-orange">
+								<td>Speech</td>
+							</tr>
+							<tr>
+								<td>
+								<textarea style="width: 100%; height: 250px; background: #B72B2C; border-color: #FE6D2E; border-top: none;" ></textarea>
+								</td>
+							</tr>
+
+						</table>
+						</td>
+								
+							
 						</tr>
 						<tr class="fondo-red">
-							<td class="text-withe">Campo</td>
-							<td class="text-withe">Dato</td>
-							<td class="text-withe">Telefonos</td>
-							<td class="text-withe">Gestiones</td>								
-						</tr>
-						<%
-						Do While Not RS.EOF								
-						%>
-						<tr class="fondo-red <% IF(CInt(RS.Fields("nro")) mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
-							<input type="hidden" name="idcampanacampo<%=RS.fields("IDCampañaCampo")%>" value="<%=obtener("idcampanacampo" & RS.fields("IDCampañaCampo"))%>">							
-							<input type="hidden" name="idTipocampo<%=RS.Fields("IDCampañaCampo")%>" value="<%If RS.Fields("FlagNroDocumento") = 0 then%><%=RS.Fields("TipoCampo")%><%Else%>0<%End if%>">
-							<td>							
-							<%=RS.Fields("GlosaCampo")%>
+							<td valign="top">	<table class="tabinterna"  id="tabinterna_telf">
+														<tr class="cabecera-orange">
+															<td colspan="6">Teléfonos
+															</td>
+														</tr>
+														<tr class="fondo-red">
+															<td class="text-withe">Tipo</td>
+															<td class="text-withe">Prf</td>
+															<td class="text-withe">Número</td>
+															<td class="text-withe">Ext</td>
+															<td class="text-withe">Descripción</td>
+															<td class="text-withe"></td>
+														</tr>
+														<%
+														if datapersona <> "" then
+
+														varcolor = 0
+															
+														sql = "select a.IDCampañaPersonaTelefono,(select descripcion from TipoTelefono where IDTipoTelefono = a.IDTipoTelefono) as Tipo,a.Prefijo,a.Numero,a.Extension,a.Descripcion from Campaña_Persona_Telefono a where IDCampañaPersona =" & datapersona
+
+														consultar sql,RS4
+														Do While Not RS4.EOF	 
+														%>
+														<tr class="fondo-red <% IF varcolor	 = 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+															<input type="hidden" name="<%=RS4.Fields("Numero")%>" id="<%=RS4.Fields("Numero")%>" value="<%=RS4.Fields("IDCampañaPersonaTelefono")%>" />
+															<td><%=RS4.Fields("Tipo")%></td>
+															<td><%=RS4.Fields("Prefijo")%></td>
+															<td><%=RS4.Fields("Numero")%></td>
+															<td><%=RS4.Fields("Extension")%></td>
+															<td><%=RS4.Fields("Descripcion")%></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>')"><div><i class="demo-icon2  icon-phone-circled" style="color:#FE6D2E !important;" >&#xe822;</i></div></a></td>
+														</tr>
+														<%
+														IF varcolor	 = 0 Then
+															varcolor	 = 1
+														else
+															varcolor	 = 0 
+														end if
+														RS4.MoveNext
+														loop
+														RS4.Close
+														end if
+														%>
+														<tr class="fondo-red">
+															<td class="text-withe" >
+																<select style="font-size: 11.5px;" name="tipotelf" id="tipotelf"><option value="">Tipo Tel</option>
+																<% 
+																if datapersona <> "" then
+
+																sql = "Select IDTipoTelefono, Descripcion from TipoTelefono"
+																consultar sql,RS4
+
+																Do while Not RS4.EOF
+																%>
+																<option value="<%=RS4.fields("IDTipoTelefono")%>"><%=RS4.fields("Descripcion")%></option>
+																<%
+																RS4.MoveNext
+															    Loop
+															    RS4.Close
+																end if
+																%>
+																</select>
+
+															</td>
+															<td class="text-withe">51</td>
+															<td><input type="text" id="telnuevo" style="width: 72px; font-size: 11.5px;" name="telnuevo" /></td>
+															<td>
+																<input type="text" id="exttelnuevo" style="width: 50px; font-size: 11.5px;" name="exttelnuevo" />
+															</td>
+															<td>
+																<input type="text" id="destelnuevo" style="width: 100px; font-size: 11.5px;" name="destelnuevo" />
+															</td>
+															<td>				
+																<a href="#" onclick="javascript:agregartelefono('<%=datapersona%>')"><i class="demo-icon icon-floppy">&#xe809;</i><a>
+															</td>
+														</tr>
+														</table>	
 							</td>
-							<td>
-								<%   
-								if datapersona <> "" and RS.Fields("FlagNroDocumento") = 0  then
-										  sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and IDCampañaCampo = " & RS.Fields("IDCampañaCampo") 
+							<td valign="top">
+								<table class="tabinterna"  id="tabinterna_gestion" valign="top">
+									<tr class="cabecera-orange" valign="top">
+										<td  colspan="2" >
+											Agregar Gestión
+										</td>										
+									</tr>
+									<tr class="fondo-blanco">
+										<td class="text-orange">
+										Acción Activa
+										</td>
+										<td class="text-orange">
+											En espera
+										</td>	
 
-										consultar sql, RS4 
+									</tr>	
+									<tr class="fondo-blanco">
+										<td class="text-orange">
+										Telefono
+										</td>
+										<td class="text-orange">
+											
+										</td>	
 
-										response.write RS4.Fields("datoper")
-										
-										RS4.Close
-								else
-									if datapersona <> "" and RS.Fields("FlagNroDocumento") = 1  then
-										sql="Select NroDocumento from Campaña_Persona where IDCampañaPersona = " & datapersona
-										
-										consultar sql, RS4 
+									</tr>	
+									<tr class="fondo-blanco">
+										<td class="text-orange">
+										Respuesta
+										</td>
+										<td class="text-orange">
+											<select style="font-size: 11.5px;" id="codigogestion" name="codigogestion">
+												<option>Seleccione una Respuesta</option>
+												<%if datapersona <> "" then
+												sql = " SELECT IDGestion, Descripcion FROM Gestion where IDTipoCampaña = (Select IDTipoCampaña FROM Campaña WHERE idcampaña =" & IDCampana & ")"
 
-										response.write RS4.Fields("NroDocumento")
-										
-										RS4.Close
-									end if
-								end if
-								 %>
+												consultar sql,RS4
+												DO while not RS4.EOF
+												 %>
+												<option value="<%=RS4.fields("IDGestion")%>"><%=RS4.fields("Descripcion")%></option>
+												<% 
+												RS4.MoveNext
+												Loop
+												RS4.Close
+
+												end if%>
+											</select>
+										</td>	
+									</tr>
+									<tr class="fondo-red">
+										<td class="text-withe" colspan="2">
+										Comentario
+										</td>											
+									</tr>		
+									<tr>
+									<td class="text-orange" colspan="2">
+											<textarea class="areatexto" name="comentario"></textarea>
+									</td>	
+									</tr>
+									<tr class="fondo-red">
+										<td style="text-align: right; width: 100%;" colspan="2"><a href="#"><i class="demo-icon icon-floppy">&#xe809;</i><a></td>
+									<tr>				
+								</table>
 							</td>
 						</tr>
-						<%
-							RS.MoveNext
-							loop
-							RS.MoveFirst
-							%>
-					</table>
-					
+						<tr class="fondo-red">
+							<td colspan="4"  >
+								<table class="tabinterna" name="gesanteriores" id="gesanteriores">
+									<tr class="cabecera-orange">
+										<td class="text-withe" colspan="6" style="text-align: center; font-weight: bold;">
+											Gestiones Anteriores
+										</td>
+									</tr>
+									<tr class="fondo-red">
+										<td class="text-withe">Gestor</td>
+										<td class="text-withe">Acción</td>
+										<td class="text-withe">Fecha</td>
+										<td class="text-withe">Telefono</td>
+										<td class="text-withe">Gestion</td>
+										<td class="text-withe">Comentario</td>
+									</tr>
+									<%
+									if datapersona <> "" then
+
+										sql = "select (Select Usuario from Usuario where codUsuario = UsuarioEjecutor) as Gestor,(select Descripcion from TipoAccion where IDTipoAccion = a.IDTipoAccion) as Accion,FechaHoraFinGestion as fechagestion,(Select Numero from Campaña_persona_telefono where IDCampañaPersonaTelefono = a.IDCampañaPersonaTelefono )  as Telefono,(Select Descripcion from Gestion where IDGestion = a.IDGestion) as Respuesta,Comentario from Campaña_Persona_Accion a where a.IDCampañaPersona = " & datapersona & "order by FechaHoraFinGestion desc"
+
+										consultar sql,RS4
+										varcolor = 0
+										DO While not RS4.EOF
+
+									%>
+									<tr class="fondo-red <% IF varcolor	 = 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+										<td><%=RS4.fields("Gestor")%></td>
+										<td><%=RS4.fields("Accion")%></td>
+										<td><%=RS4.fields("fechagestion")%></td>
+										<td><%=RS4.fields("Telefono")%></td>
+										<td><%=RS4.fields("Respuesta")%></td>
+										<td><%=RS4.fields("Comentario")%></td>
+									</tr>
+									<%
+
+														IF varcolor	 = 0 Then
+															varcolor	 = 1
+														else
+															varcolor	 = 0 
+														end if
+														RS4.MoveNext
+														loop
+														RS4.Close
+														end if
+									%>
+
+								</table>
+							</td>
+						</tr>						
+					</table>					
 				</div>
 				<table width="100%" cellpadding="4" cellspacing="0" border="0"><!--Esto no sale -->	
 					<tr class="fondo-orange">
@@ -1141,7 +1559,7 @@ if session("codusuario")<>"" then
 									<option value="asc" <%if ordentipo = "asc" then %> selected <%end if%>>Ascendente</option>
 									<option value="desc" <%if ordentipo = "desc" then %> selected <%end if%>>Descendente</option>
 								</Select>
-							</td>
+							</td>							
 						<td class="text-orange" align="right">
 							&nbsp;&nbsp;<a  id="show-filtrox" href="#" style="visibility: hidden;"><i class="demo-icon icon-cog">&#xe81f;</i></a>
 							&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a>
@@ -1158,8 +1576,7 @@ if session("codusuario")<>"" then
 		<input type="hidden" name="expimp" value="">	
 		<input type="hidden" name="idpersonas_asig" value="<%=idpersonas_asig%>">
 		<input type="hidden" name="buscador" value="<%=buscador%>">
-		<input type="hidden" name="datapersona" value="">	
-		
+		<input type="hidden" name="datapersona" value="">			
 		<input type="hidden" name="pag" value="<%=pag%>">	
 		</form>
 		<script language="javascript">
@@ -1218,10 +1635,6 @@ if session("codusuario")<>"" then
 				<%					
 				end if			
 	
-
-		
-	
-
 		
 	else
 	%>
