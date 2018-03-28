@@ -391,6 +391,10 @@ if session("codusuario")<>"" then
 									await sleep(250);
 									frameV.postMessage("F-LLAMAR", "http://192.168.1.5");							
 								break;
+								
+								case "COLGAR":
+									frameV.postMessage("E-COLGAR", "http://192.168.1.5");
+								break;
 
 								case "LOGOUT":
 									frameV.postMessage("E-LOGOUT", "http://192.168.1.5");
