@@ -90,6 +90,7 @@ if session("codusuario")<>"" then
 
 			<script language="javascript">
 				$(document).ready(function(){
+					var colgar = 1;
 					$("#modal-filtro2").hide();
 					
 				    $("#close-modal2").on('click', function(){
@@ -103,6 +104,12 @@ if session("codusuario")<>"" then
 							$("#modal-filtro2").removeClass('no-visible');
 							$("#modal-filtro2").show();
 					<%end if%>
+					
+					$(".telefono-activo").onclick(function(){
+						colgar = 0;
+						alert("");
+					});
+					
 				});
 			</script>
 	
@@ -187,23 +194,20 @@ if session("codusuario")<>"" then
 		
 		function asignar()
 		{
-				if(formula.codusuario.value=="0"){swal("Debe escoger a un Operador");return;}
-				document.formula.pag.value=1;
-				swal("Estas seguro de continuar con la asignación.", {
-		  dangerMode: true,
-		   buttons: ["NO", "SI"],
-		}).then(
-	       function (isConfirm) {
-				if (isConfirm) {
-	           
-	                document.formula.submit();
-	           
+			if(formula.codusuario.value=="0"){swal("Debe escoger a un Operador");return;}
+			document.formula.pag.value=1;
+			swal("Estas seguro de continuar con la asignación.", {
+				dangerMode: true,
+				buttons: ["NO", "SI"],
+			}).then(
+				function (isConfirm) {
+					if (isConfirm) {	           
+						document.formula.submit();
+				} else {
+					swal("Cancelado", "No se realizó ninguna asignación", "error");
+				}
 
-	        } else {
-	            swal("Cancelado", "No se realizó ninguna asignación", "error");
-	        }
-
-	       });
+			});
 					
 
 		}	
@@ -322,15 +326,15 @@ if session("codusuario")<>"" then
 
 			var idCampPerTelf = document.getElementById(""+telefono+"").value;
 
-			 xhttp = new XMLHttpRequest();
-			   xhttp.onreadystatechange=function() {
-				if (this.readyState == 4 && this.status == 200) {
-				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
-				    }
-				  };
-				  xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf, true);
-				  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
-				  xhttp.send();
+			xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange=function() {
+			    if (this.readyState == 4 && this.status == 200) {
+				  document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
+				}
+		    };
+		    xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf, true);
+		    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+		    xhttp.send();
 				  
 					document.getElementById("telef").classList.remove('telefono-inactivo');
 				  
@@ -1422,9 +1426,9 @@ if session("codusuario")<>"" then
 															<td><%=RS4.Fields("Numero")%></td>
 															<td><%=RS4.Fields("Extension")%></td>
 															<td><%=RS4.Fields("Descripcion")%></td>
-															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>');"><div><i id="telef" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
-															<td  style="background: #a42627; text-align: center;"><a href="#"><i class="demo-icon6 icon-plus-squared">&#xf0fe;</i></a></td>
-															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i class="demo-icon6 icon-pencil-squared">&#xf14b;</i></a><%end if%></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>');"><div><i class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
+															<td style="background: #a42627; text-align: center;"><a href="#"><i class="demo-icon6 icon-plus-squared">&#xf0fe;</i></a></td>
+															<td style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i class="demo-icon6 icon-pencil-squared">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
 														IF varcolor	 = 0 Then
