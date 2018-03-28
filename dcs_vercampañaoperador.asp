@@ -406,7 +406,7 @@ if session("codusuario")<>"" then
 
 			if(llamar = 1)
 			{
-				swal("Se guardo la gestión correctamente.",{icon: "error",  buttons: false,  timer: 3000,});
+				swal("Colgar la llamada, para ingresar su gestión.",{icon: "error",  buttons: false,  timer: 3000,});
 				return;
 			}
 			
@@ -584,9 +584,6 @@ if session("codusuario")<>"" then
 				filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
 
 				sql="Select Descripcion, convert(varchar(10),FechaInicio,103) as Inicio,  convert(varchar(10),fechafin,103) as Fin from Campaña where idcampaña =" & idcampana
-
-
-
 
 				consultar sql,RS
 
