@@ -39,9 +39,13 @@ idcampana = request("idcampana")
 															<td><%=RS4.Fields("Numero")%></td>
 															<td><%=RS4.Fields("Extension")%></td>
 															<td><%=RS4.Fields("Descripcion")%></td>
-															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>');"><div><i id="telef" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
-															<td  style="background: #a42627; text-align: center;"><a href="#"><i class="demo-icon6 icon-plus-squared">&#xf0fe;</i></a></td>
-															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i class="demo-icon6 icon-pencil-squared">&#xf14b;</i></a><%end if%></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Llamando...');"><div><i id="telef<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
+															<td  style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Ingresando datos...');"><i id="addges<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-plus-squared telefono-inactivo">&#xf0fe;</i></a></td>
+															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" 
+
+																onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i id="Edtelf<%=RS4.Fields("Numero")%>" 
+
+																	class="demo-icon6 icon-pencil-squared telefono-inactivo">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
 														IF varcolor	 = 0 Then

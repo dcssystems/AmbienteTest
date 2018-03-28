@@ -13,6 +13,8 @@ if session("codusuario")<>"" then
 		idcamperacc = request("idcamperacc") 
 		idgestion = request("idgestion")
 		comentario = request("comentario")
+		tpress = request("tpress")
+		idaccionactiva = request("idaccionactiva")
 
 					if idcamperacc = "" then
 
@@ -95,7 +97,7 @@ if session("codusuario")<>"" then
 															Acci&oacute;n Activa
 															</td>
 															<td class="text-orange">
-																Llamando
+																<p id="text-accion"><%=tpress%></p>
 															</td>	
 														</tr>	
 														<tr class="fondo-blanco">
@@ -141,7 +143,7 @@ if session("codusuario")<>"" then
 														</td>	
 														</tr>
 														<tr class="fondo-red">
-															<td style="text-align: right; width: 100%;" colspan="2"><a href="#" onclick = "javascript:guardargestion('<%=res%>','<%=datapersona%>')"><i class="demo-icon icon-floppy">&#xe809;</i><a></td>
+															<td style="text-align: right; width: 100%;" colspan="2"><a href="#" onclick = "javascript:guardargestion('<%=res%>','<%=datapersona%>','<%=idaccionactiva%>')"><i class="demo-icon icon-floppy">&#xe809;</i><a></td>
 														<tr>				
 													</table>
 					<%
@@ -180,7 +182,7 @@ if session("codusuario")<>"" then
 															Acci&oacute;n Activa
 															</td>
 															<td class="text-orange">
-																Esperando
+																<p id="text-accion">En espera</p>
 															</td>	
 														</tr>	
 														<tr class="fondo-blanco">

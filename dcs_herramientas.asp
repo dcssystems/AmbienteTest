@@ -39,6 +39,7 @@ if session("codusuario")<>"" then
 			<link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
 			<script src="assets/jquery/dist/jquery.js"></script>
 			<script src="assets/bootstrap/dist/js/bootstrap.js"></script>
+			<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 			
 			<script>
 			  function toggleCodes(on) {

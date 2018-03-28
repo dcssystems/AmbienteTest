@@ -66,6 +66,7 @@ if session("codusuario")<>"" then
 			
 			</style>
 			
+		
 			
 			<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -209,12 +210,22 @@ if session("codusuario")<>"" then
 		}	
 		function editartelefono(tipotel,telefono,extension,descripcion,idpertel)
 		{
+
+			if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
+			{
+				swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
+				return;
+			}
 			 document.getElementById("tipotelf").value = tipotel;
 			 document.getElementById("telnuevo").value = telefono;
 			 document.getElementById("exttelnuevo").value = extension;
 			 document.getElementById("destelnuevo").value = descripcion;
 			 document.getElementById("idpertel").value = idpertel;
 			 document.getElementById("text-nuevo-edit").innerHTML = "Editando...";
+
+			 document.getElementById("text-accion").innerHTML
+			 document.getElementById("Edtelf"+telefono).classList.remove('telefono-inactivo');				  
+			 document.getElementById("Edtelf"+telefono).classList.add('telefono-activo');
 		}
 
 		function agregartelefono(idpersona,idcampana) {
@@ -301,7 +312,7 @@ if session("codusuario")<>"" then
 			  };
 			  
 
-			  xhttp.open("GET", "http://192.168.1.7/AmbienteTest/dcs_guardartelefono.asp?idpersona="+idpersona+"&tipotelf="+TipoTelefono+"&numero="+numero+"&extension="+extension+"&descripcion="+descripcion+"&idpertel="+idpertel, true);
+			  xhttp.open("GET", "dcs_guardartelefono.asp?idpersona="+idpersona+"&tipotelf="+TipoTelefono+"&numero="+numero+"&extension="+extension+"&descripcion="+descripcion+"&idpertel="+idpertel, true);
 			  xhttp.send();
 
 
@@ -317,8 +328,14 @@ if session("codusuario")<>"" then
 		}
 
 
-		function creargestion(datapersona, IDCampana, telefono)
+		function creargestion(datapersona, IDCampana, telefono, tpress)
 		{
+
+			if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
+			{
+				swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
+				return;
+			}
 
 			var idCampPerTelf = document.getElementById(""+telefono+"").value;
 
@@ -328,24 +345,42 @@ if session("codusuario")<>"" then
 				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
 				    }
 				  };
-				  xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf, true);
+				   if (tpress == "Llamando...")
+				   {
+				   	var idaccionactiva = "telef"+telefono
+				   }	
+				   if (tpress == "Ingresando datos...")
+				   {
+				  	 var idaccionactiva = "addges"+telefono
+				   }
+
+
+				  xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
 				  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
 				  xhttp.send();
-				  
-					document.getElementById("telef").classList.remove('telefono-inactivo');
-				  
-					document.getElementById("telef").classList.add('telefono-activo');
 
+				  if (tpress == "Llamando...")
+				  	{				  
+					document.getElementById("telef"+telefono).classList.remove('telefono-inactivo');				  
+					document.getElementById("telef"+telefono).classList.add('telefono-activo');
 					
-					
-				  console.log("session('telefono'): " + '<%=session("telefono")%>');
-				  window.parent.enviardatosp5('LLAMAR');
-				  
-				  
+					}
+
+				 if (tpress == "Ingresando datos...")
+				  	{				  
+					document.getElementById("addges"+telefono).classList.remove('telefono-inactivo');				  
+					document.getElementById("addges"+telefono).classList.add('telefono-activo');
+					}			  			  
+
+ 					if (tpress == "Llamando...")
+				  	{		
+						console.log("session('telefono'): " + '<%=session("telefono")%>');
+				 		window.parent.enviardatosp5('LLAMAR');
+					}
 				  
 		}
 
-		function guardargestion(idcamperacc,datapersona)
+		function guardargestion(idcamperacc,datapersona,idaccionactiva)
 		{	
 
 		
@@ -369,6 +404,9 @@ if session("codusuario")<>"" then
 				  xhttp.send();
 
 				  swal("Se guardo la gestión correctamente.",{icon: "success",  buttons: false,  timer: 3000,});
+
+				  document.getElementById(idaccionactiva).classList.remove('telefono-activo');				  
+				  document.getElementById(idaccionactiva).classList.add('telefono-inactivo');
 
 				  gestionanterior(datapersona);
 			}
@@ -1143,7 +1181,11 @@ if session("codusuario")<>"" then
 		end if 
 		if contadortotal=0 then%>
 		
+			
+
 		<body topmargin="0" leftmargin="0" style="overflow-x:hidden;">
+
+		
 			<form name="formula" method="post">
 				<table width="100%" cellpadding="4" cellspacing="0">	
 					<tr class="fondo-orange">
@@ -1322,57 +1364,59 @@ if session("codusuario")<>"" then
 												consultar sql,RS5
 
 												%>
-											<table  class="tabinterna" >
-												<tr class="cabecera-orange"  >
-												<td colspan="<%=RS5.RecordCount%>">
-																	Contratos												
-												</td>	
-												</tr>
-												
-												<tr class="fondo-red">
-												<%
-												Do While Not RS5.EOF	
-												%> 
-												<td class="text-withe" align="left" valign="top" >
-													<%=RS5.fields("GlosaCampo")%>
-												</td>
-												<%
-												RS5.MoveNext
-												loop
-												RS5.MoveFirst
+												<div class="tabinternascroll">												
+																	<table  class="tabinterna" >
+																		<tr class="cabecera-orange"  >
+																		<td colspan="<%=RS5.RecordCount%>">
+																							Contratos												
+																		</td>	
+																		</tr>
+																		
+																		<tr class="fondo-red">
+																		<%
+																		Do While Not RS5.EOF	
+																		%> 
+																		<td class="text-withe" align="left" valign="top" >
+																			<%=RS5.fields("GlosaCampo")%>
+																		</td>
+																		<%
+																		RS5.MoveNext
+																		loop
+																		RS5.MoveFirst
 
-												%>
-												</tr>
-												<%
+																		%>
+																		</tr>
+																		<%
 
-												if datapersona <>"" then
+																		if datapersona <>"" then
 
-												sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and Nivel =2 order by IDCampañaDetalle,IDCampañaCampo"
+																		sql="select isnull(convert(varchar(500),ValorEntero),'')+isnull(convert(Varchar(500),ValorFloat),'')+isnull(ValorTexto,'')+isnull(convert(varchar(10),ValorFecha,103),'') as datoper  from Campaña_Detalle where IDCampañaPersona = " & datapersona & " and Nivel =2 order by IDCampañaDetalle,IDCampañaCampo"
 
-												consultar sql,RS4
-												
-												For i = 1 To (RS4.RecordCount/RS5.RecordCount)
-												%>
-												<tr class="fondo-red <% IF(i mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
-												<%
-													Do While Not RS5.EOF													
-													%>
-													<td><%=RS4.fields("datoper")%></td>
-													<%
-														RS4.MoveNext																			
-													RS5.MoveNext
-													loop
-													RS5.MoveFirst
-													%>
-													</tr>
-													<%										
-												next
-												RS5.Close
-												RS4.Close
-												end if
-												%>													
+																		consultar sql,RS4
+																		
+																		For i = 1 To (RS4.RecordCount/RS5.RecordCount)
+																		%>
+																		<tr class="fondo-red <% IF(i mod 2) <> 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
+																		<%
+																			Do While Not RS5.EOF													
+																			%>
+																			<td><%=RS4.fields("datoper")%></td>
+																			<%
+																				RS4.MoveNext																			
+																			RS5.MoveNext
+																			loop
+																			RS5.MoveFirst
+																			%>
+																			</tr>
+																			<%										
+																		next
+																		RS5.Close
+																		RS4.Close
+																		end if
+																		%>													
 
-											</table>									
+																	</table>			
+												</div>						
 							</td>
 							<td class="text-withe"  rowspan="2"><!--  ESTE ES PARA EL SPEECH -->
 								<table class="tabinterna">
@@ -1422,9 +1466,13 @@ if session("codusuario")<>"" then
 															<td><%=RS4.Fields("Numero")%></td>
 															<td><%=RS4.Fields("Extension")%></td>
 															<td><%=RS4.Fields("Descripcion")%></td>
-															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>');"><div><i id="telef" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
-															<td  style="background: #a42627; text-align: center;"><a href="#"><i class="demo-icon6 icon-plus-squared">&#xf0fe;</i></a></td>
-															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i class="demo-icon6 icon-pencil-squared">&#xf14b;</i></a><%end if%></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Llamando...');"><div><i id="telef<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
+															<td  style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Ingresando datos...');"><i id="addges<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-plus-squared telefono-inactivo">&#xf0fe;</i></a></td>
+															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" 
+
+																onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i id="Edtelf<%=RS4.Fields("Numero")%>" 
+
+																	class="demo-icon6 icon-pencil-squared telefono-inactivo">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
 														IF varcolor	 = 0 Then
@@ -1488,7 +1536,7 @@ if session("codusuario")<>"" then
 										Acción Activa
 										</td>
 										<td class="text-orange">
-											En espera
+											<p id="text-accion">En espera</p>
 										</td>	
 
 									</tr>	

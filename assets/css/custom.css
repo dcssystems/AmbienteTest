@@ -164,6 +164,11 @@ width: 100%;
     border-radius: 5px;
     }
 
+    .tabinternascroll{
+     overflow:scroll;
+     overflow-x: hidden;
+    }
+
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -478,7 +483,9 @@ body {
     font-family: "Fira Sans Condensed", Roboto, Arial, sans-serif !important;
     font-size: 13px;
     font-weight: 400;
-    line-height: 1.471
+    line-height: 1.471;
+
+   
 }
 
 TABLE{
