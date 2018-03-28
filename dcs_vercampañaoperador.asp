@@ -397,24 +397,18 @@ if session("codusuario")<>"" then
 
 				}
 				
-			}
-
-			
-
-			
-
-			   
-
-
-				  
-					
-				  
+			}				  
 		}
 
 		function guardargestion(idcamperacc,datapersona,idaccionactiva)
 		{	
 
-		
+			if(document.getElementById("text-accion") == "Llamando...")
+			{
+				swal("Se guardo la gestión correctamente.",{icon: "error",  buttons: false,  timer: 3000,});
+				return;
+			}
+			
 			var idgestion, comentario
 
 			var select = document.getElementById("codigogestion"), //El <select>
@@ -444,8 +438,8 @@ if session("codusuario")<>"" then
 			else
 			{
 				swal("Debe ingresar una Respuesta",{icon: "warning",  buttons: false,  timer: 3000,}); 
-							  document.getElementById("codigogestion").focus();
-							  return;
+				  document.getElementById("codigogestion").focus();
+				  return;
 			}
 		}
 
