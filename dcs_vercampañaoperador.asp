@@ -128,6 +128,8 @@ if session("codusuario")<>"" then
 		<script language="javascript">	
 
   	    var modfiltro = 0;
+		
+		var llamar = 1;
 
 		var ventanafacultad;
 		function inicio()
@@ -330,53 +332,82 @@ if session("codusuario")<>"" then
 
 		function creargestion(datapersona, IDCampana, telefono, tpress)
 		{
-
-			if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
-			{
-				swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
-				return;
-			}
-
 			var idCampPerTelf = document.getElementById(""+telefono+"").value;
-
-			 xhttp = new XMLHttpRequest();
-			   xhttp.onreadystatechange=function() {
+			xhttp = new XMLHttpRequest();
+			if(llamar == 1)
+			{
+				if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
+				{
+					swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
+					return;
+				}
+								
+				xhttp.onreadystatechange=function() {
 				if (this.readyState == 4 && this.status == 200) {
-				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
+						document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
 				    }
-				  };
-				   if (tpress == "Llamando...")
-				   {
-				   	var idaccionactiva = "telef"+telefono
-				   }	
-				   if (tpress == "Ingresando datos...")
-				   {
-				  	 var idaccionactiva = "addges"+telefono
-				   }
+				};
+			    if (tpress == "Llamando...")
+			    {
+					var idaccionactiva = "telef"+telefono
+				}	
+				if (tpress == "Ingresando datos...")
+				{
+					var idaccionactiva = "addges"+telefono
+				}
+				
+				xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
+				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+				xhttp.send();
 
-
-				  xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
-				  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
-				  xhttp.send();
-
-				  if (tpress == "Llamando...")
-				  	{				  
+				if (tpress == "Llamando...")
+				{				  
 					document.getElementById("telef"+telefono).classList.remove('telefono-inactivo');				  
 					document.getElementById("telef"+telefono).classList.add('telefono-activo');
-					
-					}
+				
+				}
 
-				 if (tpress == "Ingresando datos...")
-				  	{				  
+				if (tpress == "Ingresando datos...")
+				{				  
 					document.getElementById("addges"+telefono).classList.remove('telefono-inactivo');				  
 					document.getElementById("addges"+telefono).classList.add('telefono-activo');
-					}			  			  
+				}			  			  
 
- 					if (tpress == "Llamando...")
-				  	{		
-						console.log("session('telefono'): " + '<%=session("telefono")%>');
-				 		window.parent.enviardatosp5('LLAMAR');
-					}
+				if (tpress == "Llamando...")
+				{		
+					console.log("session('telefono'): " + '<%=session("telefono")%>');
+					window.parent.enviardatosp5('LLAMAR');
+				}
+				
+				llamar = 0;			   
+			   
+			}
+			else
+			{
+				if (document.getElementById("text-accion").innerHTML != "En espera" || tpress == "Llamando..." )
+				{
+					tpress = "Llamada finalizada";
+					document.getElementById("telef"+telefono).classList.remove('telefono-activo');				  
+					document.getElementById("telef"+telefono).classList.add('telefono-inactivo');
+					window.parent.enviardatosp5('COLGAR');
+					
+					xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
+					xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+					xhttp.send();
+
+				}
+				
+			}
+
+			
+
+			
+
+			   
+
+
+				  
+					
 				  
 		}
 
@@ -1468,11 +1499,7 @@ if session("codusuario")<>"" then
 															<td><%=RS4.Fields("Descripcion")%></td>
 															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Llamando...');"><div><i id="telef<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
 															<td  style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Ingresando datos...');"><i id="addges<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-plus-squared telefono-inactivo">&#xf0fe;</i></a></td>
-															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" 
-
-																onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i id="Edtelf<%=RS4.Fields("Numero")%>" 
-
-																	class="demo-icon6 icon-pencil-squared telefono-inactivo">&#xf14b;</i></a><%end if%></td>
+															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i id="Edtelf<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-pencil-squared telefono-inactivo">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
 														IF varcolor	 = 0 Then
