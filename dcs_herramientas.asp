@@ -281,7 +281,7 @@ if session("codusuario")<>"" then
 							</tr>							
 						</table>
 					</td>
-					<td style="padding-right:10px" id="minutoaminuto" onclick="divMarcador()"><i class="demo-icon icon-menu">&#xf008;</i></td><!-- 0xf008 -->
+					<!--td style="padding-right:10px" id="minutoaminuto" onclick="divMarcador()"><i class="demo-icon icon-menu">&#xf008;</i></td> 0xf008 -->
 					
 				</tr>
 			</table>
