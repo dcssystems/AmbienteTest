@@ -14,9 +14,9 @@ if session("codusuario")<>"" then
 		tpress = request("tpress")
 		idaccionactiva = request("idaccionactiva")		
 		
-		Application("telefono") = telefonoactivo
+		session("telefono") = telefonoactivo
 		
-		DTELEFONO = Application("telefono")
+		DTELEFONO = session("telefono")
 
 					if idcamperacc = "" then
 
