@@ -404,7 +404,7 @@ if session("codusuario")<>"" then
 		function guardargestion(idcamperacc,datapersona,idaccionactiva)
 		{	
 
-			if(llamar = 1)
+			if(llamar == 0)
 			{
 				swal("Colgar la llamada, para ingresar su gestión.",{icon: "error",  buttons: false,  timer: 3000,});
 				return;
