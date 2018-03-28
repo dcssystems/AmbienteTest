@@ -8,12 +8,13 @@ if session("codusuario")<>"" then
 		telefonoactivo = request("telefonoactivo")
 		idCampPerTelf = request("idCampPerTelf")
 
+		session("telefono") = telefonoactivo
+		
 		idcamperacc = request("idcamperacc") 
 		idgestion = request("idgestion")
 		comentario = request("comentario")
 
 					if idcamperacc = "" then
-
 
 					sql = "INSERT INTO [dbo].[Campaña_Persona_Accion] " & chr(10) & _
 					           "([FechaHoraInicioGestion] " & chr(10) & _
@@ -66,11 +67,14 @@ if session("codusuario")<>"" then
 					           ",NULL" & chr(10) & _
 					           ",NULL)"
 
-					           'response.write sql
+					          
+					         
 
 					        conn.Execute sql
 
 									  sql=   "Select MAX(IDCampañaPersonaAccion) as Id from Campaña_Persona_Accion where UsuarioRegistra = " & session("codusuario")
+
+									  
 									  consultar sql,RS6
 
 									  res = RS6.fields("Id")
@@ -108,9 +112,11 @@ if session("codusuario")<>"" then
 															</td>
 															<td class="text-orange">
 																<select style="font-size: 11.5px;" id="codigogestion">
-																	<option>Seleccione una Respuesta</option>
+																	<option value="">Seleccione una Respuesta</option>
 																	<%if datapersona <> "" then
-																	sql = " SELECT IDGestion, Descripcion FROM Gestion where IDTipoCampaña = (Select IDTipoCampaña FROM Campaña WHERE idcampaña =" & IDCampana & ")"
+																	sql = " SELECT a.IDGestion, a.Descripcion FROM Gestion a where IDTipoCampaña = (Select IDTipoCampaña FROM Campaña WHERE idcampaña =" & IDCampana & ")"
+
+																	response.write sql
 
 																	consultar sql,RS4
 																	DO while not RS4.EOF
@@ -190,7 +196,7 @@ if session("codusuario")<>"" then
 															</td>
 															<td class="text-orange">
 																<select style="font-size: 11.5px;">
-																	<option>Seleccione una Respuesta</option>
+																	<option value="">Seleccione una Respuesta</option>
 																	<%if datapersona <> "" then
 																	sql = " SELECT IDGestion, Descripcion FROM Gestion where IDTipoCampaña = (Select IDTipoCampaña FROM Campaña WHERE idcampaña =" & IDCampana & ")"
 																	consultar sql,RS4

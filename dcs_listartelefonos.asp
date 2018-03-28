@@ -1,22 +1,25 @@
 <%@ LANGUAGE = VBScript.Encode %>
 <!--#include file=capa1.asp-->
 <%
+ 
 if session("codusuario")<>"" then
 conectar
 datapersona = request("datapersona")
-%>
+idcampana = request("idcampana")
 
+%>
 <table class="tabinterna"  id="tabinterna_telf">
 														<tr class="cabecera-orange">
-															<td colspan="6">Telefonos
+															<td colspan="8">Tel&eacute;fonos
 															</td>
 														</tr>
 														<tr class="fondo-red">
 															<td class="text-withe">Tipo</td>
 															<td class="text-withe">Prf</td>
-															<td class="text-withe">Número</td>
+															<td class="text-withe">N&uacute;mero</td>
 															<td class="text-withe">Ext</td>
-															<td class="text-withe">Descripción</td>
+															<td class="text-withe">Descripci&oacute;n</td>
+															<td class="text-withe"></td>
 															<td class="text-withe"></td>
 														</tr>
 														<%
@@ -24,7 +27,7 @@ datapersona = request("datapersona")
 
 														varcolor = 0
 															
-														sql = "select a.IDCampañaPersonaTelefono,(select descripcion from TipoTelefono where IDTipoTelefono = a.IDTipoTelefono) as Tipo,a.Prefijo,a.Numero,a.Extension,a.Descripcion from Campaña_Persona_Telefono a where IDCampañaPersona =" & datapersona
+														sql = "select a.IDCampañaPersonaTelefono,(select descripcion from TipoTelefono where IDTipoTelefono = a.IDTipoTelefono) as Tipo,a.Prefijo,a.Numero,a.Extension,a.Descripcion, a.Usuarioregistra, a.Enriquecido, a.IDTipoTelefono from Campaña_Persona_Telefono a where IDCampañaPersona =" & datapersona
 
 														consultar sql,RS4
 														Do While Not RS4.EOF	 
@@ -36,7 +39,9 @@ datapersona = request("datapersona")
 															<td><%=RS4.Fields("Numero")%></td>
 															<td><%=RS4.Fields("Extension")%></td>
 															<td><%=RS4.Fields("Descripcion")%></td>
-															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion(<%=datapersona%>,<%=idcampana%>,<%=RS4.Fields("Numero")%>)"><div><i class="demo-icon2  icon-phone-circled" style="color:#FE6D2E !important;" >&#xe822;</i></div></a></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>');"><div><i id="telef" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
+															<td  style="background: #a42627; text-align: center;"><a href="#"><i class="demo-icon6 icon-plus-squared">&#xf0fe;</i></a></td>
+															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i class="demo-icon6 icon-pencil-squared">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
 														IF varcolor	 = 0 Then
@@ -79,10 +84,16 @@ datapersona = request("datapersona")
 																<input type="text" id="destelnuevo" style="width: 100px; font-size: 11.5px;" name="destelnuevo" />
 															</td>
 															<td>				
-																<a href="#" onclick="javascript:agregartelefono('<%=datapersona%>')"><i class="demo-icon icon-floppy">&#xe809;</i><a>
+																<a href="#" onclick="javascript:agregartelefono('<%=datapersona%>','<%=idcampana%>')"><i class="demo-icon icon-floppy">&#xe809;</i><a>
+															</td>
+															<td colspan="2">
+																<input type="hidden" name="idpertel" id="idpertel" value="" />
+																<p id="text-nuevo-edit" style="color:#E9F7F7;"></p>
 															</td>
 														</tr>
-														</table>	
+														</table>
+
+
 <%
 desconectar
 end if

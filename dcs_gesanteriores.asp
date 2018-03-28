@@ -13,10 +13,10 @@ datapersona = Request("datapersona")
 									</tr>
 									<tr class="fondo-red">
 										<td class="text-withe">Gestor</td>
-										<td class="text-withe">Acción</td>
+										<td class="text-withe">Acci&oacute;n</td>
 										<td class="text-withe">Fecha</td>
-										<td class="text-withe">Telefono</td>
-										<td class="text-withe">Gestion</td>
+										<td class="text-withe">Tel&eacute;fono</td>
+										<td class="text-withe">Gesti&oacute;n</td>
 										<td class="text-withe">Comentario</td>
 									</tr>
 									<%

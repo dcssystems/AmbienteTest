@@ -299,6 +299,12 @@
       "css": "left-dir",
       "code": 59427,
       "src": "modernpics"
+    },
+    {
+      "uid": "c819c6225685bae2eed1b8da13e629fa",
+      "css": "list-alt",
+      "code": 59428,
+      "src": "fontawesome"
     }
   ]
 }

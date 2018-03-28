@@ -13,7 +13,7 @@ Dim nameUser,firsthLetter, codPerfil
 	DTELFLOGIN		= session("anexo")
 	DTELFPASSWORD	= session("claveAnexo")
 	DCODPAIS		= session("codigoPais")
-	DTELEFONO		= ""
+	DTELEFONO		= session("telefono")
 	nameUser        = session("nombreusuario") 
 	firsthLetter    = Mid(nameUser,1,1)
 
@@ -280,7 +280,8 @@ if session("codusuario")<>"" then
 							</tr>							
 						</table>
 					</td>
-					<td style="padding-right:10px"><i class="demo-icon icon-menu">&#xf008;</i></td><!-- 0xf008 -->
+					<td style="padding-right:10px" id="minutoaminuto" onclick="divMarcador()"><i class="demo-icon icon-menu">&#xf008;</i></td><!-- 0xf008 -->
+					
 				</tr>
 			</table>
 			<form name="formula" method="post">
@@ -331,8 +332,8 @@ if session("codusuario")<>"" then
 			</table>
 			</form>
 			<% if (codPerfil = 3) then %>			
-			<div style="height:0px">
-				<div style="visibility:hidden;">		
+			<div style="height:0px;">
+				<div style="visibility:hidden;"><!-- style="visibility:hidden;" -->		
 					<form name="formulaMando" id="formulaMando">
 						<input name="login" id="login" type="button" value="Login" onclick="enviardatosp5('LOGIN');">
 					
@@ -344,10 +345,11 @@ if session("codusuario")<>"" then
 							<iframe src="http://192.168.1.5/p5.php" id="mandophp" name="mandophp" height="90%" width="90%"  style="height: 800px;" ></iframe>
 						</center>
 					</form>	
-					<script language="javascript">	
+					<script language="javascript">
+						var click = 1;
 						async function cargarLogin()
 						{		
-							await sleep(1750);
+							await sleep(2500);
 							document.getElementById("login").click();
 						}
 						
@@ -365,7 +367,7 @@ if session("codusuario")<>"" then
 							switch(cadena){
 								case "LOGIN":
 									frameV.postMessage("E-LOGIN", "http://192.168.1.5");
-									await sleep(250);
+									await sleep(450);
 									frameV.postMessage("D-USUARIO|<%=DUSUARIO%>", "http://192.168.1.5");
 									//await sleep(1);
 									frameV.postMessage("D-PASSWORD|<%=DPASSWORD%>", "http://192.168.1.5");
@@ -373,9 +375,9 @@ if session("codusuario")<>"" then
 									frameV.postMessage("D-TELFLOGIN|<%=DTELFLOGIN%>", "http://192.168.1.5");
 									//await sleep(1);
 									frameV.postMessage("D-TELFPASSWORD|<%=DTELFPASSWORD%>", "http://192.168.1.5");
-									await sleep(250);
-									frameV.postMessage("D-CAMP|18021801", "http://192.168.1.5");	
-									await sleep(250);
+									await sleep(450);
+									frameV.postMessage("D-CAMP|18021801", "http://192.168.1.5"); //18021801	
+									await sleep(450);
 									frameV.postMessage("F-LOGIN", "http://192.168.1.5");							
 								break;
 								
@@ -412,9 +414,27 @@ if session("codusuario")<>"" then
 							}			
 							 
 						}
+						
+						function divMarcador()
+						{
+							if(click==1)
+							{
+							    document.getElementById("caja").style.height = "100px";
+							    click = click + 1;
+						    }
+							else
+							{
+							    document.getElementById("caja").style.height = "0px";      
+								click = 1;
+							}  
+						}
 					</script>			
 				</div>
 			</div>
+			<div id="caja">
+			</div>
+			
+			
 			<% end if %>
 			<!--carpetas-->
 			<TABLE id="tblTabla" class="clsTabla" cellspacing="0" cellpadding="0" border="0"><THEAD><TR></TR></THEAD></TABLE>
@@ -483,7 +503,7 @@ if session("codusuario")<>"" then
 else
 %>
 <script language="javascript">
-	alert("Tiempo Expirado");
+	alert("Finalizo la sesión en el sistema. Ingrese al sistema");
 	window.open("index.html","_top");
 </script>
 <%
