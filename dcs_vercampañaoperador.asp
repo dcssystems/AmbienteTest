@@ -394,6 +394,7 @@ if session("codusuario")<>"" then
 					xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
 					xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
 					xhttp.send();
+					llamar = 1;
 
 				}
 				
@@ -403,7 +404,7 @@ if session("codusuario")<>"" then
 		function guardargestion(idcamperacc,datapersona,idaccionactiva)
 		{	
 
-			if(document.getElementById("text-accion") == "Llamando...")
+			if(llamar = 1)
 			{
 				swal("Se guardo la gestión correctamente.",{icon: "error",  buttons: false,  timer: 3000,});
 				return;
