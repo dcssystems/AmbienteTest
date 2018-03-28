@@ -15,6 +15,8 @@ if session("codusuario")<>"" then
 		idaccionactiva = request("idaccionactiva")		
 		
 		Application("telefono") = telefonoactivo
+		
+		DTELEFONO = Application("telefono")
 
 					if idcamperacc = "" then
 
