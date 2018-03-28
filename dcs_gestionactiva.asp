@@ -7,14 +7,17 @@ if session("codusuario")<>"" then
 		IDCampana = request("IDCampana")
 		telefonoactivo = request("telefonoactivo")
 		idCampPerTelf = request("idCampPerTelf")
-
-		session("telefono") = telefonoactivo
+		
+		session("telefono") = ""
 		
 		idcamperacc = request("idcamperacc") 
 		idgestion = request("idgestion")
 		comentario = request("comentario")
 		tpress = request("tpress")
 		idaccionactiva = request("idaccionactiva")
+		
+		
+		session("telefono") = telefonoactivo
 
 					if idcamperacc = "" then
 
