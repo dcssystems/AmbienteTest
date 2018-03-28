@@ -378,7 +378,7 @@ if session("codusuario")<>"" then
 					console.log("session('telefono'): " + '<%=session("telefono")%>');
 					window.parent.enviardatosp5('LLAMAR');
 				}
-				
+				<% session("telefono") = "" %>
 				llamar = 0;			   
 			   
 			}
