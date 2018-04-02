@@ -34,7 +34,7 @@ Const TITLE = ".::DIRCON | Sistema web de gestión de cobranzas::."
 
 
 Dim enlace,conn,RS,RS1,RS2,RS3,RS4
-Dim conn_server,conn_uid,conn_pwd,conn_database
+Dim conn_server,conn_uid,conn_pwd,conn_database,DTELEFONO
 
 set conn = server.CreateObject("ADODB.Connection")
 set RS = server.CreateObject("ADODB.Recordset")

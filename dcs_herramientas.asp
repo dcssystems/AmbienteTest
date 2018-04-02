@@ -13,7 +13,6 @@ Dim nameUser,firsthLetter, codPerfil
 	DTELFLOGIN		= session("anexo")
 	DTELFPASSWORD	= session("claveAnexo")
 	DCODPAIS		= session("codigoPais")
-	DTELEFONO		= session("telefono")
 	nameUser        = session("nombreusuario") 
 	firsthLetter    = Mid(nameUser,1,1)
 
