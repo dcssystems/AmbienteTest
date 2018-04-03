@@ -390,7 +390,7 @@ if session("codusuario")<>"" then
 									//await sleep(1);
 									frameV.postMessage("D-CODPAIS|<%=DCODPAIS%>", "http://192.168.1.5");
 									//await sleep(1);
-									frameV.postMessage("D-TELEFONO|"+telefo+", "http://192.168.1.5");						
+									frameV.postMessage("D-TELEFONO|"+telefo, "http://192.168.1.5");						
 									await sleep(250);
 									frameV.postMessage("F-LLAMAR", "http://192.168.1.5");							
 								break;
