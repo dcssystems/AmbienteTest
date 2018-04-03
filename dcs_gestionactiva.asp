@@ -18,7 +18,7 @@ if session("codusuario")<>"" then
 		
 		DTELEFONO = telefonoactivo
 		
-		RESPONDE.WRITE(DTELEFONO)
+		'RESPONDE.WRITE(DTELEFONO)
 
 					if idcamperacc = "" then
 

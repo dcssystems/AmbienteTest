@@ -339,6 +339,9 @@ if session("codusuario")<>"" then
 					
 						<input name="logout" id="logout" type="button" value="Logout" onclick="enviardatosp5('LOGOUT')">
 						
+						
+						<input type="hidden" name="telefonoSendig" id="telefonoSendig" value="">
+						
 						<input name="llamar" id="llamar" type="button" value="Llamar" onclick="enviardatosp5('LLAMAR');" disabled>
 						
 						<center>
@@ -382,11 +385,12 @@ if session("codusuario")<>"" then
 								break;
 								
 								case "LLAMAR":
+									telefo = document.getElementById("telefonoSendig").value;
 									frameV.postMessage("E-LLAMAR", "http://192.168.1.5");
 									//await sleep(1);
 									frameV.postMessage("D-CODPAIS|<%=DCODPAIS%>", "http://192.168.1.5");
 									//await sleep(1);
-									frameV.postMessage("D-TELEFONO|<%=DTELEFONO%>", "http://192.168.1.5");						
+									frameV.postMessage("D-TELEFONO|"+telefo+", "http://192.168.1.5");						
 									await sleep(250);
 									frameV.postMessage("F-LLAMAR", "http://192.168.1.5");							
 								break;

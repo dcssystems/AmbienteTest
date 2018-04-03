@@ -375,7 +375,9 @@ if session("codusuario")<>"" then
 
 				if (tpress == "Llamando...")
 				{		
-					console.log("session('telefono'): " + '<%=DTELEFONO%>');
+					console.log("session('telefono'): " + telefono);
+					window.parent.document.getElementById("telefonoSendig").value = "";
+					window.parent.document.getElementById("telefonoSendig").value = telefono;
 					window.parent.enviardatosp5('LLAMAR');
 				}
 				llamar = 0;			   
@@ -1470,7 +1472,7 @@ if session("codusuario")<>"" then
 															<td class="text-withe">Descripción</td>
 															<td class="text-withe"></td>
 															<td class="text-withe"></td>
-														</tr>
+														</tr> 
 														<%
 														if datapersona <> "" then
 
