@@ -375,7 +375,7 @@ if session("codusuario")<>"" then
 
 				if (tpress == "Llamando...")
 				{		
-					console.log("session('telefono'): " + '<%=session("telefono")%>');
+					console.log("session('telefono'): " + '<%=DTELEFONO%>');
 					window.parent.enviardatosp5('LLAMAR');
 				}
 				llamar = 0;			   
