@@ -12,7 +12,8 @@ if session("codusuario")<>"" then
 		idgestion = request("idgestion")
 		comentario = request("comentario")
 		tpress = request("tpress")
-		idaccionactiva = request("idaccionactiva")		
+		idaccionactiva = request("idaccionactiva")	
+		codtipocontacto = request("codtipocontacto")	
 		
 		'session("telefono") = telefonoactivo
 		
@@ -34,8 +35,7 @@ if session("codusuario")<>"" then
 					           ",[Estado]" & chr(10) & _
 					           ",[Alerta]" & chr(10) & _
 					           ",[SpeechPersonalizado]" & chr(10) & _
-					           ",[AudioPersonalizado]" & chr(10) & _
-					           ",[IDCampañaPersonaAccionRespuesta]" & chr(10) & _
+					           ",[AudioPersonalizado]" & chr(10) & _					           
 					           ",[IDCampañaPersonaTelefono]" & chr(10) & _
 					           ",[IDCampañaPersonaDireccion]" & chr(10) & _
 					           ",[IDCampañaPersonaEmail]" & chr(10) & _
@@ -46,7 +46,8 @@ if session("codusuario")<>"" then
 					           ",[TipoDial]" & chr(10) & _
 					           ",[Comentario]" & chr(10) & _
 					           ",[IDGestion]" & chr(10) & _
-					           ",[IDMotivo])" & chr(10) & _
+					           ",[IDMotivo]" & chr(10) & _
+					           ",[IDTipoContacto])" & chr(10) & _
 					     "VALUES" & chr(10) & _
 					      "(GETDATE() " & chr(10) & _
 					           ",NULL" & chr(10) & _
@@ -57,8 +58,7 @@ if session("codusuario")<>"" then
 					           ",'" & datapersona & "'" & chr(10) & _
 					           ",1" & chr(10) & _
 					           ",1" & chr(10) & _
-					           ",0" & chr(10) & _
-					           ",NULL" & chr(10) & _
+					           ",0" & chr(10) & _					          
 					           ",NULL" & chr(10) & _
 					           ",NULL" & chr(10) & _
 					           "," & idCampPerTelf & "" & chr(10) & _
@@ -71,7 +71,8 @@ if session("codusuario")<>"" then
 					           ",1" & chr(10) & _
 					           ",NULL" & chr(10) & _
 					           ",NULL" & chr(10) & _
-					           ",NULL)"
+					           ",NULL" & chr(10) & _
+					           ",3)"
 
 					          
 					         
@@ -110,6 +111,28 @@ if session("codusuario")<>"" then
 															</td>
 															<td class="text-orange">
 																<%=telefonoactivo%>
+															</td>	
+														</tr>
+														<tr class="fondo-blanco">
+															<td class="text-orange">
+															Tipo Contacto
+															</td>
+															<td class="text-orange">
+																<select style="font-size: 11.5px;" id="codtipocontacto" name="codtipocontacto">
+																	<option value="">Seleccione un Tipo contacto</option>
+																	<%if datapersona <> "" then
+																	sql = " SELECT IDTipoContacto, Descripcion FROM TipoContacto "
+																	consultar sql,RS4
+																	DO while not RS4.EOF
+																	 %>
+																	<option value="<%=RS4.fields("IDTipoContacto")%>"><%=RS4.fields("Descripcion")%></option>
+																	<% 
+																	RS4.MoveNext
+																	Loop
+																	RS4.Close
+
+																	end if%>
+																</select>
 															</td>	
 														</tr>	
 														<tr class="fondo-blanco">
@@ -161,7 +184,8 @@ if session("codusuario")<>"" then
 									"FechaModifica = getdate()," & chr(10) & _
 									"UsuarioModifica = " & session("codusuario") & " ," & chr(10) & _
 									"comentario = '" & comentario & "'," & chr(10) & _
-									"IDGestion = " & idgestion & "" & chr(10) & _									
+									"IDGestion = " & idgestion & "," & chr(10) & _	
+									"IDTipoContacto = " & codtipocontacto & "" & chr(10) & _									
 								"where IDCampañaPersonaAccion = " & idcamperacc
 
 								'response.write sql
@@ -194,6 +218,28 @@ if session("codusuario")<>"" then
 															Telefono
 															</td>
 															<td class="text-orange">																
+															</td>	
+														</tr>
+														<tr class="fondo-blanco">
+															<td class="text-orange">
+															Tipo Contacto
+															</td>
+															<td class="text-orange">
+																<select style="font-size: 11.5px;" id="codtipocontacto" name="codtipocontacto">
+																	<option value="">Seleccione un Tipo contacto</option>
+																	<%if datapersona <> "" then
+																	sql = " SELECT IDTipoContacto, Descripcion FROM TipoContacto "
+																	consultar sql,RS4
+																	DO while not RS4.EOF
+																	 %>
+																	<option value="<%=RS4.fields("IDTipoContacto")%>"><%=RS4.fields("Descripcion")%></option>
+																	<% 
+																	RS4.MoveNext
+																	Loop
+																	RS4.Close
+
+																	end if%>
+																</select>
 															</td>	
 														</tr>	
 														<tr class="fondo-blanco">
