@@ -31,7 +31,7 @@ if session("codusuario")<>"" then
 	    end if
 
 
-			'response.write buscador2
+		'response.write buscador2
 
 		
 		''Codigo exp excel - se repite
@@ -413,8 +413,17 @@ if session("codusuario")<>"" then
 			
 			var idgestion, comentario
 
-			var select = document.getElementById("codigogestion"), //El <select>
-        	idgestion = select.value;//El valor seleccionado
+			var selectct = document.getElementById("codtipocontacto"), //El <select>
+        	codtipocontacto = selectct.value;
+
+			var selectcg = document.getElementById("codigogestion"), //El <select>
+        	idgestion = selectcg.value;//El valor seleccionado
+        	if (codtipocontacto =="")
+        	{
+        		swal("Debe ingresar un Tipo contacto",{icon: "warning",  buttons: false,  timer: 3000,}); 
+				  document.getElementById("codtipocontacto").focus();
+				  return;
+        	}
 
         	if (idgestion != "")
         	{
@@ -427,7 +436,7 @@ if session("codusuario")<>"" then
 				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
 				    }
 				  };
-				  xhttp.open("GET", "dcs_gestionactiva.asp?idcamperacc="+idcamperacc+"&idgestion="+idgestion+"&comentario="+comentario, true);
+				  xhttp.open("GET", "dcs_gestionactiva.asp?idcamperacc="+idcamperacc+"&idgestion="+idgestion+"&comentario="+comentario+"&codtipocontacto="+codtipocontacto, true);
 				  xhttp.send();
 
 				  swal("Se guardo la gestión correctamente.",{icon: "success",  buttons: false,  timer: 3000,});
@@ -443,20 +452,16 @@ if session("codusuario")<>"" then
 				  document.getElementById("codigogestion").focus();
 				  return;
 			}
+
+
 		}
 
 
 		function gestionanterior(datapersona)
 		{			
 
-			 xhttp = new XMLHttpRequest();
-			   xhttp.onreadystatechange=function() {
-				if (this.readyState == 4 && this.status == 200) {
-				      document.getElementById("gesanteriores").innerHTML = this.responseText;
-				    }
-				  };
-				  xhttp.open("GET", "dcs_gesanteriores.asp?datapersona="+datapersona, true);
-				  xhttp.send();
+			 var iframe = document.getElementById('framegestiones');
+			 iframe.src = iframe.src;
 		}
 		// function selectall(form)  
 		// {  
@@ -1571,6 +1576,28 @@ if session("codusuario")<>"" then
 									</tr>	
 									<tr class="fondo-blanco">
 										<td class="text-orange">
+										Tipo Contacto
+										</td>
+										<td class="text-orange">
+											<select style="font-size: 11.5px;" id="codtipocontacto" name="codtipocontacto">
+												<option>Seleccione un Tipo Contacto</option>
+												<%if datapersona <> "" then
+												sql = " SELECT IDTipoContacto, Descripcion FROM TipoContacto "
+												consultar sql,RS4
+												DO while not RS4.EOF
+												 %>
+												<option value="<%=RS4.fields("IDTipoContacto")%>"><%=RS4.fields("Descripcion")%></option>
+												<% 
+												RS4.MoveNext
+												Loop
+												RS4.Close
+
+												end if%>
+											</select>
+										</td>	
+									</tr>
+									<tr class="fondo-blanco">
+										<td class="text-orange">
 										Respuesta
 										</td>
 										<td class="text-orange">
@@ -1609,53 +1636,14 @@ if session("codusuario")<>"" then
 							</td>
 						</tr>
 						<tr class="fondo-red">
-							<td colspan="4"  >
-								<table class="tabinterna" name="gesanteriores" id="gesanteriores">
-									<tr class="cabecera-orange">
-										<td class="text-withe" colspan="6" style="text-align: center; font-weight: bold;">
-											Gestiones Anteriores
-										</td>
-									</tr>
-									<tr class="fondo-red">
-										<td class="text-withe">Gestor</td>
-										<td class="text-withe">Acción</td>
-										<td class="text-withe">Fecha</td>
-										<td class="text-withe">Teléfono</td>
-										<td class="text-withe">Gestión</td>
-										<td class="text-withe">Comentario</td>
-									</tr>
-									<%
-									if datapersona <> "" then
-
-										sql = "select (Select Usuario from Usuario where codUsuario = UsuarioEjecutor) as Gestor,(select Descripcion from TipoAccion where IDTipoAccion = a.IDTipoAccion) as Accion,FechaHoraFinGestion as fechagestion,(Select Numero from Campaña_persona_telefono where IDCampañaPersonaTelefono = a.IDCampañaPersonaTelefono )  as Telefono,(Select Descripcion from Gestion where IDGestion = a.IDGestion) as Respuesta,Comentario from Campaña_Persona_Accion a where a.IDCampañaPersona = " & datapersona & "order by FechaHoraFinGestion desc"
-
-										consultar sql,RS4
-										varcolor = 0
-										DO While not RS4.EOF
-
-									%>
-									<tr class="fondo-red <% IF varcolor	 = 0 Then %> fondo-blanco <% Else %> fondo-rojo <% End IF %>" >
-										<td><%=RS4.fields("Gestor")%></td>
-										<td><%=RS4.fields("Accion")%></td>
-										<td><%=RS4.fields("fechagestion")%></td>
-										<td><%=RS4.fields("Telefono")%></td>
-										<td><%=RS4.fields("Respuesta")%></td>
-										<td><%=RS4.fields("Comentario")%></td>
-									</tr>
-									<%
-
-														IF varcolor	 = 0 Then
-															varcolor	 = 1
-														else
-															varcolor	 = 0 
-														end if
-														RS4.MoveNext
-														loop
-														RS4.Close
-														end if
-									%>
-
-								</table>
+							<td colspan="4">
+								<% 
+								if datapersona <> "" then
+								%>
+								<iframe id="framegestiones" border="0" frameborder="0" y framespacing="0" src="dcs_admgestionesanteriores.asp?datapersona=<%=datapersona%>" style="width: 100%; height: 300;"></iframe>
+								<%
+								end if
+								%>
 							</td>
 						</tr>						
 					</table>					
