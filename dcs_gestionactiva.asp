@@ -14,13 +14,9 @@ if session("codusuario")<>"" then
 		tpress = request("tpress")
 		idaccionactiva = request("idaccionactiva")		
 		
-		'session("telefono") = telefonoactivo
-		
 		DTELEFONO = telefonoactivo
-		
-		'RESPONDE.WRITE(DTELEFONO)
 
-					if idcamperacc = "" then
+		if idcamperacc = "" then
 
 					sql = "INSERT INTO [dbo].[Campaña_Persona_Accion] " & chr(10) & _
 					           "([FechaHoraInicioGestion] " & chr(10) & _
