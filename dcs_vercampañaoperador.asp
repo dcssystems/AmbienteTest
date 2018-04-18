@@ -331,11 +331,18 @@ if session("codusuario")<>"" then
 
 
 		function creargestion(datapersona, IDCampana, telefono, tpress)
-		{
+		{			
 			var idCampPerTelf = document.getElementById(""+telefono+"").value;
 			xhttp = new XMLHttpRequest();
 			if(llamar == 1)
 			{
+				//INICIO -- agregado para realizar la colgada desde el cliente
+				window.parent.document.getElementById("datapersona").value = datapersona;
+				window.parent.document.getElementById("idcampana").value = IDCampana;
+				window.parent.document.getElementById("telefono").value = telefono;
+				window.parent.document.getElementById("tpress").value = tpress;		
+				//FIN -- agregado para realizar la colgada desde el cliente
+				
 				if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
 				{
 					swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
@@ -400,6 +407,33 @@ if session("codusuario")<>"" then
 				}
 				
 			}				  
+		}
+		
+		function cortaCliente(datapersona, IDCampana, telefono, tpress){
+			var idCampPerTelf = document.getElementById(""+telefono+"").value;
+			
+			if (tpress == "Llamando...")
+			{
+				var idaccionactiva = "telef"+telefono
+			}
+			
+			if (tpress == "Ingresando datos...")
+			{
+				var idaccionactiva = "addges"+telefono
+			}
+			
+			if (document.getElementById("text-accion").innerHTML != "En espera" || tpress == "Llamando..." )
+			{
+				tpress = "Llamada finalizada";
+				document.getElementById("telef"+telefono).classList.remove('telefono-activo');				  
+				document.getElementById("telef"+telefono).classList.add('telefono-inactivo');
+				window.parent.enviardatosp5('COLGAR');
+				
+				xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
+				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+				xhttp.send();
+				llamar = 1;
+			}
 		}
 
 		function guardargestion(idcamperacc,datapersona,idaccionactiva)

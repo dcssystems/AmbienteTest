@@ -339,8 +339,15 @@ if session("codusuario")<>"" then
 					
 						<input name="logout" id="logout" type="button" value="Logout" onclick="enviardatosp5('LOGOUT')">
 						
-						
+						<!-- INICIO - Zona de valores ocultos para gestionar las llamadas -->
 						<input type="hidden" name="telefonoSendig" id="telefonoSendig" value="">
+						
+						<input type="hidden" name="datapersona" id="datapersona" value="">
+						<input type="hidden" name="idcampana" id="idcampana" value="">
+						<input type="hidden" name="telefono" id="telefono" value="">
+						<input type="hidden" name="tpress" id="tpress" value="">					
+						
+						<!-- FIN - Zona de valores ocultos para gestionar las llamadas  -->
 						
 						<input name="llamar" id="llamar" type="button" value="Llamar" onclick="enviardatosp5('LLAMAR');" disabled>
 						
@@ -419,6 +426,13 @@ if session("codusuario")<>"" then
 									document.formulaMando.login.disabled = true;
 									document.formulaMando.login.value = "LOGIN OK";
 									document.formulaMando.llamar.disabled = false;
+									
+								case "C-COLGO":
+									datapersona = document.formulaMando.datapersona.value;
+									idcampana = document.formulaMando.idcampana.value;
+									telefono = document.formulaMando.telefono.value;
+									tpress = document.formulaMando.tpress.value;
+									window.formula.cortaCliente(datapersona,idcampana,telefono,tpress);
 							}			
 							 
 						}
