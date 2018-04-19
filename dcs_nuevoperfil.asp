@@ -147,7 +147,7 @@ if session("codusuario")<>"" then
 			</script>			
 			<body topmargin=0 leftmargin=0 bgcolor="#FFFFFF">
 					<table border=0 cellspacing=0 cellpadding=0 width=100% height=100%>
-					<form name=formula method=post action="nuevoperfil.asp">
+					<form name=formula method=post action="dcs_nuevoperfil.asp">
 					<tr height=20 class="fondo-red">	
 						<td class="text-withe" colspan=2>			
 							<font size=2><b>&nbsp;<b><%if codperfil="" then%>Nuevo <%end if%>Perfil</b></b></font>
