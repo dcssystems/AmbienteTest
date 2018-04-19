@@ -16,6 +16,9 @@ if session("codusuario")<>"" then
 			correo=obtener("correo")
 			codtipousuario=obtener("codtipousuario")
 			codagencia=obtener("codagencia")
+			anexo= obtener("phone")
+			claveanexo = obtener("passphone")
+
 			if codagencia="" then
 				act_codagencia="null"
 			else
@@ -50,12 +53,12 @@ if session("codusuario")<>"" then
 			
 			if existeusuario=0 then			
 				if obtener("agregardato")="1" then		
-				sql="INSERT INTO usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,fechaultacceso,usuarioregistra,usuariomodifica,administrador,activo,fecharegistra,fechamodifica, anexo, clavephone) VALUES ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & administrador & "," & activo & "," & session("codusuario") & ",getdate()," & codtipousuario & "," & act_codagencia & "," & act_codoficina & ")"
+				sql="INSERT INTO usuario (usuario,clave,apepaterno,apematerno,nombres,correo,flagbloqueo,usuarioregistra,administrador,activo,fecharegistra,anexo, claveanexo) VALUES ('" & usuario & "','" & clave & "','" & apepat & "','" & apemat & "','" & nombres & "','" & correo & "'," & fbloq & "," & session("codusuario") & "," & administrador & "," & activo & ",getdate(),'" & anexo & "','" & claveanexo & "' )"
 				else
 					if obtener("hclave")=obtener("clave")then
-					sql="UPDATE usuario SET usuario='" & usuario & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
+					sql="UPDATE usuario SET usuario='" & usuario & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
 					else
-					sql="UPDATE usuario SET usuario='" & usuario & "',clave='" & clave & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",codtipousuario=" & codtipousuario & ",codagencia=" & act_codagencia & ",codoficina=" & act_codoficina & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
+					sql="UPDATE usuario SET usuario='" & usuario & "',clave='" & clave & "',apepaterno='" & apepat & "',apematerno='" & apemat & "',nombres='" & nombres & "',correo='" & correo & "',flagbloqueo=" & fbloq & ",administrador=" & administrador & ",activo=" & activo & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() WHERE codusuario=" & codusuario
 					end if				
 				end if
 				''Response.Write sql
@@ -68,7 +71,7 @@ if session("codusuario")<>"" then
 					RS.Close	
 				end if
 				
-				''aqu√≠ se elimina y se agregan las facultades seleccionadas							
+				''aquÌ se elimina y se agregan las facultades seleccionadas							
 				sql="SELECT A.codperfil, CASE WHEN B.activo IS NULL THEN 0 ELSE B.ACTIVO END AS activo, A.descripcion, codusuario FROM perfil A LEFT OUTER JOIN usuarioperfil B ON A.codperfil = B.codperfil AND B.codusuario = " & codusuario  & " ORDER BY A.codperfil"
 				consultar sql,RS
 				Do While not RS.EOF
@@ -100,9 +103,9 @@ if session("codusuario")<>"" then
 				%>
 				<script language="javascript">
 					<% if obtener("agregardato")="1" then %>
-					//alert("Se agreg√≥ el usuario correctamente.");
+					//alert("Se agregÛ el usuario correctamente.");
 					<% else %>
-					//alert("Se modific√≥ el usuario correctamente.");
+					//alert("Se modificÛ el usuario correctamente.");
 					<% end if %>				
 					<% if obtener("paginapadre")="dcs_admusuario.asp" then %> 
 					window.open('<%=obtener("paginapadre")%>','<%=obtener("vistapadre")%>');
@@ -141,6 +144,8 @@ if session("codusuario")<>"" then
 				apemat=rs.Fields("apematerno")
 				nombres=rs.Fields("nombres")	
 				correo=rs.Fields("correo")	
+				anexo=rs.Fields("Anexo")	
+			    claveanexo=rs.Fields("ClaveAnexo")	
 				fbloq=rs.Fields("flagbloqueo")
 				administrador=rs.Fields("administrador")
 				activo=rs.Fields("activo")		
@@ -156,7 +161,13 @@ if session("codusuario")<>"" then
 		%>
 		<!--Ojo esta ventana siempre es flotante-->
 		<html>
-			<title><%if codusuario="" then%>Nuevo <%end if%>Usuario</title>
+		<head>
+			<title><%if codusuario="" then%>Nuevo <%end if%>Usuario</title>		
+
+			<link rel="stylesheet" href="assets/css/css/animation.css"/>
+			<link rel="stylesheet" href="assets/css/custom.css" />
+			<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet"/>
+
 			<script language='javascript' src="scripts/popcalendar.js"></script> 
 			<script language="javascript">
 				var limpioclave=0;
@@ -164,15 +175,15 @@ if session("codusuario")<>"" then
 				function agregar()
 				{
 					if(trim(formula.usuario.value)==""){alert("Debe ingresar el Usuario.");return;}
-					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contrase√±a.");return;}
+					if(trim(formula.clave.value)==""){alert("Debe ingresar la ContraseÒa.");return;}
 					if(trim(formula.apepat.value)==""){alert("Debe ingresar el Apellido Paterno del Usuario.");return;}
 					if(trim(formula.apemat.value)==""){alert("Debe ingresar el Apellido Materno del Usuario.");return;}
 					if(trim(formula.nombres.value)==""){alert("Debe ingresar los Nombres del Usuario.");return;}
-					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v√°lido.");return;}
+					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v·lido.");return;}
 					//agencia
-					if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;}
+					//<!-- if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;} -->
 					//oficina
-					if(formula.codtipousuario.value=="2" && formula.codoficina.value==""){alert("Debe seleccionar una Oficina.");return;}
+					//<!-- if(formula.codtipousuario.value=="2" && formula.codoficina.value==""){alert("Debe seleccionar una Oficina.");return;} -->
 					document.formula.agregardato.value=1;
 					document.formula.submit();
 				}
@@ -180,17 +191,17 @@ if session("codusuario")<>"" then
 				function modificar()
 				{
 					if(trim(formula.usuario.value)==""){alert("Debe ingresar el Usuario.");return;}
-					if(trim(formula.clave.value)==""){alert("Debe ingresar la Contrase√±a.");return;}
+					if(trim(formula.clave.value)==""){alert("Debe ingresar la ContraseÒa.");return;}
 					if(trim(formula.apepat.value)==""){alert("Debe ingresar el Apellido Paterno del Usuario.");return;}
 					if(trim(formula.apemat.value)==""){alert("Debe ingresar el Apellido Materno del Usuario.");return;}
 					if(trim(formula.nombres.value)==""){alert("Debe ingresar los Nombres del Usuario.");return;}
-					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v√°lido.");return;}
+					if(!isEmailAddress(formula.correo)){alert("Debe ingresar un e-Mail v·lido.");return;}
 					//agencia
-					if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;}
+					//if(formula.codtipousuario.value=="1" && formula.codagencia.value==""){alert("Debe seleccionar una Agencia de Cobranza.");return;}
 					//oficina o gestor
 					//if((formula.codtipousuario.value=="2"||formula.codtipousuario.value=="3") && formula.codoficina.value==""){alert("Debe seleccionar una Oficina.");return;}
 					//el gestor puede ser multioficina o tener oficina seleccionada
-					if((formula.codtipousuario.value=="2") && formula.codoficina.value==""){alert("Debe seleccionar una Oficina.");return;}
+					//if((formula.codtipousuario.value=="2") && formula.codoficina.value==""){alert("Debe seleccionar una Oficina.");return;}
 										
 					document.formula.agregardato.value=2;
 					document.formula.submit();
@@ -227,48 +238,49 @@ if session("codusuario")<>"" then
 				COLOR: #483d8b; FONT-FACE:"Arial"; TEXT-DECORATION: none
 			}			
 			</style>
+		</head>
 			<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF">
 					<iframe id="ventanagrab" name="ventanagrab" src="" style="visibility:hidden" width="0" height="0" border="0" frameborder="0"></iframe>
 					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 						<form name="formula" method="post" action="dcs_nuevousuario.asp" target="ventanagrab">
-					<tr>	
-						<td bgcolor="#F5F5F5" colspan=2>			
-							<font size=2 color=#483d8b ><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
+					<tr class="fondo-red" >	
+						<td colspan=2 class="text-withe">			
+							<font size=2 ><b>&nbsp;<b><%if codusuario="" then%>Nuevo <%end if%>Usuario</b></b></font>
 						</td>
 					</tr>
 					<%if fechaReg<>"" then%>
-					<tr height=20>
-						<td colspan=2 align="right"><font  size=1 color=#483d8b>Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
+					<tr height=20 >
+						<td colspan=2 align="right"><font  size=1 >Registr&oacute;:&nbsp;<b><%=usuarioReg%>&nbsp;el&nbsp;<%=fechaReg%></b>
 						<%if fechaMod<>"" then%><BR>Modific&oacute;:&nbsp;<b><%=usuarioMod%>&nbsp;el&nbsp;<%=fechaMod%></b><%end if%>
 						</font></td>
 					</tr>	
 					<%end if%>						
-					<tr>
-						<td width=30%><font  size=2 color=#483d8b>&nbsp;&nbsp;Usuario:</font></td>
+					<tr class="fondo-gris">
+						<td width=30%><font  size=2 >&nbsp;&nbsp;Usuario:</font></td>
 						<td><input name="usuario" type="text" maxlength=200 value="<%=usuario%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Contrase&ntilde;a:</font></td>
-						<td bgcolor="#f5f5f5"><input name="clave" type=password maxlength=200 value="<%=clave%>" style="font-size: xx-small; width: 200px;"  onfocus="if(limpioclave==0){this.value='';limpioclave=1;}"></td>
+					<tr >
+						<td ><font  size=2 >&nbsp;&nbsp;Contrase&ntilde;a:</font></td>
+						<td ><input name="clave" type=password maxlength=200 value="<%=clave%>" style="font-size: xx-small; width: 200px;"  onfocus="if(limpioclave==0){this.value='';limpioclave=1;}"></td>
 					</tr>
-					<tr>
-						<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Apellidos Paterno:</font></td>
+					<tr class="fondo-gris">
+						<td><font  size=2 >&nbsp;&nbsp;Apellidos Paterno:</font></td>
 						<td><input name="apepat" type="text" maxlength=200 value="<%=apepat%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;Apellido Materno:</font></td>
-						<td bgcolor="#f5f5f5"><input name="apemat" type="text" maxlength=200 value="<%=apemat%>" style="font-size: xx-small; width: 200px;"></td>
+					<tr >
+						<td ><font  size=2>&nbsp;&nbsp;Apellido Materno:</font></td>
+						<td ><input name="apemat" type="text" maxlength=200 value="<%=apemat%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-						<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Nombres:</font></td>
+					<tr class="fondo-gris">
+						<td><font  size=2 >&nbsp;&nbsp;Nombres:</font></td>
 						<td><input name="nombres" type="text" maxlength=200 value="<%=nombres%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr>
-						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;e-Mail:</font></td>
-						<td bgcolor="#f5f5f5"><input name="correo" type="text" maxlength=200 value="<%=correo%>" style="font-size: xx-small; width: 200px;"></td>
+						<td ><font  size=2 >&nbsp;&nbsp;e-Mail:</font></td>
+						<td ><input name="correo" type="text" maxlength=200 value="<%=correo%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
-					<tr>
-					<td><font  size=2 color=#483d8b>&nbsp;&nbsp;Tipo Usuario:</font></td>
+					<tr class="fondo-gris">
+					<td><font  size=2 >&nbsp;&nbsp;Tipo Usuario:</font></td>
 					<td>
 						
 						<select name="codtipousuario" style="font-size: xx-small; width: 200px;" onchange="activarseleccion();">
@@ -320,33 +332,33 @@ if session("codusuario")<>"" then
 						
 						</select>
 						</td>
-					</tr>					
-					<tr>
-					<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anexo:</font></td>
-					<td bgcolor="#f5f5f5">
-						<input type="text" id="phone" name="phone" value="" />
+					</tr >					
+					<tr >
+					<td ><font  size=2 >&nbsp;&nbsp;Anexo:</font></td>
+					<td >
+						<input type="text" id="phone" name="phone" value="<%=anexo%>" />
 					</td>
 					</tr>
-					<tr>
-					<td><font size=2 color=#483d8b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clave tel&eacute;fono:</font></td>
+					<tr class="fondo-gris">
+					<td><font size=2 >&nbsp;&nbsp;Clave tel&eacute;fono:</font></td>
 					<td>
-						<input name="passphone" type="password" value="" />
+						<input name="passphone" id="passphone" type="password" value="<%=claveanexo%>" />
 						</td>
 					</tr>
-					<tr>
-						<td><font  size=2 color=#483d8b>&nbsp;</font></td>
-						<td><input type=checkbox name="activo" style="font-size: xx-small;" <%if activo=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Activo</font></td>
+					<tr >
+						<td><font  size=2 >&nbsp;</font></td>
+						<td><input type=checkbox name="activo" style="font-size: xx-small;" <%if activo=1 then%> checked<%end if%>>&nbsp;&nbsp;<font size=2>Activo</font></td>
 					</tr>					
-					<tr>
-						<td bgcolor="#f5f5f5"><font  size=2 color=#483d8b>&nbsp;</font></td>
-						<td bgcolor="#f5f5f5"><input type=checkbox name="fbloq" style="font-size: xx-small;" <%if fbloq=3 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Bloqueado</font></td>
+					<tr class="fondo-gris">
+						<td ><font  size=2 >&nbsp;</font></td>
+						<td ><input type=checkbox name="fbloq" style="font-size: xx-small;" <%if fbloq=3 then%> checked<%end if%>>&nbsp;&nbsp;<font size=2>Bloqueado</font></td>
 					</tr>					
-					<tr> 
-						<td><font  size="2" color="#483d8b">&nbsp;</font></td>
-						<td><input type="checkbox" name="administrador" onclick="document.formula.codperf1.checked=this.checked;" style="font-size: xx-small;" <%if administrador=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 color=#483d8b>Administrador</font></td>
+					<tr > 
+						<td><font  size="2">&nbsp;</font></td>
+						<td><input type="checkbox" name="administrador" onclick="document.formula.codperf1.checked=this.checked;" style="font-size: xx-small;" <%if administrador=1 then%> checked<%end if%>>&nbsp;&nbsp;<font  size=2 >Administrador</font></td>
 					</tr>					
-					<tr>	
-						<td bgcolor="#F5F5F5" colspan="2"><font size="2" color="#483d8b">&nbsp;&nbsp;Perfiles:</font></td>
+					<tr class="fondo-gris">	
+						<td colspan="2"><font size="2" >&nbsp;&nbsp;Perfiles:</font></td>
 					</tr>															
 							<tr>	
 						<td colspan="2">
@@ -383,9 +395,9 @@ if session("codusuario")<>"" then
 							</table>				
 						</td>
 					</tr>	
-					<tr>					
-						<td bgcolor="#F5F5F5"><font size="2" color="#483d8b">&nbsp;</font></td>
-						<td bgcolor="#F5F5F5" align="right" height="40"><%if codusuario="" then%><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%else%><a href="javascript:modificar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%end if%><a href="javascript:window.close();"><img src="imagenes/salida.gif" border=0 alt="Salir" title="Salir"></a>&nbsp;</td>					
+					<tr class="fondo-red">					
+						<td ><font size="2" color="#483d8b">&nbsp;</font></td>
+						<td  align="right" height="40"><%if codusuario="" then%><a href="javascript:agregar();"<i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;<%else%><a href="javascript:modificar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;<%end if%><a href="javascript:window.close();"><i class="logout demo-icon icon-logout">&#xe800;</i></a>&nbsp;</td>					
 					</tr>
 					
 							<input type="hidden" name="agregardato" value="">
@@ -402,7 +414,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorizaci√≥n para este proceso.");
+		alert("Ud. No tiene autorizaciÛn para este proceso.");
 		window.open("userexpira.asp","_top");
 	</script>
 	<%	

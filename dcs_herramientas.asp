@@ -175,6 +175,7 @@ if session("codusuario")<>"" then
 				
 				function func_vercarpeta(ac_codigo)
 				{
+						//alert(ac_codigo);
 						func_ocultartotalcarpetas();
 						document.getElementById("fr_carpeta" + ac_codigo).style.visibility="visible";
 						document.getElementById("fr_carpeta" + ac_codigo).style.width="100%";

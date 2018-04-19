@@ -56,7 +56,7 @@ if session("codusuario")<>"" then
 					<%else%>
 					//alert("Se modificó el usuario correctamente.");
 					<%end if%>				
-					<%if obtener("paginapadre")="admperfil.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
+					<%if obtener("paginapadre")="dcs_admperfil.asp" then%>window.open("<%=obtener("paginapadre")%>","<%=obtener("vistapadre")%>");<%end if%>
 					window.close();
 				</script>			
 				<%
@@ -165,8 +165,8 @@ if session("codusuario")<>"" then
 						<td><input name="descripcion" type=text maxlength=200 value="<%=descripcion%>" style="font-size: xx-small; width: 200px;"></td>
 					</tr>
 					<tr height=20>
-						<td bgcolor="#F5F5F5" ><font  size=2 >&nbsp;&nbsp;Orden:</font></td>
-						<td bgcolor="#F5F5F5" ><input name="orden" type=text maxlength=50 value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
+						<td bgcolor="#E9F7F7" ><font  size=2 >&nbsp;&nbsp;Orden:</font></td>
+						<td bgcolor="#E9F7F7" ><input name="orden" type=text maxlength=50 value="<%=orden%>" style="font-size: xx-small; width: 60px; text-align: right"></td>
 					</tr>		
 					<tr>	
 						<td colspan=2><font  size=2 >&nbsp;&nbsp;Facultades del Perfil:</font></td>
@@ -196,14 +196,14 @@ if session("codusuario")<>"" then
 												cadenagrupofacultad=replace(cadenagrupofacultad,"numfilas",contadorfacultad)
 												contadorfacultad=0
 												if intercalacolor="" then
-													intercalacolor=" bgcolor='#F5F5F5' "
+													intercalacolor="style='background: #E9F7F7;'"
 												else
 													intercalacolor=""
 												end if
 												cadenagrupofacultad=cadenagrupofacultad & "<tr " & intercalacolor & "><td valign=top rowspan=numfilas><font size=1 >&nbsp;&nbsp;<b>" & GrupoFactultad & "</b></font></td><td><input type=checkbox name='codfact" & RS.Fields("CodFacultad") & "' style='font-size: xx-small;' " & iif(IsNull(RS.Fields("codperfil")),"","checked") & "><font  size=1 >" & RS.Fields("Facultad") & "</font></td></tr>" & chr(10)
 												contadorfacultad=contadorfacultad + 1
 											else
-												cadenagrupofacultad=cadenagrupofacultad & "<tr " & intercalacolor & "><td><input type=checkbox name='codfact" & RS.Fields("CodFacultad") & "' style='font-size: xx-small;' " & iif(IsNull(RS.Fields("codperfil")),"","checked") & "><font  size=1 " & RS.Fields("Facultad") & "</font></td></tr>" & chr(10)
+												cadenagrupofacultad=cadenagrupofacultad & "<tr " & intercalacolor & "><td><input type=checkbox name='codfact" & RS.Fields("CodFacultad") & "' style='font-size: xx-small;' " & iif(IsNull(RS.Fields("codperfil")),"","checked") & "><font  size=1> " & RS.Fields("Facultad") & "</font></td></tr>" & chr(10)
 												contadorfacultad=contadorfacultad + 1
 											end if											
 										RS.MoveNext
@@ -215,11 +215,15 @@ if session("codusuario")<>"" then
 							</table>				
 						</td>
 					</tr>
-					<tr>	
-							
-					    <td bgcolor="#F5F5F5"><font  size=2>&nbsp;</font></td>
-						<td bgcolor="#F5F5F5" align=right height=40><%if codperfil="" then%><a href="javascript:agregar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%else%><a href="javascript:modificar();"><img src="imagenes/guardar.gif" border=0 alt="Guardar" title="Guardar"></a>&nbsp;<%end if%><a href="javascript:window.close();"><img src="imagenes/salida.gif" border=0 alt="Salir" title="Salir"></a>&nbsp;</td>					
-					</tr>	
+					<tr  class="fondo-red">								
+					    <td ><font  size=2>&nbsp;</font></td>
+						<td align=right height=40><%if codperfil="" then%>	<a href="javascript:agregar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
+							<%else%>
+							<a href="javascript:modificar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;
+							<%end if%>
+							<a href="javascript:window.close();"><i class="logout demo-icon icon-logout">&#xe800;</i></a>&nbsp;
+						</td>					
+					</tr>
 					<input type=hidden name="agregardato" value="">
 					<input type=hidden name="codperfil" value="<%=codperfil%>">
 					<input type=hidden name="vistapadre" value="<%=obtener("vistapadre")%>">

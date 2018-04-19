@@ -96,12 +96,12 @@ if session("codusuario")<>"" then
 		
 		<script language="javascript">
 			rutaimgcab="imagenes/"; 
-		  //ConfiguraciÃ³n general de datos de tabla 0
+		  //Configuración general de datos de tabla 0
 		    tabla=0;
-		    orden[tabla]=2;
+		    orden[tabla]=0;
 		    ascendente[tabla]=true;
 		    nrocolumnas[tabla]=11;
-		    fondovariable[tabla]='bgcolor=#f5f5f5';
+		    fondovariable[tabla]='bgcolor=#e9f7f7';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
 		    botonactualizar[tabla] = false;
@@ -127,14 +127,14 @@ if session("codusuario")<>"" then
 				objetofomulario[tabla][0]='<input type=hidden name=CodUsuario-id- value=-c0->' + '<a href="javascript:modificar(-id-);">-valor-</a>';
 				objetofomulario[tabla][1]='<a href="javascript:modificar(-id-);">-valor-</a>';//+ objetodatos("text",tabla,"usuario","left","6","");
 				objetofomulario[tabla][2]='<a href="javascript:modificar(-id-);">-valor-</a>';
-				objetofomulario[tabla][3]=objetodatos("text",tabla,"Nombres","left","20","");
-				objetofomulario[tabla][4]=objetodatos("text",tabla,"ApePaterno","left","20","");
-				objetofomulario[tabla][5]=objetodatos("text",tabla,"ApeMaterno","left","20","");//objetodatos("text",tabla,"correo","left","22","");
+				objetofomulario[tabla][3]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][4]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][5]='<a href="javascript:modificar(-id-);">-valor-</a>';//objetodatos("text",tabla,"correo","left","22","");
 				objetofomulario[tabla][6]='<a href="javascript:modificar(-id-);">-valor-</a>';//Correo
-				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"Activo","","","");
-				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"FlagBloqueo","","","");
-				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"Administrador","","","");
-				objetofomulario[tabla][10]='<a href="javascript:modificar(-id-);">Editar</a>';
+				objetofomulario[tabla][7]=objetodatos("checkbox",tabla,"Activo","disabled","","");
+				objetofomulario[tabla][8]=objetodatos("checkbox",tabla,"FlagBloqueo","disabled","","");
+				objetofomulario[tabla][9]=objetodatos("checkbox",tabla,"Administrador","disabled","","");
+				objetofomulario[tabla][10]='<a href="javascript:modificar(-id-);"><i class="demo-icon2 icon-pencil-squared">&#xf14b;</i></a>';
 										
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
@@ -173,7 +173,7 @@ if session("codusuario")<>"" then
 		    datos[tabla]=new Array();
 		<%
 		if buscador<>"" then
-			filtrobuscador = " where (A.usuario like '%" & buscador & "%' or A.apepaterno like '%" & buscador & "%' or A.apematerno like '%" & buscador & "%' or A.nombres like '%" & buscador & "%' or A.correo like '%" & buscador & "%' or B.razonsocial like '%" & buscador & "%' or C.codoficina + ' - ' +  C.descripcion like '%" & buscador & "%' or D.codterritorio + ' - ' + D.descripcion like '%" & buscador & "%' or E.Descripcion like '%" & buscador & "%') "
+			filtrobuscador = " where (A.usuario like '%" & buscador & "%' or A.apepaterno like '%" & buscador & "%' or A.apematerno like '%" & buscador & "%' or A.nombres like '%" & buscador & "%' or A.correo like '%" & buscador & "%') "
 		end if
 		''if buscaractivos<>"" then
 		''	filtrobuscador = filtrobuscador & iif(filtrobuscador=""," where "," and ") & "A.activo=1"
@@ -215,7 +215,7 @@ if session("codusuario")<>"" then
 								
 				
 		contadortotal=0
-		sql="select count(*) from usuario " & filtrobuscador 
+		sql="select count(*) from usuario A" & filtrobuscador 
 		consultar sql,RS	
 		contadortotal=rs.fields(0)
 		RS.Close
@@ -262,28 +262,28 @@ if session("codusuario")<>"" then
 
 
 		if pag>1 then					
-		sql="select top " & cantidadxpagina & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario where " & filtrobuscador1 & " codusuario not in (select top " & topnovisible & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario " & filtrobuscador & " order by ApePaterno,ApeMaterno,Nombres,CodUsuario) order by ApePaterno,ApeMaterno,Nombres,CodUsuario" 
+		sql="select top " & cantidadxpagina & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario where " & filtrobuscador1 & " codusuario not in (select top " & topnovisible & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario A" & filtrobuscador & " order by ApePaterno,ApeMaterno,Nombres,CodUsuario) order by ApePaterno,ApeMaterno,Nombres,CodUsuario" 
 		else
 		sql="select top " & cantidadxpagina & " CodUsuario,Usuario,Clave,Nombres,ApePaterno,ApeMaterno,Correo,Activo,flagbloqueo,Administrador from usuario " & filtrobuscador & " order by ApePaterno,ApeMaterno,Nombres,CodUsuario" 
 		end if
-		''response.write sql
+		'response.write sql
 		consultar sql,RS
 		contador=0
 		
 			Do while not RS.EOF
-				if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then
-					if obtener("apepaterno" & RS.Fields("codusuario"))<>"" then
-						apepaterno=obtener("apepaterno" & RS.Fields("codusuario"))
+				if obtener("actualizarlista")<>"" and obtener("CodUsuario" & RS.Fields("CodUsuario"))<>"" then
+					if obtener("apePaterno" & RS.Fields("CodUsuario"))<>"" then
+						apepaterno=obtener("ApePaterno" & RS.Fields("CodUsuario"))
 					else
 						apepaterno=""
 					end if
-					if obtener("apematerno" & RS.Fields("codusuario"))<>"" then
-						apematerno=obtener("apematerno" & RS.Fields("codusuario"))
+					if obtener("apeMaterno" & RS.Fields("CodUsuario"))<>"" then
+						apematerno=obtener("ApeMaterno" & RS.Fields("CodUsuario"))
 					else
 						apematerno=""
 					end if	
-					if obtener("nombres" & RS.Fields("codusuario"))<>"" then
-						nombres=obtener("nombres" & RS.Fields("codusuario"))
+					if obtener("Nombres" & RS.Fields("codusuario"))<>"" then
+						nombres=obtener("Nombres" & RS.Fields("CodUsuario"))
 					else
 						nombres=""
 					end if	
@@ -293,31 +293,30 @@ if session("codusuario")<>"" then
 					''''	codagencia="0"
 					''''end if		
 					
-					if obtener("fbloq" & RS.Fields("codusuario"))<>"" then
+					if obtener("fbloq" & RS.Fields("CodUsuario"))<>"" then
 						fbloq="1"
 					else
 						fbloq="0"
 					end if
-					if obtener("activo" & RS.Fields("codusuario"))<>"" then
+					if obtener("activo" & RS.Fields("CodUsuario"))<>"" then
 						activo="1"
 					else
 						activo="0"
 					end if						
-					if obtener("administrador" & RS.Fields("codusuario"))<>"" then
+					if obtener("administrador" & RS.Fields("CodUsuario"))<>"" then
 						administrador="1"
 					else
 						administrador="0"
-					end if	
+					end if
 										
 						''obtener("correo" & RS.Fields("codusuario")) <> rs.Fields("correo") or _
 						''int(codagencia) <> iif(IsNull(rs.Fields("codagencia")),0,rs.Fields("codagencia")) or _
-						
-						if 	obtener("apepaterno" & RS.Fields("codusuario")) <> rs.Fields("apepaterno") or _
-							obtener("apematerno" & RS.Fields("codusuario")) <> rs.Fields("apematerno") or _
-							obtener("nombres" & RS.Fields("codusuario")) <> rs.Fields("nombres") or _
-							int(activo)<> rs.Fields("activo") or _
-							int(fbloq) <> rs.fields("fbloq") or _
-							int(administrador) <> rs.Fields("administrador") then
+						response.write "dato: " & apepaterno
+
+
+						if 	obtener("ApePaterno" & RS.Fields("CodUsuario")) <> RS.Fields("ApePaterno") or _
+							obtener("ApeMaterno" & RS.Fields("CodUsuario"))  <> RS.Fields("ApeMaterno") or _
+							obtener("Nombres" & RS.Fields("CodUsuario"))  <> RS.Fields("Nombres") then
 								if fbloq = "1" then
 								xfbloq = "3"
 								else
@@ -325,23 +324,24 @@ if session("codusuario")<>"" then
 								end if
 								
 							existeotroadmin=0
-							if rs.Fields("administrador")=0 and administrador="1" then
+							if RS.Fields("administrador")=0 and administrador="1" then
 								''antes de insertarlo activo si existiera
-								sql="Update UsuarioPerfil set activo=1,usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codperfil=1 and codusuario=" & rs.Fields("codusuario")
+								sql="Update UsuarioPerfil set activo=1,usuariomodifica=" & session("CodUsuario") & ",fechamodifica=getdate() where codperfil=1 and CodUsuario=" & RS.Fields("CodUsuario")
 								conn.Execute sql						
 								''lo inserta si no existe		
-								sql="insert into UsuarioPerfil (codusuario,codperfil,usuarioregistra,fecharegistra,activo) select " & rs.Fields("codusuario") & ",1," & session("codusuario") & ",getdate(),1 where (select count(*) from UsuarioPerfil where codusuario=" & rs.Fields("codusuario") & " and codperfil=1)=0"
+								sql="insert into UsuarioPerfil (CodUsuario,codperfil,usuarioregistra,fecharegistra,activo) select " & RS.Fields("CodUsuario") & ",1," & session("CodUsuario") & ",getdate(),1 where (select count(*) from UsuarioPerfil where CodUsuario=" & RS.Fields("CodUsuario") & " and codperfil=1)=0"
 								conn.Execute sql
 							end if
-							if rs.Fields("administrador")=1 and administrador="0" then
-								sql="select count(*) from usuario where administrador=1 and codusuario<>" & rs.Fields("codusuario")
+
+							if RS.Fields("administrador")=1 and administrador="0" then
+								sql="select count(*) from usuario where administrador=1 and CodUsuario<>" & RS.Fields("CodUsuario")
 								consultar sql,RS1
 								existeotroadmin=RS1.fields(0)
 								RS1.Close
 								if existeotroadmin=0 then
 									administrador="1"
 								else
-									sql="Update UsuarioPerfil set activo=0,usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codperfil=1 and codusuario=" & rs.Fields("codusuario")
+									sql="Update UsuarioPerfil set activo=0,usuariomodifica=" & session("CodUsuario") & ",fechamodifica=getdate() where codperfil=1 and CodUsuario=" & RS.Fields("CodUsuario")
 									conn.Execute sql
 								end if								
 							end if
@@ -352,7 +352,7 @@ if session("codusuario")<>"" then
 							''''	codagenciagrab=codagencia
 							''''end if
 
-							sql="update usuario set apepaterno='" & apepaterno & "',apematerno='" & apematerno & "',nombres='" & nombres & "',activo=" & activo & ",flagbloqueo=" & xfbloq & ",administrador=" & administrador & ",usuariomodifica=" & session("codusuario") & ",fechamodifica=getdate() where codusuario=" & rs.Fields("codusuario") 
+							sql="update usuario set ApePaterno='" & apepaterno & "',ApeMaterno='" & apematerno & "',Nombres='" & nombres & "',activo=" & activo & ",flagbloqueo=" & xfbloq & ",administrador=" & administrador & ",usuariomodifica=" & session("CodUsuario") & ",fechamodifica=getdate() where CodUsuario=" & RS.Fields("CodUsuario") 
 							''response.write sql
 							conn.Execute sql
 
@@ -376,16 +376,16 @@ if session("codusuario")<>"" then
 		%>
 			datos[tabla][<%=contador%>] = new Array();
 				datos[tabla][<%=contador%>][0]=<%=RS.Fields("codusuario")%>;
-				//datos[tabla][<%=contador%>][1]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=usuario%><%else%><%=rs.Fields("Usuario")%><%end if%>';
-				datos[tabla][<%=contador%>][1]='<%=rs.Fields("Usuario")%>';
+				//datos[tabla][<%=contador%>][1]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=usuario%><%else%><%=RS.Fields("Usuario")%><%end if%>';
+				datos[tabla][<%=contador%>][1]='<%=RS.Fields("Usuario")%>';
 			    datos[tabla][<%=contador%>][2]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=Clave%><%else%><%=rs.Fields("Clave")%><%end if%>';
 				datos[tabla][<%=contador%>][3]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=Nombres%><%else%><%=rs.Fields("Nombres")%><%end if%>';
-				datos[tabla][<%=contador%>][4]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApePaterno%><%else%><%=rs.Fields("ApePaterno")%><%end if%>';
-				datos[tabla][<%=contador%>][5]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApeMaterno%><%else%><%=rs.Fields("ApeMaterno")%><%end if%>';		
-				datos[tabla][<%=contador%>][6]='<%=rs.Fields("Correo")%>';	
-				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][8]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(FlagBloqueo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("FlagBloqueo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
-				datos[tabla][<%=contador%>][9]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Administrador)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if rs.Fields("Administrador")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][4]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApePaterno%><%else%><%=RS.Fields("ApePaterno")%><%end if%>';
+				datos[tabla][<%=contador%>][5]='<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%=ApeMaterno%><%else%><%=RS.Fields("ApeMaterno")%><%end if%>';		
+				datos[tabla][<%=contador%>][6]='<%=RS.Fields("Correo")%>';	
+				datos[tabla][<%=contador%>][7]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Activo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if RS.Fields("Activo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][8]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(FlagBloqueo)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if RS.Fields("FlagBloqueo")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
+				datos[tabla][<%=contador%>][9]=<%if obtener("actualizarlista")<>"" and obtener("codusuario" & RS.Fields("codusuario"))<>"" then%><%if int(Administrador)=1 then%>'checked'<%else%>' '<%end if%><%else%><%if RS.Fields("Administrador")=1 then%>'checked'<%else%>' '<%end if%><%end if%>;
 				datos[tabla][<%=contador%>][10]='';
 		<%
 			contador=contador + 1
@@ -438,10 +438,7 @@ if session("codusuario")<>"" then
 		
 		<%
 
-			objetosdebusqueda="<font size='2' face='Arial' >Buscar:&nbsp;<input name='buscador' value='" & buscador & "' size=20 onkeypress='if(window.event.keyCode==13) buscar();'></font>&nbsp;" & _			
-			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox3State' style='display:block;float:left;' name='buscaradministrador' " & checkbuscadministrador & "><span id='tristateBox3' style='cursor: default; float:right'>&nbsp;Admin.</span>&nbsp;</div>" & _
-			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox2State' style='display:block;float:left;' name='buscarbloqueados' " & checkbuscbloqueados & "><span id='tristateBox2' style='cursor: default; float:right'>&nbsp;Bloq.</span>&nbsp;</div>" & _
-			"<div class='btn-search-circle'><input type='ckeckbox' id='tristateBox1State' style='display:block;float:left;' name='buscaractivos' " & checkbuscactivos & "><span id='tristateBox1' style='cursor: default; float:right'>&nbsp;Act.</span>&nbsp;</div>"
+			 
 
 		%>	
 		
@@ -463,9 +460,9 @@ if session("codusuario")<>"" then
 				<form name="formula" method="post">
 					<table width="100%" cellpadding="4" cellspacing="0" border="0">		
 						<tr class="fondo-orange">
-							<td class="text-orange" align="left"><font size="2" face="Raleway"><b>Usuarios (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
+							<td class="text-orange" align="left" align="right" width="250"><font size="2" face="Raleway"><b>Usuarios (<%=contadortotal%>)&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a>&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a><!--&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a>--><%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>
 							<!--<td bgcolor="#F5F5F5" align=left><font size=2 face=Raleway color=#00529B><b>Grupo Facultad (<%=contadortotal%>)&nbsp;&nbsp;<a href="javascript:actualizar();"><i class="demo-icon icon-floppy">&#xe809;</i></a>&nbsp;&nbsp;<a href="javascript:agregar();"><i class="demo-icon icon-doc">&#xe808;</i></a><!--&nbsp;&nbsp;<a href="javascript:exportar();"><img src="imagenes/excel.gif" border=0 alt="Exportar a Excel" title="Exportar a Excel" align=middle></a>&nbsp;&nbsp;<a href="javascript:imprimir();"><img src="imagenes/imprimir.gif" border=0 alt="Imprimir" title="Imprimir" align=middle></a><%if expimp="1" then%>&nbsp;&nbsp;<a href='exportados/<%=nombrearchivo%>.xls','VerExport'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font></td>-->
-							<td class="text-orange" align="middle" width="550"><%=objetosdebusqueda%></td>
+							<td class="text-orange" align="middle" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="buscador" value="<%=buscador%>" size="20" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td class="text-orange" align="left"><a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a></td>
 							<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">P&aacute;g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
 						</tr>	
@@ -545,7 +542,7 @@ if session("codusuario")<>"" then
 					conn.execute sql
 					
 					''Segundo Detalle en temp2_(user).txt
-					consulta_exp="select A.Usuario,A.apepaterno,A.apematerno,A.nombres,A.correo,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,B.razonsocial as agencia,E.Descripcion as TipoUsuario,CASE WHEN A.Activo=1 THEN 'SÃ­' ELSE 'No' END as FlagActivo,CASE WHEN A.FlagBloqueo<3 THEN 'No' ELSE  'SÃ­' END as FlagBloqueo,CASE WHEN A.Administrador=1 THEN 'SÃ­' ELSE  'No' END as FlagAdmin " & _
+					consulta_exp="select A.Usuario,A.apepaterno,A.apematerno,A.nombres,A.correo,D.codterritorio + ' - ' + D.descripcion as territorio,C.codoficina + ' - ' + C.descripcion as oficina,B.razonsocial as agencia,E.Descripcion as TipoUsuario,CASE WHEN A.Activo=1 THEN 'Sí' ELSE 'No' END as FlagActivo,CASE WHEN A.FlagBloqueo<3 THEN 'No' ELSE  'Sí' END as FlagBloqueo,CASE WHEN A.Administrador=1 THEN 'Sí' ELSE  'No' END as FlagAdmin " & _
 								 "from CobranzaCM.dbo.usuario A left outer join CobranzaCM.dbo.agencia B on A.codagencia=B.codagencia left outer join CobranzaCM.dbo.oficina C on A.codoficina=C.codoficina left outer join CobranzaCM.dbo.territorio D on C.codterritorio=D.codterritorio left outer join CobranzaCM.dbo.TipoUsuario E on A.codtipousuario=E.codtipousuario " & filtrobuscador & " order by A.apepaterno,A.apematerno,A.nombres,A.codusuario" 
 					sql="EXEC SP_EXPEXCEL '" & replace(consulta_exp,"'","''''") & "','" & conn_server & "','" & conn_uid & "','" & conn_pwd & "','" & RutaFisicaExportar & "\temp2_" & session("codusuario") & ".txt'"
 					conn.execute sql
@@ -578,7 +575,7 @@ if session("codusuario")<>"" then
 	else
 	%>
 	<script language="javascript">
-		alert("Ud. No tiene autorizaciÃ³n para este proceso.");
+		alert("Ud. No tiene autorización para este proceso.");
 		window.open("dcs_userexpira.asp","_top");
 	</script>
 	<%	

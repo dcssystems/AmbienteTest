@@ -715,7 +715,7 @@
 			return '<input type=password name="' + nombre + '-id-" style="font-size: xx-small; text-align: ' + alineamiento + ';" size=' + tamaño + ' value="-valor-" onchange="reasignarvalor(-t-,-i-,-j-,' + conversion + '(this.value));">';
 			break;
 		case "checkbox": 
-			return '<input type=checkbox name="' + nombre + '-id-" style="font-size: xx-small;" onclick="marcarcheckbox(this.checked,-t-,-i-,-j-);" -valor->';
+			return '<input type=checkbox name="' + nombre + '-id-" style="font-size: xx-small;"  '+ alineamiento +' onclick="marcarcheckbox(this.checked,-t-,-i-,-j-);" -valor->';
 			break;
 		case "select": 
 			return '<select name="' + nombre + '-id-" style="font-size: xx-small;" onchange="datos[-t-][-i-][-j-]=this.options[this.selectedIndex].text;"></select>';
