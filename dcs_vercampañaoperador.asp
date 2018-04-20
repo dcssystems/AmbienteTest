@@ -3,7 +3,7 @@
 <!--#include file=capa2.asp-->  
 <%
 if session("codusuario")<>"" then
-	conectar
+	conectar	
 	if permisofacultad("dcs_vercampañaoperador.asp") then
 		buscador=obtener("buscador")
 		paginado=obtener("paginado")

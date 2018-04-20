@@ -16,6 +16,49 @@ if session("codusuario")<>"" then
 		codtipocontacto = request("codtipocontacto")	
 		
 		DTELEFONO = telefonoactivo
+		
+		sqlTransMysql = "select * from OPENQUERY(G2, 'SELECT vlog.uniqueid, " & chr(10) & _
+						"vlog.lead_id, " & chr(10) & _
+						"vlog.list_id, " & chr(10) & _
+						"vlog.campaign_id, " & chr(10) & _
+						"vlog.call_date, " & chr(10) & _
+						"vlog.start_epoch, " & chr(10) & _
+						"vlog.end_epoch, " & chr(10) & _
+						"vlog.length_in_sec, " & chr(10) & _
+						"vlog.phone_number, " & chr(10) & _
+						"vlog.user, " & chr(10) & _
+						"vlog.called_count, " & chr(10) & _
+						"rlog.filename, " & chr(10) & _
+						"rlog.server_ip " & chr(10) & _ 						
+					"FROM vicidial_log vlog " & chr(10) & _
+					"INNER JOIN recording_log rlog ON vlog.lead_id=rlog.lead_id " & chr(10) & _
+					"WHERE vlog.phone_number = '944267001' " & chr(10) & _
+					"AND vlog.campaign_id = '18021801' " & chr(10) & _
+					"AND vlog.user=rlog.user " & chr(10) & _
+					"GROUP BY vlog.call_date " & chr(10) & _
+					"ORDER BY vlog.call_date DESC  " & chr(10) & _
+					"LIMIT 1)"
+					
+			consultar sqlTransMysql,RS6
+
+			uniqueid      = RS6.fields("uniqueid")
+			lead_id       = RS6.fields("lead_id")
+			list_id       = RS6.fields("list_id")
+			campaign_id   = RS6.fields("campaign_id")
+			call_date     = RS6.fields("call_date")
+			start_epoch   = RS6.fields("start_epoch")
+			end_epoch     = RS6.fields("end_epoch")
+			length_in_sec = RS6.fields("length_in_sec")
+			phone_number  = RS6.fields("phone_number")
+			uuser         = RS6.fields("user")
+			called_count  = RS6.fields("called_count")
+			filename      = RS6.fields("filename")
+			server_ip     = RS6.fields("server_ip")
+			
+			
+			RS6.Close
+		
+		
 
 		if idcamperacc = "" then
 
@@ -68,21 +111,40 @@ if session("codusuario")<>"" then
 					           ",NULL" & chr(10) & _
 					           ",NULL" & chr(10) & _
 					           ",NULL" & chr(10) & _
-					           ",3)"
-
-					          
+					           ",3)"				          
 					         
 
 					        conn.Execute sql
 
-									  sql=   "Select MAX(IDCampañaPersonaAccion) as Id from Campaña_Persona_Accion where UsuarioRegistra = " & session("codusuario")
+						  sql=   "Select MAX(IDCampañaPersonaAccion) as Id from Campaña_Persona_Accion where UsuarioRegistra = " & session("codusuario")
 
-									  
-									  consultar sql,RS6
+						  
+						  consultar sql,RS6
 
-									  res = RS6.fields("Id")
-									
-									 RS6.Close
+						  res = RS6.fields("Id")
+						
+						 RS6.Close
+						 
+				sql="update Campaña_Persona_Accion" & chr(10) & _
+								"set goUniqueid="& uniqueid & chr(10) & _
+								",goLead_id="& lead_id & chr(10) & _
+								",goList_id="& list_id & chr(10) & _
+								",goCampaign_id="& campaign_id & chr(10) & _
+								",goCall_date="& call_date & chr(10) & _
+								",goStart_epoch="& start_epoch & chr(10) & _
+								",goEnd_epoch="& end_epoch & chr(10) & _
+								",goLength_in_sec="& length_in_sec & chr(10) & _
+								",goPhone_number="& phone_number & chr(10) & _
+								",goUser="& uuser & chr(10) & _
+								",goCalled_count="& called_count & chr(10) & _
+								",goFilename="& filename & chr(10) & _
+								",goServer_ip="& server_ip & chr(10) & _									
+								"where IDCampañaPersonaAccion = " & res
+
+								'response.write sql
+
+					        conn.Execute sql
+						 
 
 
 					%>
@@ -188,6 +250,25 @@ if session("codusuario")<>"" then
 
 					        conn.Execute sql
 
+							sqlU="update Campaña_Persona_Accion" & chr(10) & _
+								"set goUniqueid="& uniqueid & chr(10) & _
+								",goLead_id="& lead_id & chr(10) & _
+								",goList_id="& list_id & chr(10) & _
+								",goCampaign_id="& campaign_id & chr(10) & _
+								",goCall_date="& call_date & chr(10) & _
+								",goStart_epoch="& start_epoch & chr(10) & _
+								",goEnd_epoch="& end_epoch & chr(10) & _
+								",goLength_in_sec="& length_in_sec & chr(10) & _
+								",goPhone_number="& phone_number & chr(10) & _
+								",goUser="& uuser & chr(10) & _
+								",goCalled_count="& called_count & chr(10) & _
+								",goFilename="& filename & chr(10) & _
+								",goServer_ip="& server_ip & chr(10) & _									
+								"where IDCampañaPersonaAccion = " & idcamperacc
+
+								'response.write sql
+
+					        conn.Execute sqlU
 					        	
 
 									  

@@ -7,6 +7,7 @@ pwd=obtener("pwd")
 
 conectar
 if validarusuario(usr,pwd,mensajevalida) then
+	
 	Response.Redirect "dcs_herramientas.asp"
 else
 %>
