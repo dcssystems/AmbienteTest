@@ -215,7 +215,7 @@ Function validarusuario(usr,pwd,mensajevalida)
 			sql="Update Usuario set flagbloqueo=0 from Usuario where usuario='" & usr &"' and activo=1"
 			conn.execute sql				
 			validarusuario=true
-			sqlSession = "INSERT INTO Session_activa VALUES(" & session("codusuario") & ", " & DATE & ", "& IP & ", " & session("anexo") & ", NULL, NULL")"
+			sqlSession = "INSERT INTO Session_activa VALUES(" & session("codusuario") & ",getdate(),'"& IP & "', '" & session("anexo") & "', NULL, NULL)"
 			conn.execute sqlSession
 		else
 			if RS.Fields("flagbloqueo")<3 then
