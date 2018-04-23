@@ -429,11 +429,7 @@ if session("codusuario")<>"" then
 									document.formulaMando.llamar.disabled = false;
 									
 								case "C-COLGO":
-									datapersona = document.formulaMando.datapersona.value;
-									idcampana = document.formulaMando.idcampana.value;
-									telefono = document.formulaMando.telefono.value;
-									tpress = document.formulaMando.tpress.value;
-									window.formula.cortaCliente(datapersona,idcampana,telefono,tpress);
+									enviardatosp5("COLGAR");
 							}			
 							 
 						}
