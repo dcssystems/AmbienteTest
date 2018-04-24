@@ -41,18 +41,23 @@ if session("codusuario")<>"" then
 			<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 			
 			<script>
-			  function toggleCodes(on) {
-				var obj = document.getElementById('icons');
-			  
-				if (on) {
-				  obj.className += ' codesOn';
-				} else {
-				  obj.className = obj.className.replace(' codesOn', '');
+			    function toggleCodes(on) {
+					var obj = document.getElementById('icons');
+				  
+					if (on) {
+					  obj.className += ' codesOn';
+					} else {
+					  obj.className = obj.className.replace(' codesOn', '');
+					}
 				}
-			  }
-			  
+				//codigo que permite saber cuando se cierra una ventana o todo el browser
+				window.onunload = window.onbeforeunload = confirmExit; 
+				
+				function confirmExit(){
+					return "Ud. esta apunto de abandonar el sistema. Si esta en una llamada se cortara, es posible que se pierdan los datos no guardados";
+				};
 			</script>
-
+			
 			
 			<!--referencias menu-->
 			<link rel="stylesheet" type="text/css" href="scripts/ddlevelsmenu-base.css" />
@@ -120,8 +125,8 @@ if session("codusuario")<>"" then
 				}
 				else
 				{
-						func_ocultartotalcarpetas();
-						func_vercarpeta(ac_codigo);
+					func_ocultartotalcarpetas();
+					func_vercarpeta(ac_codigo);
 				}
 			}
 			
@@ -429,11 +434,7 @@ if session("codusuario")<>"" then
 									document.formulaMando.llamar.disabled = false;
 									
 								case "C-COLGO":
-									datapersona = document.formulaMando.datapersona.value;
-									idcampana = document.formulaMando.idcampana.value;
-									telefono = document.formulaMando.telefono.value;
-									tpress = document.formulaMando.tpress.value;
-									window.formula.cortaCliente(datapersona,idcampana,telefono,tpress);
+									enviardatosp5("COLGAR");
 							}			
 							 
 						}

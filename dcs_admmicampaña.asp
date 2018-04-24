@@ -180,7 +180,18 @@ if session("codusuario")<>"" then
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
 		<%
-		filtrobuscador = " WHERE e.UsuarioAsignado = " & session("codusuario") 
+		sql= "select count(*) as Num from [UsuarioPerfil] where codusuario = " & session("codusuario") & " and CodPerfil in (1,2)"
+		consultar sql, RS5
+
+		if RS5.fields("Num") > 0  then
+			
+			filtrobuscador = " WHERE 1 = 1 "
+		else
+			filtrobuscador = " WHERE e.UsuarioAsignado = " & session("codusuario") 
+		end if
+		RS5.Close
+
+		
 		if buscador<>"" then
 			filtrobuscador = filtrobuscador & " and  (a.Descripcion LIKE '%" & buscador & "%' OR a.FechaInicio LIKE '%" & buscador & "%' OR a.FechaFin LIKE '%" & buscador & "%') "
 		end if
