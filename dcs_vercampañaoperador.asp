@@ -620,16 +620,18 @@ if session("codusuario")<>"" then
 		<script language="javascript">
 			
 			<%
+
 				idcampana = obtener("idcampana")''idcampana=2 	
 							sql= "select count(*) as Num from [UsuarioPerfil] where codusuario = " & session("codusuario") & " and CodPerfil in (1,2)"
 					consultar sql, RS5
 
-						if RS5.fields("Num") > 0  then						
-							filtrobuscador = " where a.IDCampaña = " & idcampana 
-						else
-							filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
-						end if
-						RS5.Close
+							if RS5.fields("Num") > 0  then						
+								filtrobuscador = " where a.IDCampaña = " & idcampana 
+							else
+								filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
+							end if
+
+					RS5.Close
 
 				
 
