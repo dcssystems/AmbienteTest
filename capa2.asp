@@ -7,8 +7,18 @@ Response.Expires = 0
 Response.ExpiresAbsolute = #1/5/2000 12:12:12#
 session.Timeout=600
 Server.ScriptTimeout=999999999
+
+'Se agrego estas variables para lograr hacer el registro de sesiones
+Dim IP,Host,User
+
+IP   = request.ServerVariables("REMOTE_ADDR")
+Host = request.ServerVariables("REMOTE_HOST")
+User = request.ServerVariables("REMOTE_USER")
+
+
 %>
 <script language="javascript">
+	
 	function global_popup_IWTSystem(ventana,ruta,nombre,propiedades)
 	{
 		if(ventana==null)
@@ -199,24 +209,27 @@ Function validarusuario(usr,pwd,mensajevalida)
 			session("claveAnexo") 	  = RS.Fields("ClaveAnexo")
 			session("goUsuario")  	  = RS.Fields("GoUsuario")
 			session("goClaveUsuario") = RS.Fields("GoClave")
+			session("ipsession")	  = IP			
 			'session("telefono")
 			'session("telefono")			
 			sql="Update Usuario set flagbloqueo=0 from Usuario where usuario='" & usr &"' and activo=1"
 			conn.execute sql				
 			validarusuario=true
+			sqlSession = "INSERT INTO Session_activa VALUES(" & session("codusuario") & ",getdate(),'"& IP & "', '" & session("anexo") & "', NULL, NULL)"
+			conn.execute sqlSession
 		else
 			if RS.Fields("flagbloqueo")<3 then
 				sql="Update Usuario set flagbloqueo=flagbloqueo + 1 from Usuario where usuario='" & usr &"' and activo=1"
 				conn.execute sql				
 				select case (2 - RS.Fields("flagbloqueo")) 
-					case 0: mensajevalida="Cuenta bloqueada por reiterados intentos de ingreso fallido.\nComunicarse con la Unidad de Cobranzas BBVA."
+					case 0: mensajevalida="Cuenta bloqueada por reiterados intentos de ingreso fallido.\nComunicarse con el administrador del sistema."
 					case 1:	mensajevalida="La clave ingresada no es válida.\nQueda " & (2 - RS.Fields("flagbloqueo")) & " intento antes de bloquear tu cuenta."
 					case else mensajevalida="La clave ingresada no es válida.\nQuedan " & (2 - RS.Fields("flagbloqueo")) & " intentos antes de bloquear tu cuenta."
 				end select
 				expirarusuario
 				validarusuario=false
 			else	
-				mensajevalida="Cuenta bloqueada por reiterados intentos de ingreso fallido.\nComunicarse con la Unidad de Cobranzas BBVA."
+				mensajevalida="Cuenta bloqueada por reiterados intentos de ingreso fallido.\nComunicarse con el administrador del sistema."
 				expirarusuario
 				validarusuario=false
 			end if
@@ -230,6 +243,9 @@ Function validarusuario(usr,pwd,mensajevalida)
 End Function
 
 Function expirarusuario()
+sql="DELETE FROM Session_activa WHERE idSession=" & session("codusuario")
+conn.execute sql
+
 session("codusuario")     =""
 session("codusuariodif")  =""
 session("nombreusuario")  =""
@@ -238,6 +254,7 @@ session("anexo")      	  =""
 session("claveAnexo") 	  =""
 session("goUsuario")  	  =""
 session("goClaveUsuario") =""
+session("ipsession")      =""
 End Function
 
 Function permisofacultad(pagina)
