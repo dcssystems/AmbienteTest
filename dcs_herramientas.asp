@@ -332,7 +332,7 @@ if session("codusuario")<>"" then
 				</tr>				
 			</table>
 			</form>
-			<% if (codPerfil = 3) then %>			
+			<% if (codPerfil = 3 OR codPerfil = 1) then %>			
 			<div style="height:0px;">
 				<div style="visibility:hidden;"><!-- style="visibility:hidden;" -->		
 					<form name="formulaMando" id="formulaMando">

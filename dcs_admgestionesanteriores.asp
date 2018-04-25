@@ -4,7 +4,7 @@
 <% 
 if session("codusuario")<>"" then
 	conectar
-	if permisofacultad("admperfil.asp") then
+	if permisofacultad("dcs_admgestionesanteriores.asp") then
 		buscador=obtener("buscador")
 		datapersona=obtener("datapersona")
 		''Codigo exp excel - se repite

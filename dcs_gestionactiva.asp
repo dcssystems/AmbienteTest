@@ -39,6 +39,8 @@ if session("codusuario")<>"" then
 					"ORDER BY vlog.call_date DESC  " & chr(10) & _
 					"LIMIT 1)"
 					
+			'response.write sqlTransMysql
+					
 			consultar sqlTransMysql,RS6
 
 			uniqueid      = RS6.fields("uniqueid")
