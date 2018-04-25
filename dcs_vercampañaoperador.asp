@@ -1,7 +1,6 @@
 <%@ LANGUAGE = VBScript.Encode %>
 <!--#include file=capa1.asp-->
-<!--#include file=capa2.asp-->  
-<%=session("codusuario")%>
+<!--#include file=capa2.asp-->
 <%
 if session("codusuario")<>"" then
 	conectar	
