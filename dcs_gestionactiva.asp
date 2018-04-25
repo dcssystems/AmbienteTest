@@ -37,7 +37,7 @@ if session("codusuario")<>"" then
 					"AND vlog.user=rlog.user " & chr(10) & _
 					"GROUP BY vlog.call_date " & chr(10) & _
 					"ORDER BY vlog.call_date DESC  " & chr(10) & _
-					"LIMIT 1)"
+					"LIMIT 1')"
 					
 			'response.write sqlTransMysql
 					
