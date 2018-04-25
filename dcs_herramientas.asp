@@ -51,11 +51,11 @@ if session("codusuario")<>"" then
 					}
 				}
 				//codigo que permite saber cuando se cierra una ventana o todo el browser
-				window.onunload = window.onbeforeunload = confirmExit; 
+				//window.onunload = window.onbeforeunload = confirmExit; 
 				
-				function confirmExit(){
+				/*function confirmExit(){
 					return "Ud. esta apunto de abandonar el sistema. Si esta en una llamada se cortara, es posible que se pierdan los datos no guardados";
-				};
+				};*/
 			</script>
 			
 			
@@ -337,7 +337,7 @@ if session("codusuario")<>"" then
 				</tr>				
 			</table>
 			</form>
-			<% if (codPerfil = 3) then %>			
+			<% if (codPerfil = 3 OR codPerfil = 1) then %>			
 			<div style="height:0px;">
 				<div style="visibility:hidden;"><!-- style="visibility:hidden;" -->		
 					<form name="formulaMando" id="formulaMando">

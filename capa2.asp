@@ -243,6 +243,7 @@ Function validarusuario(usr,pwd,mensajevalida)
 End Function
 
 Function expirarusuario()
+conectar
 sql="DELETE FROM Session_activa WHERE idSession=" & session("codusuario")
 conn.execute sql
 
@@ -255,6 +256,8 @@ session("claveAnexo") 	  =""
 session("goUsuario")  	  =""
 session("goClaveUsuario") =""
 session("ipsession")      =""
+
+desconectar
 End Function
 
 Function permisofacultad(pagina)
