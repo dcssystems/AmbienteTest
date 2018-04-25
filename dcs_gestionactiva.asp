@@ -1,6 +1,7 @@
 <%@ LANGUAGE = VBScript.Encode %>
 <!--#include file=capa1.asp-->
 <%
+Dim sqlTransMysql
 if session("codusuario")<>"" then
 		conectar
 		datapersona = request("datapersona")
@@ -17,31 +18,31 @@ if session("codusuario")<>"" then
 		
 		DTELEFONO = telefonoactivo
 		
-		'sqlTransMysql = "select * from OPENQUERY(G2, 'SELECT vlog.uniqueid, " & chr(10) & _
-		'				"vlog.lead_id, " & chr(10) & _
-		'				"vlog.list_id, " & chr(10) & _
-		'				"vlog.campaign_id, " & chr(10) & _
-		'				"vlog.call_date, " & chr(10) & _
-		'				"vlog.start_epoch, " & chr(10) & _
-		'				"vlog.end_epoch, " & chr(10) & _
-		'				"vlog.length_in_sec, " & chr(10) & _
-		'				"vlog.phone_number, " & chr(10) & _
-		'				"vlog.user, " & chr(10) & _
-		'				"vlog.called_count, " & chr(10) & _
-		'				"rlog.filename, " & chr(10) & _
-		'				"rlog.server_ip " & chr(10) & _ 						
-		'			"FROM vicidial_log vlog " & chr(10) & _
-		'			"INNER JOIN recording_log rlog ON vlog.lead_id=rlog.lead_id " & chr(10) & _
-		'			"WHERE vlog.phone_number = '944267001' " & chr(10) & _
-		'			"AND vlog.campaign_id = '18021801' " & chr(10) & _
-		'			"AND vlog.user=rlog.user " & chr(10) & _
-		'			"GROUP BY vlog.call_date " & chr(10) & _
-		'			"ORDER BY vlog.call_date DESC  " & chr(10) & _
-		'			"LIMIT 1')"
+		sqlTransMysql = "select * from OPENQUERY(G2, 'SELECT vlog.uniqueid, " & chr(10) & _
+						"vlog.lead_id, " & chr(10) & _
+						"vlog.list_id, " & chr(10) & _
+						"vlog.campaign_id, " & chr(10) & _
+						"vlog.call_date, " & chr(10) & _
+						"vlog.start_epoch, " & chr(10) & _
+						"vlog.end_epoch, " & chr(10) & _
+						"vlog.length_in_sec, " & chr(10) & _
+						"vlog.phone_number, " & chr(10) & _
+						"vlog.user, " & chr(10) & _
+						"vlog.called_count, " & chr(10) & _
+						"rlog.filename, " & chr(10) & _
+						"rlog.server_ip " & chr(10) & _ 						
+					"FROM vicidial_log vlog " & chr(10) & _
+					"INNER JOIN recording_log rlog ON vlog.lead_id=rlog.lead_id " & chr(10) & _
+					"WHERE vlog.phone_number = 944267001 " & chr(10) & _
+					"AND vlog.campaign_id = 18021801 " & chr(10) & _
+					"AND vlog.user=rlog.user " & chr(10) & _
+					"GROUP BY vlog.call_date " & chr(10) & _
+					"ORDER BY vlog.call_date DESC  " & chr(10) & _
+					"LIMIT 1')"
 					
 			'response.write sqlTransMysql
 					
-		'	consultar sqlTransMysql,RS6
+			consultar sqlTransMysql,RS6
 
 		'	uniqueid      = RS6.fields("uniqueid")
 		'	lead_id       = RS6.fields("lead_id")
