@@ -620,16 +620,18 @@ if session("codusuario")<>"" then
 		<script language="javascript">
 			
 			<%
+
 				idcampana = obtener("idcampana")''idcampana=2 	
 							sql= "select count(*) as Num from [UsuarioPerfil] where codusuario = " & session("codusuario") & " and CodPerfil in (1,2)"
 					consultar sql, RS5
 
-						if RS5.fields("Num") > 0  then						
-							filtrobuscador = " where a.IDCampaña = " & idcampana 
-						else
-							filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
-						end if
-						RS5.Close
+							if RS5.fields("Num") > 0  then						
+								filtrobuscador = " where a.IDCampaña = " & idcampana 
+							else
+								filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
+							end if
+
+					RS5.Close
 
 				
 
@@ -1764,8 +1766,8 @@ if session("codusuario")<>"" then
 				</div>
 				<table width="100%" cellpadding="4" cellspacing="0" border="0"><!--Esto no sale -->	
 					<tr class="fondo-orange">
-						<td class="text-orange" align="left" width="250"><font size="2" face="Raleway"><b><%=descripcioncampana%> (<%=contadortotal%>)</td>
-							<td class="text-orange" align="right" width="250"><font size="2" face="Raleway">Buscar:&nbsp;<input name="textobuscar" value="<%=buscador%>" size="20" id="textobuscar" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
+						<td class="text-orange" align="left" width="250"><font size="2" face="Fira Sans Condensed"><b><%=descripcioncampana%> (<%=contadortotal%>)</td>
+							<td class="text-orange" align="right" width="250"><font size="2" face="Fira Sans Condensed">Buscar:&nbsp;<input name="textobuscar" value="<%=buscador%>" size="20" id="textobuscar" onkeypress="if(window.event.keyCode==13) buscar();"></font></td>
 							<td width="80">
 								<a href="javascript:buscar();"><i class="demo-icon icon-search">&#xe80c;</i></a>
 								<a id="show-filtro" href="#"><i class="demo-icon icon-filter">&#xe820;</i></a>							
@@ -1803,7 +1805,7 @@ if session("codusuario")<>"" then
 							&nbsp;&nbsp;<a href="javascript:exportar();"><i class="demo-icon icon-file-excel">&#xf1c3;</i></a>
 						<%if expimp="1" then%>&nbsp;&nbsp;<a href='<%=RutaWebExportar%>/UserExport<%=session("codusuario")%>.xls?time=<%=tiempoexport%>','_self'><i class="demo-icon icon-download">&#xe814;</i></a><%end if%></b></font>
 						</td>
-						<td class="text-orange" align="right" width="180"><font size="2" face="Raleway">PÃ¡g.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
+						<td class="text-orange" align="right" width="180"><font size="2" face="Fira Sans Condensed">Pág.&nbsp;<%if bloqueactual>1 then%><a href="javascript:mostrarpag(1);"><<</a>&nbsp;<%end if%><%if bloqueactual>1 then%><a href="javascript:mostrarpag(<%=(bloqueactual-1)*paginasxbloque%>);"><</a>&nbsp;<%end if%><%if pagmax>bloqueactual*paginasxbloque then valorhasta=bloqueactual*paginasxbloque else valorhasta=pagmax end if%><%for i=(bloqueactual - 1)*paginasxbloque + 1 to valorhasta%><%if pag=i then%>[<%else%><a href="javascript:mostrarpag(<%=i%>);"><%end if%><%=i%><%if pag=i then%>]<%else%></a><%end if%>&nbsp;<%next%><%if pagmax>bloqueactual*paginasxbloque then%><a href="javascript:mostrarpag(<%=(bloqueactual)*paginasxbloque + 1%>);">></a>&nbsp;<%end if%><%if bloqueactual<bloquemax then%><a href="javascript:mostrarpag(<%=pagmax%>);">>></a>&nbsp;<%end if%></font></td>
 					</tr>	
 				</table>
 				<div id="tabla0"> 
