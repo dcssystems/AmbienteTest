@@ -1,9 +1,9 @@
 <%@ LANGUAGE = VBScript.Encode %>
 <!--#include file=capa1.asp-->
-<!--#include file=capa2.asp-->  
+<!--#include file=capa2.asp-->
 <%
 if session("codusuario")<>"" then
-	conectar
+	conectar	
 	if permisofacultad("dcs_vercampañaoperador.asp") then
 		buscador=obtener("buscador")
 		paginado=obtener("paginado")
@@ -329,36 +329,27 @@ if session("codusuario")<>"" then
 				  xhttp.send();
 		}
 
-		function stopTimer () {
-    		document.getElementById("text-accion").innerHTML = "En espera";
-			}
 
-
-
-		var telefonocast
-		function creargestion(datapersona, IDCampana, telefono, tpress)
+		function creargestion(datapersona, IDCampana, telefono, tpress, externo)
 		{
-
-
-
-				
-				if ((telefonocast != telefono && document.getElementById("text-accion").innerHTML != "En espera" )|| (document.getElementById("text-accion").innerHTML == "Llamando..." &&  tpress == "Ingresando datos..."))
-				{
-					swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
-					return;
-				}
-
+			document.getElementById("ideExterno").value = externo;
 			var idCampPerTelf = document.getElementById(""+telefono+"").value;
+			console.log("valor llamar: " + llamar);
 			xhttp = new XMLHttpRequest();
-			if(llamar == 1)
+			if(llamar == 1 && (tpress=="Llamando..." || tpress=="Ingresando datos..."))
 			{
-
+				//INICIO -- agregado para realizar la colgada desde el cliente
+				window.parent.document.getElementById("persona").value = datapersona;
+				window.parent.document.getElementById("campana").value = IDCampana;
+				window.parent.document.getElementById("telefono").value = telefono;
+				window.parent.document.getElementById("idetpress").value = tpress;		
+				//FIN -- agregado para realizar la colgada desde el cliente
+				
 				if (document.getElementById("text-accion").innerHTML != "En espera" ||  document.getElementById("text-nuevo-edit").innerHTML != "")
 				{
 					swal("Termine la Acción activa actual.",{icon: "error",  buttons: false,  timer: 3000,});
 					return;
 				}
-
 								
 				xhttp.onreadystatechange=function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -367,14 +358,14 @@ if session("codusuario")<>"" then
 				};
 			    if (tpress == "Llamando...")
 			    {
-					var idaccionactiva = "telef"+telefono					
+					var idaccionactiva = "telef"+telefono
 				}	
 				if (tpress == "Ingresando datos...")
 				{
-					var idaccionactiva = "addges"+telefono				
+					var idaccionactiva = "addges"+telefono
 				}
 				
-				xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
+				xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva+"&externo="+externo, true);
 				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
 				xhttp.send();
 
@@ -382,7 +373,6 @@ if session("codusuario")<>"" then
 				{				  
 					document.getElementById("telef"+telefono).classList.remove('telefono-inactivo');				  
 					document.getElementById("telef"+telefono).classList.add('telefono-activo');
-					telefonocast = telefono;
 				
 				}
 
@@ -390,7 +380,6 @@ if session("codusuario")<>"" then
 				{				  
 					document.getElementById("addges"+telefono).classList.remove('telefono-inactivo');				  
 					document.getElementById("addges"+telefono).classList.add('telefono-activo');
-					llamar = 1;
 				}			  			  
 
 				if (tpress == "Llamando...")
@@ -399,51 +388,88 @@ if session("codusuario")<>"" then
 					window.parent.document.getElementById("telefonoSendig").value = "";
 					window.parent.document.getElementById("telefonoSendig").value = telefono;
 					//window.parent.enviardatosp5('LLAMAR');
-					llamar = 0;
 				}
-						   
+				llamar = 0;			   
 			   
-			}
+			}			
 			else
 			{
+				var idgestionG = document.getElementById("idgestion").value;
+				var externo = document.getElementById("ideExterno").value;
+				var idaccionactiva = "addges"+telefono
+				console.log("datapersona: "+datapersona+" ,IDCampana: "+IDCampana+" ,telefono:"+telefono+" , tpress:"+tpress);
 				if (document.getElementById("text-accion").innerHTML != "En espera" || tpress == "Llamando..." )
 				{
-
 					tpress = "Llamada finalizada";
 					document.getElementById("telef"+telefono).classList.remove('telefono-activo');				  
 					document.getElementById("telef"+telefono).classList.add('telefono-inactivo');
-					document.getElementById("text-accion").innerHTML = "Llamada finalizada";
-
-					//window.parent.enviardatosp5('COLGAR');
-					setTimeout(stopTimer,3000);
+					window.parent.enviardatosp5('COLGAR');
 					
-					// xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
-					// xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
-					// xhttp.send();
+					xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva+"&idgestion="+idgestionG+"&externo="+externo, true);
+					xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+					xhttp.send();
 					llamar = 1;
-					telefonocast = "";
 
 				}
 				
 			}				  
 		}
+		
+		function cortaCliente(datapersona, IDCampana, telefono, tpress){
+			var idCampPerTelf = document.getElementById(""+telefono+"").value;
+			
+			if (tpress == "Llamando...")
+			{
+				var idaccionactiva = "telef"+telefono
+			}
+			
+			if (tpress == "Ingresando datos...")
+			{
+				var idaccionactiva = "addges"+telefono
+			}
+			
+			if (document.getElementById("text-accion").innerHTML != "En espera" || tpress == "Llamando..." )
+			{
+				tpress = "Llamada finalizada";
+				document.getElementById("telef"+telefono).classList.remove('telefono-activo');				  
+				document.getElementById("telef"+telefono).classList.add('telefono-inactivo');
+				window.parent.enviardatosp5('COLGAR');
+				
+				xhttp.open("GET", "dcs_gestionactiva.asp?datapersona="+datapersona+"&IDCampana="+IDCampana+"&telefonoactivo="+telefono+"&idCampPerTelf="+idCampPerTelf+"&tpress="+tpress+"&idaccionactiva="+idaccionactiva, true);
+				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=windows-1252')
+				xhttp.send();
+				llamar = 1;
+			}
+		}
 
 		function guardargestion(idcamperacc,datapersona,idaccionactiva)
 		{	
+			var telefono = window.parent.document.getElementById("telefono").value;
+			var externo  = document.getElementById("ideExterno").value;
 
-			if(llamar == 0 )
+			if(llamar == 0)
 			{
 				swal("Colgar la llamada, para ingresar su gestión.",{icon: "error",  buttons: false,  timer: 3000,});
 				return;
 			}
 			
 			var idgestion, comentario
-
-			var selectct = document.getElementById("codtipocontacto"), //El <select>
-        	codtipocontacto = selectct.value;
-
-			var selectcg = document.getElementById("codigogestion"), //El <select>
-        	idgestion = selectcg.value;//El valor seleccionado
+			
+			var selectct = document.getElementById('codtipocontacto');
+				selectct.addEventListener('change',
+			  function(){
+				var selectedOption = this.options[selectct.selectedIndex];
+				var codtipocontacto = selectedOption.value;
+			  });
+			  
+			  var selectcg = document.getElementById('codigogestion');
+				selectcg.addEventListener('change',
+			  function(){
+				var selectedOption = this.options[selectcg.selectedIndex];
+				var idgestion = selectedOption.value;
+			  });
+			
+			
         	if (codtipocontacto =="")
         	{
         		swal("Debe ingresar un Tipo contacto",{icon: "warning",  buttons: false,  timer: 3000,}); 
@@ -454,7 +480,7 @@ if session("codusuario")<>"" then
         	if (idgestion != "")
         	{
 			
-			comentario = document.getElementById("comentario").value;
+			 comentario = document.getElementById("comentario").value;
 
 			 xhttp = new XMLHttpRequest();
 			   xhttp.onreadystatechange=function() {
@@ -462,7 +488,7 @@ if session("codusuario")<>"" then
 				      document.getElementById("tabinterna_gestion").innerHTML = this.responseText;
 				    }
 				  };
-				  xhttp.open("GET", "dcs_gestionactiva.asp?idcamperacc="+idcamperacc+"&idgestion="+idgestion+"&comentario="+comentario+"&codtipocontacto="+codtipocontacto, true);
+				  xhttp.open("GET", "dcs_gestionactiva.asp?idcamperacc="+idcamperacc+"&telefonoactivo="+telefono+"&idgestion="+idgestion+"&comentario="+comentario+"&codtipocontacto="+codtipocontacto+"&externo="+externo, true);
 				  xhttp.send();
 
 				  swal("Se guardo la gestión correctamente.",{icon: "success",  buttons: false,  timer: 3000,});
@@ -478,8 +504,6 @@ if session("codusuario")<>"" then
 				  document.getElementById("codigogestion").focus();
 				  return;
 			}
-			llamar = 1;
-			alert(llamar);
 
 
 		}
@@ -615,7 +639,17 @@ if session("codusuario")<>"" then
 			
 			<%
 				idcampana = obtener("idcampana")''idcampana=2 	
-				filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
+							sql= "select count(*) as Num from [UsuarioPerfil] where codusuario = " & session("codusuario") & " and CodPerfil in (1,2)"
+					consultar sql, RS5
+
+						if RS5.fields("Num") > 0  then						
+							filtrobuscador = " where a.IDCampaña = " & idcampana 
+						else
+							filtrobuscador = " where a.IDCampaña = " & idcampana & " and a.UsuarioAsignado = " & session("codusuario")
+						end if
+						RS5.Close
+
+				
 
 				sql="Select Descripcion, convert(varchar(10),FechaInicio,103) as Inicio,  convert(varchar(10),fechafin,103) as Fin from Campaña where idcampaña =" & idcampana
 
@@ -919,7 +953,7 @@ if session("codusuario")<>"" then
 		    tabla=0;
 		    orden[tabla]=<%=mitablaorden%>;
 		    ascendente[tabla]=<% if ordentipo = "" or ordentipo = "asc" then %>true<%else%>false<%end if%>;
-		    nrocolumnas[tabla]=<%=nrocampos + 1%>;
+		    nrocolumnas[tabla]=<%=nrocampos + 4%>;
 		    fondovariable[tabla]='bgcolor=#e9f7f7';
 		    anchotabla[tabla]='100%';
 		    botonfiltro[tabla] = false;
@@ -927,16 +961,16 @@ if session("codusuario")<>"" then
 		    botonagregar[tabla] = false;
 			paddingtabla[tabla] = '0';
 			spacingtabla[tabla] = '1';			    
-		    cabecera[tabla] = new Array('IDCampanaPersona'<%=glosacampos%>);
+		    cabecera[tabla] = new Array('IDCampanaPersona'<%=glosacampos%>,'MejorRespuesta','MejorFecha','MejorGestión');
 		    identificadorfilas[tabla]="fila";
 		    pievisible[tabla]=true;
-		    columnavisible[tabla] = new Array(false<%=glosavisible%>);
-		    anchocolumna[tabla] =  new Array(''<%=glosaancho%>);
-		    aligncabecera[tabla] = new Array('left'<%=glosaaligncabecera%>);
-		    aligndetalle[tabla] = new Array('left'<%=glosaaligndetalle%>);
-		    alignpie[tabla] =     new Array('left'<%=glosaalignpie%>);
-		    decimalesnumero[tabla] = new Array(-1<%=glosadecimalesnumero%>);
-		    formatofecha[tabla] =   new Array(''<%=glosaformatofecha%>);
+		    columnavisible[tabla] = new Array(false<%=glosavisible%>,true,true,true);
+		    anchocolumna[tabla] =  new Array(''<%=glosaancho%>,'5%','5%','10%');
+		    aligncabecera[tabla] = new Array('left'<%=glosaaligncabecera%>,'left','left','left');
+		    aligndetalle[tabla] = new Array('left'<%=glosaaligndetalle%>,'left','left','left');
+		    alignpie[tabla] =     new Array('left'<%=glosaalignpie%>,'left','left','left');
+		    decimalesnumero[tabla] = new Array(-1<%=glosadecimalesnumero%>,-1,-1,-1);
+		    formatofecha[tabla] =   new Array(''<%=glosaformatofecha%>,'','','');
 
 
 		    //Se escriben condiciones de datos administrados "objetos formulario"
@@ -958,7 +992,10 @@ if session("codusuario")<>"" then
 				RS.MoveNext 
 				Loop
 				RS.MoveFirst				
-				%>					
+				%>		
+				objetofomulario[tabla][<%=(indicecampo +1)%>]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][<%=(indicecampo +2)%>]='<a href="javascript:modificar(-id-);">-valor-</a>';
+				objetofomulario[tabla][<%=(indicecampo +3)%>]='<a href="javascript:modificar(-id-);">-valor-</a>';				
 					
 		    filtrardatos[tabla]=0; //define si carga auto el filtro
 		    filtrofomulario[tabla] = new Array();
@@ -974,6 +1011,10 @@ if session("codusuario")<>"" then
 				Loop
 				RS.MoveFirst				
 				%>	
+				filtrofomulario[tabla][<%=(indicecampo+1)%>]='';	  
+		    	filtrofomulario[tabla][<%=(indicecampo+2)%>]='';  
+		    	filtrofomulario[tabla][<%=(indicecampo+3)%>]='';  
+
 				
 				
 		    valorfiltrofomulario[tabla] = new Array();
@@ -988,6 +1029,9 @@ if session("codusuario")<>"" then
 				Loop
 				RS.MoveFirst				
 				%>	
+				valorfiltrofomulario[tabla][<%=(indicecampo+1)%>]='';			
+				valorfiltrofomulario[tabla][<%=(indicecampo+2)%>]='';	
+				valorfiltrofomulario[tabla][<%=(indicecampo+3)%>]='';
 
 		    //Se escribe el conjunto de datos de tabla 0
 		    datos[tabla]=new Array();
@@ -1198,7 +1242,67 @@ if session("codusuario")<>"" then
 				    end if
 				RS.MoveNext 
 				Loop
-				RS.MoveFirst				
+				RS.MoveFirst
+				%>
+						 datos[tabla][<%=contador%>][<%=(indicecampo+1)%>]='<%
+						 sql = "select top 1 c.Descripcion from Campaña_Persona_Accion b inner join Gestion c on b.IDGestion = c.IDGestion where IDCampañaPersona = " & RS3.Fields("IDCampañaPersona") & " order by prioridad asc , b.FechaRegistra desc"
+
+						 consultar sql, RS4
+
+						 if RS4.RecordCount > 0 then
+
+						 Response.write RS4.fields("Descripcion")
+
+						else
+
+						response.write ""
+						end if
+
+						 RS4.Close
+
+						 %>';	
+						 datos[tabla][<%=contador%>][<%=(indicecampo+2)%>]='<%
+
+						 sql = "select top 1 b.FechaRegistra from Campaña_Persona_Accion b " & chr(10) & _
+							"inner join Gestion c on b.IDGestion = c.IDGestion" & chr(10) & _
+							"where IDCampañaPersona = " & RS3.Fields("IDCampañaPersona") & chr(10) & _
+							"order by prioridad asc , b.FechaRegistra desc"
+
+						 consultar sql, RS4
+
+						  if RS4.RecordCount > 0 then
+
+						 Response.write RS4.fields("FechaRegistra")
+
+						else
+
+						response.write ""
+						end if
+
+						 RS4.Close
+
+						 %>';		
+						 datos[tabla][<%=contador%>][<%=(indicecampo+3)%>]='<%
+
+						 sql = "select top 1 b.Comentario from Campaña_Persona_Accion b " & chr(10) & _
+							"inner join Gestion c on b.IDGestion = c.IDGestion " & chr(10) & _
+							"where IDCampañaPersona = " & RS3.Fields("IDCampañaPersona") & chr(10) & _
+							"order by prioridad asc , b.FechaRegistra desc"
+
+							 consultar sql, RS4
+
+						  if RS4.RecordCount > 0 then
+
+						 Response.write RS4.fields("Comentario")
+
+						else
+
+						response.write ""
+						end if
+
+						 RS4.Close
+						 %>';					
+						 <%				
 
 			contador=contador + 1
 			RS3.MoveNext 
@@ -1210,8 +1314,8 @@ if session("codusuario")<>"" then
 		%>
 			    
 		    //datos del pie si fuera visible
-		    pievalores[tabla] = new Array('&nbsp;'<%=glosapie%>);
-		    piefunciones[tabla] = new Array(''<%=glosapiefunciones%>); 
+		    pievalores[tabla] = new Array('&nbsp;'<%=glosapie%>,'&nbsp;','&nbsp;','&nbsp;');
+		    piefunciones[tabla] = new Array(''<%=glosapiefunciones%>,'','',''); 
 
 
 		    //Se escriben las opciones para los selects que contenga
@@ -1505,6 +1609,7 @@ if session("codusuario")<>"" then
 															<td class="text-withe">Descripción</td>
 															<td class="text-withe"></td>
 															<td class="text-withe"></td>
+															<input type="hidden" name="ideExterno" id="ideExterno" value="" />
 														</tr> 
 														<%
 														if datapersona <> "" then
@@ -1523,8 +1628,8 @@ if session("codusuario")<>"" then
 															<td><%=RS4.Fields("Numero")%></td>
 															<td><%=RS4.Fields("Extension")%></td>
 															<td><%=RS4.Fields("Descripcion")%></td>
-															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Llamando...');"><div><i id="telef<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
-															<td  style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Ingresando datos...');"><i id="addges<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-plus-squared telefono-inactivo">&#xf0fe;</i></a></td>
+															<td style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Llamando...',0);"><div><i id="telef<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-phone-circled telefono-inactivo">&#xe822;</i></div></a></td>
+															<td  style="background: #a42627; text-align: center;"><a href="#" onclick="javascript:creargestion('<%=datapersona%>','<%=idcampana%>','<%=RS4.Fields("Numero")%>','Ingresando datos...',1);"><i id="addges<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-plus-squared telefono-inactivo">&#xf0fe;</i></a></td>
 															<td  style="background: #a42627; text-align: center;"><% if RS4.Fields("Usuarioregistra") = session("codUsuario") and  RS4.Fields("Enriquecido") = "1" then%><a href="#" onclick="javascript:editartelefono('<%=RS4.Fields("IDTipoTelefono")%>','<%=RS4.Fields("Numero")%>','<%=RS4.Fields("Extension")%>','<%=RS4.Fields("Descripcion")%>','<%=RS4.Fields("IDCampañaPersonaTelefono")%>')"><i id="Edtelf<%=RS4.Fields("Numero")%>" class="demo-icon6 icon-pencil-squared telefono-inactivo">&#xf14b;</i></a><%end if%></td>
 														</tr>
 														<%
@@ -1581,6 +1686,7 @@ if session("codusuario")<>"" then
 								<table class="tabinterna"  id="tabinterna_gestion" valign="top">
 									<tr class="cabecera-orange" valign="top">
 										<td  colspan="2" >
+											<input type="hidden" name="idgestion" id="idgestion" value="" >
 											Agregar Gestión
 										</td>										
 									</tr>
@@ -1598,7 +1704,7 @@ if session("codusuario")<>"" then
 										Teléfono
 										</td>
 										<td class="text-orange">
-												<p id="text-telefono"></p>
+											
 										</td>	
 
 									</tr>	
@@ -1654,7 +1760,7 @@ if session("codusuario")<>"" then
 									</tr>		
 									<tr>
 									<td class="text-orange" colspan="2">
-											<textarea class="areatexto" name="comentario"></textarea>
+											<textarea id="comentario" class="areatexto" name="comentario"></textarea>
 									</td>	
 									</tr>
 									<tr class="fondo-red">

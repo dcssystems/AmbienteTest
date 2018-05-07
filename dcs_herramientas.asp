@@ -348,10 +348,10 @@ if session("codusuario")<>"" then
 						<!-- INICIO - Zona de valores ocultos para gestionar las llamadas -->
 						<input type="hidden" name="telefonoSendig" id="telefonoSendig" value="">
 						
-						<input type="hidden" name="datapersona" id="datapersona" value="">
-						<input type="hidden" name="idcampana" id="idcampana" value="">
+						<input type="hidden" name="persona" id="persona" value="">
+						<input type="hidden" name="campana" id="campana" value="">
 						<input type="hidden" name="telefono" id="telefono" value="">
-						<input type="hidden" name="tpress" id="tpress" value="">					
+						<input type="hidden" name="idetpress" id="idetpress" value="">					
 						
 						<!-- FIN - Zona de valores ocultos para gestionar las llamadas  -->
 						
